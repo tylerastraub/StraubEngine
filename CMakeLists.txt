@@ -46,6 +46,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Input/Keyboard.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Mouse.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
+    ${PROJECT_SOURCE_DIR}/src/Input/Controls.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Level.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/CollisionMap.cpp

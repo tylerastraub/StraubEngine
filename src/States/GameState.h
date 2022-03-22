@@ -4,6 +4,7 @@
 #include "State.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Controller.h"
 
 class GameState: public State {
 public:
@@ -21,6 +22,7 @@ public:
 private:
     std::unique_ptr<Keyboard> _keyboard = nullptr;
     std::unique_ptr<Mouse> _mouse = nullptr;
+    std::unique_ptr<Controller> _controller = nullptr;
 
     SDL_FPoint _renderOffset = {0.f, 0.f};
 };
