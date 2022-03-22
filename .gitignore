@@ -1,0 +1,13 @@
+# File types
+*.dll
+*.exe
+*.pal
+
+# Directories
+build/*
+.vscode/*
+.VSCodeCounter/*
+cmake/*
+
+# Various files
+.DS_Store
