@@ -1,10 +1,13 @@
 #include "Game.h"
+#include "Entity.h"
 
 #include <chrono>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <iostream>
 #include <cmath>
+
+int Entity::entityIdProvider = 0;
 
 Game::Game(const char * windowTitle) : _windowTitle(windowTitle) {}
 
