@@ -17,6 +17,8 @@ public:
     void stopAudio(int parentId, AudioSound::AudioSound audio);
     void stopAllAudioById(int id);
     void stopAllAudio();
+
+    bool isPlaying(int parentId, AudioSound::AudioSound soundName);
     
 private:
     cs_context_t* _context = nullptr;

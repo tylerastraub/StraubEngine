@@ -23,6 +23,9 @@ public:
     bool isButtonPressed(gamepad::SDL_GameControllerButton_Extended button);
     bool isButtonReleased(gamepad::SDL_GameControllerButton_Extended button);
 
+    int getAxisState(SDL_GameControllerAxis axis);
+    int getAxisStateLastTick(SDL_GameControllerAxis axis);
+
 private:
     const int ANALOG_DEAD_ZONE = 8000;
     const int TRIGGER_DEAD_ZONE = 4000;
@@ -32,6 +35,11 @@ private:
     int _xDir = 0;
     // -1 for up, 1 for down
     int _yDir = 0;
+    // -1 for left, 1 for right
+    int _lastXDir = 0;
+    // -1 for up, 1 for down
+    int _lastYDir = 0;
+
     // List of current states of all buttons. Access array using SDL_GameControllerButton_Extended
     bool _currentButtonStates[24] = {0};
     // List of button states the previous tick

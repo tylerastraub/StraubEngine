@@ -4,6 +4,8 @@ void Controller::updateInputs() {
     for(size_t i = 0; i < NUM_OF_BUTTON_STATES; ++i) {
         _lastTickButtonStates[i] = _currentButtonStates[i];
     }
+    _lastXDir = _xDir;
+    _lastYDir = _yDir;
 }
 
 void Controller::updateAxisInputs(SDL_Event e) {
@@ -68,4 +70,24 @@ bool Controller::isButtonPressed(gamepad::SDL_GameControllerButton_Extended butt
 
 bool Controller::isButtonReleased(gamepad::SDL_GameControllerButton_Extended button) {
     return !_currentButtonStates[button] && _lastTickButtonStates[button];
+}
+
+int Controller::getAxisState(SDL_GameControllerAxis axis) {
+    switch(axis) {
+        case SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_LEFTX:
+            return _xDir;
+        case SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_LEFTY:
+            return _yDir;
+    }
+    return 0;
+}
+
+int Controller::getAxisStateLastTick(SDL_GameControllerAxis axis) {
+    switch(axis) {
+        case SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_LEFTX:
+            return _lastXDir;
+        case SDL_GameControllerAxis::SDL_CONTROLLER_AXIS_LEFTY:
+            return _lastYDir;
+    }
+    return 0;
 }

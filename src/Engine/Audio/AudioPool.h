@@ -58,6 +58,19 @@ public:
         }
     }
 
+    bool isPlaying() {
+        if(_pool.empty()) return false;
+        cs_lock(_context);
+        for(auto s : _pool) {
+            if(s.active) {
+                cs_unlock(_context);
+                return true;
+            }
+        }
+        cs_unlock(_context);
+        return false;
+    }
+
 private:
     cs_context_t* _context = nullptr;
     // How many instance of a sound can be playing at one time

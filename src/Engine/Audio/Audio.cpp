@@ -61,3 +61,8 @@ void Audio::stopAllAudio() {
         }
     }
 }
+
+bool Audio::isPlaying(int parentId, AudioSound::AudioSound soundName) {
+    if(_playingAudio[parentId][soundName]) return _playingAudio[parentId][soundName]->isPlaying();
+    return false;
+}
