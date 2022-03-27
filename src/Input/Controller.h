@@ -31,14 +31,25 @@ private:
     const int TRIGGER_DEAD_ZONE = 4000;
     const int NUM_OF_BUTTON_STATES = 24;
 
+    // Left analog stick
     // -1 for left, 1 for right
-    int _xDir = 0;
+    int _leftAnalogXDir = 0;
     // -1 for up, 1 for down
-    int _yDir = 0;
+    int _leftAnalogYDir = 0;
     // -1 for left, 1 for right
-    int _lastXDir = 0;
+    int _lastLeftAnalogXDir = 0;
     // -1 for up, 1 for down
-    int _lastYDir = 0;
+    int _lastLeftAnalogYDir = 0;
+
+    // Right analog stick
+    // -1 for left, 1 for right
+    int _rightAnalogXDir = 0;
+    // -1 for up, 1 for down
+    int _rightAnalogYDir = 0;
+    // -1 for left, 1 for right
+    int _lastRightAnalogXDir = 0;
+    // -1 for up, 1 for down
+    int _lastRightAnalogYDir = 0;
 
     // List of current states of all buttons. Access array using SDL_GameControllerButton_Extended
     bool _currentButtonStates[24] = {0};
