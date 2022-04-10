@@ -31,7 +31,7 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Input
     ${PROJECT_SOURCE_DIR}/src/Localization
     ${PROJECT_SOURCE_DIR}/src/Level
-    ${PROJECT_SOURCE_DIR}/src/Entities
+    ${PROJECT_SOURCE_DIR}/src/Entity
     )
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
@@ -53,7 +53,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Level/CollisionMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/RenderPlane.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Tilemap.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entities/Entity.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Entity.cpp
     )
 
 if(WIN32)

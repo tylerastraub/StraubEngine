@@ -43,6 +43,13 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
 }
 
 void Spritesheet::render(int x, int y, SDL_RendererFlip flip, double angle, SDL_Point center) {
+    if(isAnimated()) {
+        setTileIndex(SDL_GetTicks() / getMsBetweenFrames() % getNumOfFrames(), getTileIndex().y);
+        if(getTileIndex().x >= getNumOfFrames()) {
+            int xIndex = (isLooped()) ? 0 : getNumOfFrames() - 1;
+            setTileIndex(xIndex, getTileIndex().y);
+        }
+    }
     SDL_Rect srcRect;
     srcRect.x = _tileIndex.x;
     srcRect.y = _tileIndex.y;
@@ -55,6 +62,10 @@ void Spritesheet::render(int x, int y, SDL_RendererFlip flip, double angle, SDL_
     else {
         SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, &center, flip);
     }
+}
+
+SDL_Point Spritesheet::getTileIndex() {
+    return {_tileIndex.x / _tileSize.x, _tileIndex.y / _tileSize.y};
 }
 
 int Spritesheet::getWidth() {
@@ -82,18 +93,20 @@ bool Spritesheet::isLooped() {
 }
 
 int Spritesheet::getNumOfFrames() {
+    if(_numOfFrames < 1) return 1;
     return _numOfFrames;
 }
 
 int Spritesheet::getMsBetweenFrames() {
+    if(_msBetweenFrames < 1) return 1;
     return _msBetweenFrames;
 }
 
 void Spritesheet::setTileIndex(int x, int y) {
-    if(x >= 0 && x < _size.x / INDEX_SIZE &&
-       y >= 0 && y < _size.y / INDEX_SIZE) {
-        _tileIndex.x = x * INDEX_SIZE;
-        _tileIndex.y = y * INDEX_SIZE;
+    if(x >= 0 && x < _size.x / _tileIndex.x &&
+       y >= 0 && y < _size.y / _tileIndex.y) {
+        _tileIndex.x = x * _tileIndex.x;
+        _tileIndex.y = y * _tileIndex.y;
     }
     else {
         std::cout << "Error: Invalid tile index of (" << x << ", " << y << ")" << std::endl; 
