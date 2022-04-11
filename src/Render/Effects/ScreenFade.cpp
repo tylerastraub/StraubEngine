@@ -19,7 +19,6 @@ void ScreenFade::updateFade(int ms) {
     _currentTime += ms;
     float fade = 255.f * _fadeDelta * (float) _currentTime / (float) _duration;
     _currentFade = (_fadeIn) ? 255.f + fade : fade;
-    std::cout << _currentFade << std::endl;
 }
 
 float ScreenFade::getCurrentFade() {
