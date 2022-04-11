@@ -16,7 +16,7 @@ public:
 
 private:
     const char * _windowTitle;
-    const char * _gameFontPath = "res/font/Munro.ttf";
+    const char * _gameFontPath = "res/font/MunroSmall.ttf";
 
     const int GAME_WIDTH = 320;
     const int GAME_HEIGHT = 180;

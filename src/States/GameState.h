@@ -6,6 +6,8 @@
 #include "Mouse.h"
 #include "Controller.h"
 
+#include <memory>
+
 class GameState: public State {
 public:
     GameState() = default;
