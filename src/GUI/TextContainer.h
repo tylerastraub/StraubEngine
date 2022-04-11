@@ -9,7 +9,7 @@ public:
     TextContainer(Text* text);
     ~TextContainer() = default;
 
-    void render(int x, int y) override;
+    void render(int x, int y, bool centerAlign = true) override;
 
     void setValue(std::string) override;
 

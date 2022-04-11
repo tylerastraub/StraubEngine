@@ -11,9 +11,9 @@ public:
     ~GUIElement() = default;
 
     virtual void onSelect() {};
-    virtual void render(int x, int y) = 0;
+    virtual void render(int x, int y, bool centerAlign = true) = 0;
 
-    void setPos(int row, int column);
+    void setPos(int column, int row);
     void setSizeInGrid(int width, int height);
     void setWidthInGrid(int width);
     void setHeightInGrid(int height);
@@ -25,6 +25,7 @@ public:
     void setProperty(std::string property, std::string value);
     void setIsSelected(bool isSelected);
     void setCanBeSelected(bool canBeSelected);
+    void setCenterAligned(bool centerAligned);
 
     int getRow();
     int getColumn();
@@ -37,6 +38,7 @@ public:
     std::string getPropertyValue(std::string property);
     bool isSelected();
     bool canBeSelected();
+    bool isCenterAligned();
 
 private:
     int _row = -1;
@@ -52,6 +54,8 @@ private:
     bool _canBeSelected = false;
     // If the element is currently being considered for selection
     bool _isSelected = false;
+    // Whether or not to render the element center aligned
+    bool _isCenterAligned = true;
 
     std::string _elementId;
     std::string _value;

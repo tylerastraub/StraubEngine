@@ -1,6 +1,6 @@
 #include "GUIElement.h"
 
-void GUIElement::setPos(int row, int column) {
+void GUIElement::setPos(int column, int row) {
     _row = row;
     _column = column;
 }
@@ -51,6 +51,10 @@ void GUIElement::setCanBeSelected(bool canBeSelected) {
     _canBeSelected = canBeSelected;
 }
 
+void GUIElement::setCenterAligned(bool centerAligned) {
+    _isCenterAligned = centerAligned;
+}
+
 int GUIElement::getRow() {
     return _row;
 }
@@ -93,4 +97,8 @@ bool GUIElement::isSelected() {
 
 bool GUIElement::canBeSelected() {
     return _canBeSelected;
+}
+
+bool GUIElement::isCenterAligned() {
+    return _isCenterAligned;
 }

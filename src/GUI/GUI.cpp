@@ -21,7 +21,7 @@ void GUI::render(int x, int y) {
             GUIElement* e = getElement(i, j);
             if(e) {
                 e1 = e;
-                e->render(x + runningW, y + runningH);
+                e->render(x + runningW, y + runningH, e->isCenterAligned());
                 runningH += e->getRenderHeight();
             }
         }
@@ -63,34 +63,34 @@ void GUI::changeSelection(int dx, int dy) {
 void GUI::addGUIElement(std::shared_ptr<Button> button) {
     if(button->getRow() < 0 &&
        button->getColumn() < 0 ||
-       button->getRow() + button->getWidthInGrid() > _gridWidth ||
-       button->getColumn() + button->getHeightInGrid() > _gridHeight) {
+       button->getColumn() + button->getWidthInGrid() > _gridWidth ||
+       button->getRow() + button->getHeightInGrid() > _gridHeight) {
         std::cout << "Error: invalid GUI coordinates for GUIElement::Button " << button->getId() << std::endl;
         return;
     }
-    insertElement(button, button->getRow(), button->getColumn());
+    insertElement(button, button->getColumn(), button->getRow());
 }
 
 void GUI::addGUIElement(std::shared_ptr<TextContainer> textContainer) {
     if(textContainer->getRow() < 0 ||
        textContainer->getColumn() < 0 ||
-       textContainer->getRow() + textContainer->getWidthInGrid() > _gridWidth ||
-       textContainer->getColumn() + textContainer->getHeightInGrid() > _gridHeight) {
+       textContainer->getColumn() + textContainer->getWidthInGrid() > _gridWidth ||
+       textContainer->getRow() + textContainer->getHeightInGrid() > _gridHeight) {
         std::cout << "Error: invalid GUI coordinates for GUIElement::TextContainer " << textContainer->getId() << std::endl;
         return;
     }
-    insertElement(textContainer, textContainer->getRow(), textContainer->getColumn());
+    insertElement(textContainer, textContainer->getColumn(), textContainer->getRow());
 }
 
 void GUI::addGUIElement(std::shared_ptr<BlankElement> blankElement) {
     if(blankElement->getRow() < 0 ||
        blankElement->getColumn() < 0 ||
-       blankElement->getRow() + blankElement->getWidthInGrid() > _gridWidth ||
-       blankElement->getColumn() + blankElement->getHeightInGrid() > _gridHeight) {
+       blankElement->getColumn() + blankElement->getWidthInGrid() > _gridWidth ||
+       blankElement->getRow() + blankElement->getHeightInGrid() > _gridHeight) {
         std::cout << "Error: invalid GUI coordinates for GUIElement::BlankElement " << blankElement->getId() << std::endl;
         return;
     }
-    insertElement(blankElement, blankElement->getRow(), blankElement->getColumn());
+    insertElement(blankElement, blankElement->getColumn(), blankElement->getRow());
 }
 
 void GUI::setRowHeightInGrid(int row, int height) {
