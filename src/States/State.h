@@ -4,6 +4,7 @@
 #include "Text.h"
 #include "Spritesheet.h"
 #include "Audio.h"
+#include "Settings.h"
 
 #include <SDL.h>
 #include <unordered_map>
@@ -40,6 +41,8 @@ public:
     void addSpritesheet(std::string spritesheetID, Spritesheet* spritesheet);
     void addText(TextSize::TextSize size, Text* text);
     void setAudioPlayer(Audio* audioPlayer);
+    void setSettings(Settings* settings);
+    void completeSettingsChange();
     
     SDL_Point getGameSize();
     State* getNextState();
@@ -48,6 +51,11 @@ public:
     Spritesheet* getSpritesheet(std::string spritesheetID);
     Text* getText(TextSize::TextSize size);
     Audio* getAudioPlayer();
+    Settings* getSettings();
+    bool settingsChanged();
+
+protected:
+    bool _settingsChanged = false;
 
 private:
     SDL_Point _gameSize = {0, 0};
@@ -57,6 +65,7 @@ private:
     std::unordered_map<std::string, Spritesheet*> _spritesheets;
     std::unordered_map<TextSize::TextSize, Text*> _text;
     Audio* _audioPlayer = nullptr;
+    Settings* _settings = nullptr;
 };
 
 #endif

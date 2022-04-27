@@ -29,7 +29,9 @@ bool Game::init() {
         }
 
         // Window and renderer initialization
-        _window = SDL_CreateWindow(_windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, GAME_WIDTH * _renderScale, GAME_HEIGHT * _renderScale, SDL_WINDOW_SHOWN);
+        _settings = std::make_unique<Settings>();
+        _settings->loadSettings("settings.cfg");
+        _window = SDL_CreateWindow(_windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _settings->getVideoWidth(), _settings->getVideoHeight(), _settings->getVideoMode() | SDL_WINDOW_RESIZABLE);
         if(_window == nullptr)
         {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -86,6 +88,7 @@ bool Game::init() {
                             _currentState->addText(it.first, it.second.get());
                         }
                         _currentState->setAudioPlayer(_audioPlayer.get());
+                        _currentState->setSettings(_settings.get());
                         _currentState->init();
                         SDL_ShowCursor(SDL_DISABLE);
                         windowCreatedSuccessfully = true;
@@ -190,7 +193,26 @@ void Game::startGameLoop() {
                 _currentState->addText(it.first, it.second.get());
             }
             _currentState->setAudioPlayer(_audioPlayer.get());
+            _currentState->setSettings(_settings.get());
             _currentState->init();
+        }
+
+        // Settings changed
+        if(_currentState->settingsChanged()) {
+            _currentState->getSettings()->saveSettings();
+            _settings->loadSettings("settings.cfg"); // this is a dumb hack since i don't wanna make a copy constructor
+            SDL_SetWindowSize(_window, _settings->getVideoWidth(), _settings->getVideoHeight());
+            if(_settings->getVideoMode() == SDL_WINDOW_FULLSCREEN) {
+                SDL_SetWindowFullscreen(_window, SDL_WINDOW_FULLSCREEN);
+            }
+            else {
+                SDL_bool windowed = SDL_FALSE;
+                if(_settings->getVideoMode() == SDL_WINDOW_SHOWN) windowed = SDL_TRUE;
+                SDL_SetWindowBordered(_window, windowed);
+                SDL_SetWindowResizable(_window, windowed);
+            }
+            SDL_SetWindowPosition(_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+            _currentState->completeSettingsChange();
         }
 
         dTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - startTime);

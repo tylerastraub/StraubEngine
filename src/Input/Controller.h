@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "Controls.h"
+#include "Settings.h"
 
 class Controller {
 public:
@@ -18,10 +18,10 @@ public:
     void updateAxisInputs(SDL_Event e);
     void updateButtonInputs(SDL_Event e);
 
-    bool isButtonDown(gamepad::SDL_GameControllerButton_Extended button);
-    bool isButtonUp(gamepad::SDL_GameControllerButton_Extended button);
-    bool isButtonPressed(gamepad::SDL_GameControllerButton_Extended button);
-    bool isButtonReleased(gamepad::SDL_GameControllerButton_Extended button);
+    bool isButtonDown(SDL_GameControllerButton_Extended button);
+    bool isButtonUp(SDL_GameControllerButton_Extended button);
+    bool isButtonPressed(SDL_GameControllerButton_Extended button);
+    bool isButtonReleased(SDL_GameControllerButton_Extended button);
 
     int getAxisState(SDL_GameControllerAxis axis);
     int getAxisStateLastTick(SDL_GameControllerAxis axis);

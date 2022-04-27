@@ -1,10 +1,11 @@
-#include "Controls.h"
+#include "Settings.h"
 #include "FileIO.h"
 
 #include <iostream>
 #include <algorithm>
 
-void Controls::loadControls(std::string path) {
+void Settings::loadSettings(std::string path) {
+    _settingsPath = path;
     std::vector<std::string> controls = FileIO::readFile(path);
     int lineNumber = 0;
     for(auto line : controls) {
@@ -23,35 +24,153 @@ void Controls::loadControls(std::string path) {
         value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
         Input input = convertStringToInput(declaration);
         if(value.find("GAMEPAD") != std::string::npos) {
-            gamepad::SDL_GameControllerButton_Extended but = convertStringToButton(value);
+            SDL_GameControllerButton_Extended but = convertStringToButton(value);
             _buttonsMap[input] = but;
             _displayStringMap[input].second = value;
         }
         else {
             SDL_Scancode key = convertStringToScancode(value);
-            _keysMap[input] = key;
-            _displayStringMap[input].first = value;
+            if(key == SDL_SCANCODE_UNKNOWN) {
+                parseSetting(declaration, value);
+            }
+            else {
+                _keysMap[input] = key;
+                _displayStringMap[input].first = value;
+            }
         }
     }
 }
 
-SDL_Scancode Controls::getScancode(Input input) {
+void Settings::saveSettings() {
+    std::vector<std::string> settings;
+    settings = {
+        "# ========== VIDEO SETTINGS CONFIG ==========",
+        "RESOLUTION=" + std::to_string(_videoWidth) + "x" + std::to_string(_videoHeight),
+        "VIDEO_MODE=" + convertVideoModeToString(),
+        "MUSIC=" + convertMusicEnabledToString(),
+        "",
+        "# ========== KEYBOARD CONTROLS CONFIG ==========",
+        "",
+        "# To comment lines out, use the # symbol.",
+        "# Note that if there are any conflicts, the last occurrence of a keybinding is used.",
+        "UP=" + _displayStringMap[Input::UP].first,
+        "DOWN=" + _displayStringMap[Input::DOWN].first,
+        "LEFT=" + _displayStringMap[Input::LEFT].first,
+        "RIGHT=" + _displayStringMap[Input::RIGHT].first,
+        "ACTION=" + _displayStringMap[Input::ACTION].first,
+        "",
+        "# ========== GAMEPAD CONTROLS CONFIG ==========",
+        "",
+        "# Note that bindings follow the standard XBox controller layout, although there is support for the PS4/PS5 touchbad button.",
+        "ACTION=" + _displayStringMap[Input::ACTION].second,
+        "",
+        "# ========== LIST OF ALL KEY BINDINGS ==========",
+        "",
+        "# A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+        "# 1 or !",
+        "# 2 or @",
+        "# 3 or #",
+        "# 4 or $",
+        "# 5 or %",
+        "# 6 or ^",
+        "# 7 or &",
+        "# 8 or *",
+        "# 9 or (",
+        "# 0 or )",
+        "# SHIFT or LSHIFT",
+        "# RSHIFT",
+        "# CAPSLOCK",
+        "# TAB",
+        "# LCTRL or CTRL",
+        "# RCTRL",
+        "# LALT or ALT",
+        "# RALT",
+        "# SPACE",
+        "# ENTER or RETURN",
+        "# , or <",
+        "# . or >",
+        "# / or ?",
+        "# ; or :",
+        "# ' or \"",
+        "# [ or {",
+        "# ] or }",
+        "# | or \\",
+        "# BACKSPACE",
+        "# - or _",
+        "# = or +",
+        "# F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24",
+        "# ` or ~",
+        "# HOME PAGEDOWN PAGEUP END DELETE HOME",
+        "# ESC or ESCAPE",
+        "# LEFTARROW RIGHTARROW UPARROW DOWNARROW",
+        "# NUM1 NUM2 NUM3 NUM4 NUM5 NUM6 NUM7 NUM8 NUM9 NUM0 NUMPERIOD",
+        "# NUM+ or NUMPLUS",
+        "# NUM- or NUMMINUS",
+        "# NUM* or NUMSTAR or NUMMULTIPLY",
+        "# NUM/ or NUMSLASH or NUMDIVIDE",
+        "# NUMENTER or NUMRETURN",
+        "",
+        "# ========== LIST OF ALL GAMEPAD BINDINGS ==========",
+        "",
+        "# GAMEPAD_A",
+        "# GAMEPAD_X",
+        "# GAMEPAD_Y",
+        "# GAMEPAD_B",
+        "# GAMEPAD_LB",
+        "# GAMEPAD_RB",
+        "# GAMEPAD_LT",
+        "# GAMEPAD_RT",
+        "# GAMEPAD_L3",
+        "# GAMEPAD_R3",
+        "# GAMEPAD_START",
+        "# GAMEPAD_SELECT",
+        "# GAMEPAD_TOUCHPAD",
+    };
+    
+    FileIO::writeFile(_settingsPath, settings);
+}
+
+SDL_Scancode Settings::getScancode(Input input) {
     return _keysMap[input];
 }
 
-gamepad::SDL_GameControllerButton_Extended Controls::getButton(Input input) {
+SDL_GameControllerButton_Extended Settings::getButton(Input input) {
     return _buttonsMap[input];
 }
 
-std::string Controls::getStringKeyboardControlForInput(Input input) {
+std::string Settings::getStringKeyboardControlForInput(Input input) {
     return _displayStringMap[input].first;
 }
 
-std::string Controls::getStringControllerControlForInput(Input input) {
+std::string Settings::getStringControllerControlForInput(Input input) {
     return _displayStringMap[input].second;
 }
 
-Input Controls::convertStringToInput(std::string s) {
+void Settings::setSetting(std::string declaration, std::string value) {
+    parseSetting(declaration, value);
+}
+
+int Settings::getVideoWidth() {
+    return _videoWidth;
+}
+
+int Settings::getVideoHeight() {
+    return _videoHeight;
+}
+
+SDL_WindowFlags Settings::getVideoMode() {
+    return _videoMode;
+}
+
+std::string Settings::getSettingsPath() {
+    return _settingsPath;
+}
+
+bool Settings::getMusicEnabled() {
+    return _musicEnabled;
+}
+
+Input Settings::convertStringToInput(std::string s) {
     if(s == "LEFT") {
         return Input::LEFT;
     }
@@ -74,7 +193,7 @@ Input Controls::convertStringToInput(std::string s) {
     return Input::NOVAL;
 }
 
-SDL_Scancode Controls::convertStringToScancode(std::string s) {
+SDL_Scancode Settings::convertStringToScancode(std::string s) {
     if(s == "A") {
         return SDL_SCANCODE_A;
     }
@@ -404,47 +523,107 @@ SDL_Scancode Controls::convertStringToScancode(std::string s) {
     return SDL_SCANCODE_UNKNOWN;
 }
 
-
-gamepad::SDL_GameControllerButton_Extended Controls::convertStringToButton(std::string s) {
+SDL_GameControllerButton_Extended Settings::convertStringToButton(std::string s) {
     if(s == "GAMEPAD_A") {
-        return gamepad::SDL_CONTROLLER_BUTTON_A;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_A;
     }
     else if(s == "GAMEPAD_X") {
-        return gamepad::SDL_CONTROLLER_BUTTON_X;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_X;
     }
     else if(s == "GAMEPAD_Y") {
-        return gamepad::SDL_CONTROLLER_BUTTON_Y;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_Y;
     }
     else if(s == "GAMEPAD_B") {
-        return gamepad::SDL_CONTROLLER_BUTTON_B;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_B;
     }
     else if(s == "GAMEPAD_START") {
-        return gamepad::SDL_CONTROLLER_BUTTON_START;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_START;
     }
     else if(s == "GAMEPAD_SELECT") {
-        return gamepad::SDL_CONTROLLER_BUTTON_BACK;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_BACK;
     }
     else if(s == "GAMEPAD_LB") {
-        return gamepad::SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
     }
     else if(s == "GAMEPAD_RB") {
-        return gamepad::SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
     }
     else if(s == "GAMEPAD_L3") {
-        return gamepad::SDL_CONTROLLER_BUTTON_LEFTSTICK;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_LEFTSTICK;
     }
     else if(s == "GAMEPAD_R3") {
-        return gamepad::SDL_CONTROLLER_BUTTON_RIGHTSTICK;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_RIGHTSTICK;
     }
     else if(s == "GAMEPAD_TOUCHPAD") {
-        return gamepad::SDL_CONTROLLER_BUTTON_TOUCHPAD;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_TOUCHPAD;
     }
     else if(s == "GAMEPAD_LT") {
-        return gamepad::SDL_CONTROLLER_BUTTON_LEFTTRIGGER;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_LEFTTRIGGER;
     }
     else if(s == "GAMEPAD_RT") {
-        return gamepad::SDL_CONTROLLER_BUTTON_RIGHTTRIGGER;
+        return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_RIGHTTRIGGER;
     }
 
-    return gamepad::SDL_CONTROLLER_BUTTON_INVALID;
+    return SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_INVALID;
+}
+
+void Settings::parseSetting(std::string declaration, std::string value) {
+    if(declaration == "RESOLUTION") {
+        int delimeter = value.find('x');
+        std::string x = value.substr(0, delimeter);
+        x.erase(std::remove(x.begin(), x.end(), ' '), x.end());
+        std::string y = value.substr(delimeter + 1);
+        y.erase(std::remove(y.begin(), y.end(), ' '), y.end());
+
+        std::pair<int, int> resolution = {std::stoi(x), std::stoi(y)};
+        for(auto pair : VALID_RESOLUTIONS) {
+            if(pair.first == resolution.first && pair.second == resolution.second) {
+                std::cout << "Resolution loaded at " << resolution.first << "x" << resolution.second << std::endl;
+                _videoWidth = resolution.first;
+                _videoHeight = resolution.second;
+                return;
+            }
+        }
+        std::cout << "Error: invalid resolution settings in 'video_settings.cfg'! Resolution: " << value << std::endl;
+    }
+    else if(declaration == "VIDEO_MODE") {
+        if(value == "WINDOWED") {
+            _videoMode = SDL_WINDOW_SHOWN;
+        }
+        else if(value == "WINDOWED_BORDERLESS") {
+            _videoMode = SDL_WINDOW_BORDERLESS;
+        }
+        else if(value == "FULLSCREEN") {
+            _videoMode = SDL_WINDOW_FULLSCREEN;
+        }
+        else {
+            std::cout << "Error: invalid video mode in 'video_settings.cfg'! Video mode: " << value << std::endl;
+        }
+    }
+    else if(declaration == "MUSIC") {
+        if(value == "DISABLED") {
+            _musicEnabled = false;
+        }
+        else {
+            _musicEnabled = true;
+        }
+    }
+}
+
+std::string Settings::convertVideoModeToString() {
+    if(_videoMode == SDL_WINDOW_SHOWN) {
+        return "WINDOWED";
+    }
+    else if(_videoMode == SDL_WINDOW_BORDERLESS) {
+        return "WINDOWED_BORDERLESS";
+    }
+    else if(_videoMode == SDL_WINDOW_FULLSCREEN) {
+        return "FULLSCREEN";
+    }
+    return "WINDOWED";
+}
+
+std::string Settings::convertMusicEnabledToString() {
+    if(_musicEnabled) return "ENABLED";
+    return "DISABLED";
 }

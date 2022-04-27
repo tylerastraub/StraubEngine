@@ -63,41 +63,41 @@ void Controller::updateAxisInputs(SDL_Event e) {
     // Left trigger
     else if(e.caxis.axis == SDL_CONTROLLER_AXIS_TRIGGERLEFT) {
         if(e.caxis.value > TRIGGER_DEAD_ZONE) {
-            _currentButtonStates[gamepad::SDL_CONTROLLER_BUTTON_LEFTTRIGGER] = true;
+            _currentButtonStates[(int) SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_LEFTTRIGGER] = true;
         }
         else {
-            _currentButtonStates[gamepad::SDL_CONTROLLER_BUTTON_LEFTTRIGGER] = false;
+            _currentButtonStates[(int) SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_LEFTTRIGGER] = false;
         }
     }
     // Right trigger
     else if(e.caxis.axis == SDL_CONTROLLER_AXIS_TRIGGERRIGHT) {
         if(e.caxis.value > TRIGGER_DEAD_ZONE) {
-            _currentButtonStates[gamepad::SDL_CONTROLLER_BUTTON_RIGHTTRIGGER] = true;
+            _currentButtonStates[(int) SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_RIGHTTRIGGER] = true;
         }
         else {
-            _currentButtonStates[gamepad::SDL_CONTROLLER_BUTTON_RIGHTTRIGGER] = false;
+            _currentButtonStates[(int) SDL_GameControllerButton_Extended::SDL_CONTROLLER_BUTTON_RIGHTTRIGGER] = false;
         }
     }
 }
 
 void Controller::updateButtonInputs(SDL_Event e) {
-    _currentButtonStates[(gamepad::SDL_GameControllerButton_Extended) e.cbutton.button] = e.cbutton.state;
+    _currentButtonStates[e.cbutton.button] = e.cbutton.state;
 }
 
-bool Controller::isButtonDown(gamepad::SDL_GameControllerButton_Extended button) {
-    return _currentButtonStates[button];
+bool Controller::isButtonDown(SDL_GameControllerButton_Extended button) {
+    return _currentButtonStates[(int) button];
 }
 
-bool Controller::isButtonUp(gamepad::SDL_GameControllerButton_Extended button) {
-    return !_currentButtonStates[button];
+bool Controller::isButtonUp(SDL_GameControllerButton_Extended button) {
+    return !_currentButtonStates[(int) button];
 }
 
-bool Controller::isButtonPressed(gamepad::SDL_GameControllerButton_Extended button) {
-    return _currentButtonStates[button] && !_lastTickButtonStates[button];
+bool Controller::isButtonPressed(SDL_GameControllerButton_Extended button) {
+    return _currentButtonStates[(int) button] && !_lastTickButtonStates[(int) button];
 }
 
-bool Controller::isButtonReleased(gamepad::SDL_GameControllerButton_Extended button) {
-    return !_currentButtonStates[button] && _lastTickButtonStates[button];
+bool Controller::isButtonReleased(SDL_GameControllerButton_Extended button) {
+    return !_currentButtonStates[(int) button] && _lastTickButtonStates[(int) button];
 }
 
 int Controller::getAxisState(SDL_GameControllerAxis axis) {

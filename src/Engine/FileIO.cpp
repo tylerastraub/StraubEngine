@@ -14,3 +14,12 @@ std::vector<std::string> FileIO::readFile(std::string path) {
 
     return result;
 }
+
+void FileIO::writeFile(std::string path, std::vector<std::string> contents) {
+    std::ofstream file;
+    file.open(path, std::ofstream::out | std::ofstream::trunc);
+    for(auto s : contents) {
+        file << s << std::endl;
+    }
+    file.close();
+}

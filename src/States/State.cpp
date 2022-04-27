@@ -29,6 +29,14 @@ void State::setAudioPlayer(Audio* audioPlayer) {
     _audioPlayer = audioPlayer;
 }
 
+void State::setSettings(Settings* settings) {
+    _settings = settings;
+}
+
+void State::completeSettingsChange() {
+    _settingsChanged = false;
+}
+
 SDL_Point State::getGameSize() {
     return _gameSize;
 }
@@ -55,4 +63,12 @@ Text* State::getText(TextSize::TextSize size) {
 
 Audio* State::getAudioPlayer() {
     return _audioPlayer;
+}
+
+Settings* State::getSettings() {
+    return _settings;
+}
+
+bool State::settingsChanged() {
+    return _settingsChanged;
 }
