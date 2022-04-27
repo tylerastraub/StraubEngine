@@ -23,8 +23,9 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/lib
     ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/src/Engine
-    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio
+    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities
+    ${PROJECT_SOURCE_DIR}/src/Engine/StandardTypes
     ${PROJECT_SOURCE_DIR}/src/States
     ${PROJECT_SOURCE_DIR}/src/Render
     ${PROJECT_SOURCE_DIR}/src/Render/Effects
