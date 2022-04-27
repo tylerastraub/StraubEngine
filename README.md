@@ -14,12 +14,7 @@ Tileson makes use of std::filesystem which is a C++ 17 include, so you will need
 
 ## Roadmap
 
-StraubEngine is updated in line with the development of my other games; that is, when I add a feature or component to a personal game, it will get added to this engine repo. As a result, explicit development of this engine is not guaranteed. That being said, there are still some features I know will be added soon based on the future features of my own games.
-
-Currently, these are main features to be added sometime in the near future:
-- Entity component management system
-
-There are other features that will certainly make their way as well, but for now this is all that is currently planned.
+StraubEngine is updated in line with the development of my other games; that is, when I add a feature or component to a personal game, it will get added to this engine repo. As a result, explicit development of this engine is pretty rare. Instead, there are usually random days where there is a flurry of commits containing new features or improvements from my personal projects.
 
 ## Contribute
 
