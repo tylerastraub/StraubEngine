@@ -33,6 +33,13 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Localization
     ${PROJECT_SOURCE_DIR}/src/Level
     ${PROJECT_SOURCE_DIR}/src/Entity
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Generic
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Input
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Physics
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render
+    ${PROJECT_SOURCE_DIR}/src/Entity/Core
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems
     )
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
@@ -41,6 +48,12 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Engine/Settings.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio/Audio.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RandomGen.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render/SpritesheetPropertiesComponent.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Core/EntityManager.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/InputSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/PhysicsSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/RenderSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/ScriptSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/States/State.cpp
     ${PROJECT_SOURCE_DIR}/src/States/GameState.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
