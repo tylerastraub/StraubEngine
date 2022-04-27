@@ -5,15 +5,7 @@
 #include <SDL.h>
 #include <string>
 
-enum class InputEvent {
-    NOVAL,
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    JUMP,
-    ACTION,
-};
+#include "InputEvent.h"
 
 // SDL_GameControllerButton enum with added values for the triggers. Allows the triggers to be used as buttons instead of axises
 enum class SDL_GameControllerButton_Extended {

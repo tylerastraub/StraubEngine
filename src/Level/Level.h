@@ -15,14 +15,14 @@ public:
     // Set tile size in pixels. Should be square
     void setTileSize(int size);
     void setCollisionMap(std::shared_ptr<CollisionMap> cMap);
-    void addRenderPlane(Plane::Plane layerIndex, std::shared_ptr<RenderPlane> plane);
+    void addRenderPlane(Plane layerIndex, std::shared_ptr<RenderPlane> plane);
 
     int getTileSize();
 
 private:
     int _tileSize = 0;
     std::shared_ptr<CollisionMap> _cMap = nullptr;
-    std::map<Plane::Plane, std::shared_ptr<RenderPlane>> _renderPlanes;
+    std::map<Plane, std::shared_ptr<RenderPlane>> _renderPlanes;
 
 };
 

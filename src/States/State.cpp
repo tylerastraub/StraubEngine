@@ -21,7 +21,7 @@ void State::addSpritesheet(std::string spritesheetID, Spritesheet* spritesheet) 
     _spritesheets[spritesheetID] = spritesheet;
 }
 
-void State::addText(TextSize::TextSize size, Text* text) {
+void State::addText(TextSize size, Text* text) {
     _text[size] = text;
 }
 
@@ -57,7 +57,7 @@ Spritesheet* State::getSpritesheet(std::string spritesheetID) {
     return _spritesheets[spritesheetID];
 }
 
-Text* State::getText(TextSize::TextSize size) {
+Text* State::getText(TextSize size) {
     return _text[size];
 }
 

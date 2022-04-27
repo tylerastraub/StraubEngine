@@ -19,7 +19,7 @@ Level LevelParser::parseLevel(tson::Map* map) {
             level.setCollisionMap(cMap);
         }
         else {
-            std::shared_ptr<RenderPlane> plane = std::make_shared<RenderPlane>((Plane::Plane) layer.getId());
+            std::shared_ptr<RenderPlane> plane = std::make_shared<RenderPlane>((Plane) layer.getId());
             std::shared_ptr<Tilemap> tmap = std::make_shared<Tilemap>();
             for(auto &[pos, tileObject] : layer.getTileObjects()) {
                 tileset = tileObject.getTile()->getTileset();

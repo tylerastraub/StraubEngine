@@ -10,9 +10,9 @@ void Level::setCollisionMap(std::shared_ptr<CollisionMap> cMap) {
     _cMap = cMap;
 }
 
-void Level::addRenderPlane(Plane::Plane layerIndex, std::shared_ptr<RenderPlane> plane) {
+void Level::addRenderPlane(Plane layerIndex, std::shared_ptr<RenderPlane> plane) {
     if(_renderPlanes[layerIndex] != nullptr) 
-        std::cout << "Note: overwriting plane at layer index " << layerIndex << "!" << std::endl;
+        std::cout << "Note: overwriting plane at layer index " << (int) layerIndex << "!" << std::endl;
 
     _renderPlanes[layerIndex] = plane;
 }

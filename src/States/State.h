@@ -10,13 +10,11 @@
 #include <unordered_map>
 #include <vector>
 
-namespace TextSize {
-    enum TextSize {
-        TINY = 0,
-        SMALL = 1,
-        MEDIUM = 2,
-        LARGE = 3,
-    };
+enum class TextSize {
+    TINY = 0,
+    SMALL = 1,
+    MEDIUM = 2,
+    LARGE = 3,
 };
 
 class State {
@@ -39,7 +37,7 @@ public:
     void setRenderer(SDL_Renderer* renderer);
     void setRenderScale(int scale);
     void addSpritesheet(std::string spritesheetID, Spritesheet* spritesheet);
-    void addText(TextSize::TextSize size, Text* text);
+    void addText(TextSize size, Text* text);
     void setAudioPlayer(Audio* audioPlayer);
     void setSettings(Settings* settings);
     void completeSettingsChange();
@@ -49,7 +47,7 @@ public:
     SDL_Renderer* getRenderer();
     int getRenderScale();
     Spritesheet* getSpritesheet(std::string spritesheetID);
-    Text* getText(TextSize::TextSize size);
+    Text* getText(TextSize size);
     Audio* getAudioPlayer();
     Settings* getSettings();
     bool settingsChanged();
@@ -63,7 +61,7 @@ private:
     SDL_Renderer* _renderer = nullptr;
     int _renderScale = 1;
     std::unordered_map<std::string, Spritesheet*> _spritesheets;
-    std::unordered_map<TextSize::TextSize, Text*> _text;
+    std::unordered_map<TextSize, Text*> _text;
     Audio* _audioPlayer = nullptr;
     Settings* _settings = nullptr;
 };

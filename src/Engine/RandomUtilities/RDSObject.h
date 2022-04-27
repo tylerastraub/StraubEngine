@@ -1,10 +1,11 @@
 #ifndef RDS_OBJECT_H
 #define RDS_OBJECT_H
 
-enum ObjectType {
-    TABLE = 0,
-    ENTITY = 1,
-    ITEM = 2
+ enum class ObjectType {
+    NOVAL = -1,
+    TABLE,
+    ENTITY,
+    ITEM,
 };
 
 class RDSObject {
