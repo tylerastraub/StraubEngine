@@ -2,10 +2,14 @@
 #define TILEMAP_H
 
 #include "Spritesheet.h"
+#include "Tile.h"
 
 #include <vector>
 #include <string>
-#include <SDL.h>
+#include <cstdint>
+#include <list>
+
+using Entity = std::uint16_t;
 
 class Tilemap {
 public:
@@ -14,20 +18,23 @@ public:
 
     // Allocate tilemap using tile dimensions
     void allocate(int w, int h);
+    void render(int xOffset, int yOffset);
 
-    void setTile(int x, int y, SDL_Rect spritesheetRect);
+    void setTileSize(int tileSize);
+    void setTile(int x, int y, Tile tile);
     void setTileset(Spritesheet* spritesheet);
     void setGameSize(int w, int h);
 
     int getTilemapWidth();
     int getTilemapHeight();
-    SDL_Rect getTile(int x, int y);
+    Tile getTile(int x, int y);
 
 private:
-    std::vector<std::vector<SDL_Rect>> _tilemap;
+    std::vector<std::vector<Tile>> _tilemap;
     int _tilemapWidth = 0;
     int _tilemapHeight = 0;
     Spritesheet* _tileset = nullptr;
+    int _tileSize = 0;
 
     // Game width and height used for rendering purposes
     int _gameWidth = 0;

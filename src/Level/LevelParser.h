@@ -3,6 +3,7 @@
 
 #include "Level.h"
 #include "tileson.hpp"
+#include "Tile.h"
 
 class LevelParser {
 public:
@@ -12,6 +13,8 @@ public:
     static Level parseLevel(tson::Map* map);
 
 private:
+    static Plane getLayerPlane(std::string layerName);
+    static TileType getTileType(std::string type);
 
 };
 

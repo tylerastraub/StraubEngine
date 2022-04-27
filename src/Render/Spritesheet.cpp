@@ -42,9 +42,9 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
     return true;
 }
 
-void Spritesheet::render(int x, int y, SDL_RendererFlip flip, double angle, SDL_Point center) {
+void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, double angle, SDL_Point center) {
     if(isAnimated()) {
-        setTileIndex(SDL_GetTicks() / getMsBetweenFrames() % getNumOfFrames(), getTileIndex().y);
+        setTileIndex((SDL_GetTicks() - _msSinceAnimationStart) / getMsBetweenFrames() % getNumOfFrames(), getTileIndex().y);
         if(getTileIndex().x >= getNumOfFrames()) {
             int xIndex = (isLooped()) ? 0 : getNumOfFrames() - 1;
             setTileIndex(xIndex, getTileIndex().y);
@@ -55,7 +55,7 @@ void Spritesheet::render(int x, int y, SDL_RendererFlip flip, double angle, SDL_
     srcRect.y = _tileIndex.y;
     srcRect.w = _tileSize.x;
     srcRect.h = _tileSize.y;
-    SDL_Rect renderQuad = {x, y, _renderSize.x, _renderSize.y};
+    SDL_Rect renderQuad = {x, y, w, h};
     if(center.x == -1 && center.y == -1) {
         SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, NULL, flip);
     }
@@ -103,10 +103,14 @@ int Spritesheet::getMsBetweenFrames() {
 }
 
 void Spritesheet::setTileIndex(int x, int y) {
-    if(x >= 0 && x < _size.x / _tileIndex.x &&
-       y >= 0 && y < _size.y / _tileIndex.y) {
-        _tileIndex.x = x * _tileIndex.x;
-        _tileIndex.y = y * _tileIndex.y;
+    if(x >= 0 && x < _size.x / _tileSize.x &&
+       y >= 0 && y < _size.y / _tileSize.y) {
+        if(_tileIndex.y / _tileSize.y != y) {
+            // y index changed - start timer fresh
+            _msSinceAnimationStart = SDL_GetTicks();
+        }
+        _tileIndex.x = x * _tileSize.x;
+        _tileIndex.y = y * _tileSize.y;
     }
     else {
         std::cout << "Error: Invalid tile index of (" << x << ", " << y << ")" << std::endl; 
@@ -121,14 +125,6 @@ void Spritesheet::setTileWidth(int w) {
 
 void Spritesheet::setTileHeight(int h) {
     _tileSize.y = h;
-}
-
-void Spritesheet::setRenderWidth(int w) {
-    _renderSize.x = w;
-}
-
-void Spritesheet::setRenderHeight(int h) {
-    _renderSize.y = h;
 }
 
 void Spritesheet::setIsAnimated(bool isAnimated) {

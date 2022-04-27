@@ -2,8 +2,20 @@
 
 #include <iostream>
 
-void Level::setTileSize(int size) {
-    _tileSize = size;
+void Level::render(int xOffset, int yOffset) {
+    _renderPlanes[Plane::FOCALGROUND]->render(xOffset, yOffset);
+}
+
+void Level::setTileset(Spritesheet* spritesheet) {
+    for(auto plane : _renderPlanes) {
+        plane.second->setTileset(spritesheet);
+    }
+}
+
+void Level::setGameSize(int w, int h) {
+    for(auto plane : _renderPlanes) {
+        plane.second->setGameSize(w, h);
+    }
 }
 
 void Level::setCollisionMap(std::shared_ptr<CollisionMap> cMap) {
@@ -17,6 +29,6 @@ void Level::addRenderPlane(Plane layerIndex, std::shared_ptr<RenderPlane> plane)
     _renderPlanes[layerIndex] = plane;
 }
 
-int Level::getTileSize() {
-    return _tileSize;
+Tilemap* Level::getTilemap() {
+    return _renderPlanes[Plane::FOCALGROUND]->getTilemap();
 }

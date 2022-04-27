@@ -5,24 +5,26 @@
 #include "RenderPlane.h"
 
 #include <memory>
-#include <map>
+#include <unordered_map>
 
 class Level {
 public:
     Level() = default;
     ~Level() = default;
 
-    // Set tile size in pixels. Should be square
-    void setTileSize(int size);
+    void render(int xOffset, int yOffset);
+    
+    void setTileset(Spritesheet* spritesheet);
+    void setGameSize(int w, int h);
     void setCollisionMap(std::shared_ptr<CollisionMap> cMap);
     void addRenderPlane(Plane layerIndex, std::shared_ptr<RenderPlane> plane);
 
-    int getTileSize();
+    // Gets the tilemap for the focalground
+    Tilemap* getTilemap();
 
 private:
-    int _tileSize = 0;
     std::shared_ptr<CollisionMap> _cMap = nullptr;
-    std::map<Plane, std::shared_ptr<RenderPlane>> _renderPlanes;
+    std::unordered_map<Plane, std::shared_ptr<RenderPlane>> _renderPlanes;
 
 };
 

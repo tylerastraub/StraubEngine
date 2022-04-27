@@ -32,11 +32,13 @@ public:
      * 
      * @param x The absolute X position on the screen to render the sprite.
      * @param y The absolute Y position on the screen to render the sprite.
+     * @param w The width of the quad to render to
+     * @param h The height of the quad to render to
      * @param flip Flag to determine whether or not the flip the sprite. Set to SDL_FLIP_NONE by default.
      * @param angle The angle to rotate the sprite. Set to 0.0 by default.
      * @param center The center of the sprite for rotating. Uses the center of the sprite by default.
      */
-    void render(int x, int y, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, SDL_Point center = {-1, -1});
+    void render(int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, SDL_Point center = {-1, -1});
 
     SDL_Point getTileIndex();
     int getWidth();
@@ -69,20 +71,6 @@ public:
      */
     void setTileHeight(int h);
     /**
-     * @brief Set the width of the destRect to be rendered. Set this different than tile width
-     * to scale the texture.
-     * 
-     * @param w The render width in pixels.
-     */
-    void setRenderWidth(int w);
-    /**
-     * @brief Set the height of the destRect to be rendered. Set this different than tile height
-     * to scale the texture.
-     * 
-     * @param w The render height in pixels.
-     */
-    void setRenderHeight(int h);
-    /**
      * @brief Set the isAnimated flag. Enabling this will result in the spritesheet automatically updating
      * its X tile index based on the below fields.
      * 
@@ -111,8 +99,6 @@ public:
 private:
     // Size of source rectangle in spritesheet
     SDL_Point _tileSize = {16, 16};
-    // Size of destination rectangle for rendering spritesheet
-    SDL_Point _renderSize = {16, 16};
     // Actual size of spritesheet file in pixels
     SDL_Point _size = {0, 0};
     SDL_Renderer* _renderer = nullptr;
@@ -125,6 +111,8 @@ private:
     int _numOfFrames = 1;
     // Number of milliseconds between each frame of animation
     int _msBetweenFrames = 79;
+
+    int _msSinceAnimationStart = 0;
 
 };
 
