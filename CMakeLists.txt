@@ -53,7 +53,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Level/CollisionMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/RenderPlane.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Tilemap.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entity/Entity.cpp
     )
 
 if(WIN32)

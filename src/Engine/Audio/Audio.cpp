@@ -26,7 +26,7 @@ Audio::~Audio() {
     }
 }
 
-bool Audio::addAudio(AudioSound::AudioSound soundName, const char * filepath) {
+bool Audio::addAudio(AudioSound soundName, const char * filepath) {
     std::string fullPath;
     fullPath += SDL_GetBasePath();
     fullPath += filepath;
@@ -39,12 +39,12 @@ bool Audio::addAudio(AudioSound::AudioSound soundName, const char * filepath) {
     return true;
 }
 
-void Audio::playAudio(int parentId, AudioSound::AudioSound audio, float volume, bool looping) {
+void Audio::playAudio(int parentId, AudioSound audio, float volume, bool looping) {
     if(!_playingAudio[parentId][audio]) _playingAudio[parentId][audio] = new AudioPool(_context);
     _playingAudio[parentId][audio]->addPlayingSound(_loadedAudio[audio], volume, looping);
 }
 
-void Audio::stopAudio(int parentId, AudioSound::AudioSound audio) {
+void Audio::stopAudio(int parentId, AudioSound audio) {
     if(_playingAudio[parentId][audio]) _playingAudio[parentId][audio]->stopSound();
 }
 
@@ -62,7 +62,7 @@ void Audio::stopAllAudio() {
     }
 }
 
-bool Audio::isPlaying(int parentId, AudioSound::AudioSound soundName) {
+bool Audio::isPlaying(int parentId, AudioSound soundName) {
     if(_playingAudio[parentId][soundName]) return _playingAudio[parentId][soundName]->isPlaying();
     return false;
 }
