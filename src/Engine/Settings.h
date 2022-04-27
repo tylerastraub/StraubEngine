@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <string>
 
-enum Input {
+enum class InputEvent {
     NOVAL,
     UP,
     DOWN,
@@ -52,10 +52,10 @@ public:
     void loadSettings(std::string path);
     void saveSettings();
 
-    SDL_Scancode getScancode(Input input);
-    SDL_GameControllerButton_Extended getButton(Input input);
-    std::string getStringKeyboardControlForInput(Input input);
-    std::string getStringControllerControlForInput(Input input);
+    SDL_Scancode getScancode(InputEvent input);
+    SDL_GameControllerButton_Extended getButton(InputEvent input);
+    std::string getStringKeyboardControlForInputEvent(InputEvent input);
+    std::string getStringControllerControlForInputEvent(InputEvent input);
 
     void setSetting(std::string declaration, std::string value);
 
@@ -66,7 +66,7 @@ public:
     bool getMusicEnabled();
 
 private:
-    Input convertStringToInput(std::string s);
+    InputEvent convertStringToInputEvent(std::string s);
     SDL_Scancode convertStringToScancode(std::string s);
     std::string convertScancodeToString(SDL_Scancode code);
     SDL_GameControllerButton_Extended convertStringToButton(std::string s);
@@ -76,10 +76,10 @@ private:
     std::string convertVideoModeToString();
     std::string convertMusicEnabledToString();
 
-    std::unordered_map<Input, SDL_Scancode> _keysMap;
-    std::unordered_map<Input, SDL_GameControllerButton_Extended> _buttonsMap;
+    std::unordered_map<InputEvent, SDL_Scancode> _keysMap;
+    std::unordered_map<InputEvent, SDL_GameControllerButton_Extended> _buttonsMap;
     // How the control for the corresponding input will be displayed. First string is keyboard, second is controller
-    std::unordered_map<Input, std::pair<std::string, std::string>> _displayStringMap;
+    std::unordered_map<InputEvent, std::pair<std::string, std::string>> _displayStringMap;
     
     const std::pair<int, int> VALID_RESOLUTIONS[4] = {
         {640, 360},

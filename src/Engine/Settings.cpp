@@ -22,7 +22,7 @@ void Settings::loadSettings(std::string path) {
         declaration.erase(std::remove(declaration.begin(), declaration.end(), ' '), declaration.end());
         std::string value = line.substr(delimiter + 1, std::string::npos);
         value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
-        Input input = convertStringToInput(declaration);
+        InputEvent input = convertStringToInputEvent(declaration);
         if(value.find("GAMEPAD") != std::string::npos) {
             SDL_GameControllerButton_Extended but = convertStringToButton(value);
             _buttonsMap[input] = but;
@@ -53,16 +53,16 @@ void Settings::saveSettings() {
         "",
         "# To comment lines out, use the # symbol.",
         "# Note that if there are any conflicts, the last occurrence of a keybinding is used.",
-        "UP=" + _displayStringMap[Input::UP].first,
-        "DOWN=" + _displayStringMap[Input::DOWN].first,
-        "LEFT=" + _displayStringMap[Input::LEFT].first,
-        "RIGHT=" + _displayStringMap[Input::RIGHT].first,
-        "ACTION=" + _displayStringMap[Input::ACTION].first,
+        "UP=" + _displayStringMap[InputEvent::UP].first,
+        "DOWN=" + _displayStringMap[InputEvent::DOWN].first,
+        "LEFT=" + _displayStringMap[InputEvent::LEFT].first,
+        "RIGHT=" + _displayStringMap[InputEvent::RIGHT].first,
+        "ACTION=" + _displayStringMap[InputEvent::ACTION].first,
         "",
         "# ========== GAMEPAD CONTROLS CONFIG ==========",
         "",
         "# Note that bindings follow the standard XBox controller layout, although there is support for the PS4/PS5 touchbad button.",
-        "ACTION=" + _displayStringMap[Input::ACTION].second,
+        "ACTION=" + _displayStringMap[InputEvent::ACTION].second,
         "",
         "# ========== LIST OF ALL KEY BINDINGS ==========",
         "",
@@ -130,19 +130,19 @@ void Settings::saveSettings() {
     FileIO::writeFile(_settingsPath, settings);
 }
 
-SDL_Scancode Settings::getScancode(Input input) {
+SDL_Scancode Settings::getScancode(InputEvent input) {
     return _keysMap[input];
 }
 
-SDL_GameControllerButton_Extended Settings::getButton(Input input) {
+SDL_GameControllerButton_Extended Settings::getButton(InputEvent input) {
     return _buttonsMap[input];
 }
 
-std::string Settings::getStringKeyboardControlForInput(Input input) {
+std::string Settings::getStringKeyboardControlForInputEvent(InputEvent input) {
     return _displayStringMap[input].first;
 }
 
-std::string Settings::getStringControllerControlForInput(Input input) {
+std::string Settings::getStringControllerControlForInputEvent(InputEvent input) {
     return _displayStringMap[input].second;
 }
 
@@ -170,27 +170,27 @@ bool Settings::getMusicEnabled() {
     return _musicEnabled;
 }
 
-Input Settings::convertStringToInput(std::string s) {
+InputEvent Settings::convertStringToInputEvent(std::string s) {
     if(s == "LEFT") {
-        return Input::LEFT;
+        return InputEvent::LEFT;
     }
     else if(s == "RIGHT") {
-        return Input::RIGHT;
+        return InputEvent::RIGHT;
     }
     else if(s == "UP") {
-        return Input::UP;
+        return InputEvent::UP;
     }
     else if(s == "DOWN") {
-        return Input::DOWN;
+        return InputEvent::DOWN;
     }
     else if(s == "JUMP") {
-        return Input::JUMP;
+        return InputEvent::JUMP;
     }
     else if(s == "ACTION") {
-        return Input::ACTION;
+        return InputEvent::ACTION;
     }
 
-    return Input::NOVAL;
+    return InputEvent::NOVAL;
 }
 
 SDL_Scancode Settings::convertStringToScancode(std::string s) {

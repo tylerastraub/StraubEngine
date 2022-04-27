@@ -38,8 +38,9 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Game.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/FileIO.cpp
-    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RandomGen.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/Settings.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio/Audio.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RandomGen.cpp
     ${PROJECT_SOURCE_DIR}/src/States/State.cpp
     ${PROJECT_SOURCE_DIR}/src/States/GameState.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
@@ -48,7 +49,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Input/Keyboard.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Mouse.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
-    ${PROJECT_SOURCE_DIR}/src/Input/Settings.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Level.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/CollisionMap.cpp
