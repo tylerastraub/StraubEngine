@@ -17,6 +17,7 @@ public:
     ComponentArray() {
         for(size_t i = 0; i < entityConstants::MAX_ENTITIES; ++i) {
             _entityToIndexMap[i] = -1;
+            _indexToEntityMap[i] = -1;
         }
     }
     ~ComponentArray() = default;
@@ -33,6 +34,7 @@ public:
         if(entity < entityConstants::MAX_ENTITIES && _entityToIndexMap[entity] == -1) {
             size_t index = _size;
             _entityToIndexMap[entity] = index;
+            _indexToEntityMap[index] = entity;
             _componentArray[index] = component;
             _componentEntityPool.push_back(entity);
             ++_size;
@@ -42,9 +44,14 @@ public:
     void removeData(Entity entity) {
         if(entity < entityConstants::MAX_ENTITIES) {
             size_t oldIndex = _entityToIndexMap[entity];
-            std::swap(_componentArray[entity], _componentArray[_size - 1]);
-            _entityToIndexMap[_size - 1] = oldIndex;
+            _componentArray[oldIndex] = _componentArray[_size - 1];
+
+            int entityOfLastElement = _indexToEntityMap[_size - 1];
+            _entityToIndexMap[entityOfLastElement] = oldIndex;
+            _indexToEntityMap[oldIndex] = entityOfLastElement;
+
             _entityToIndexMap[entity] = -1;
+            _indexToEntityMap[_size - 1] = -1;
             for(auto it = _componentEntityPool.begin(); it != _componentEntityPool.end(); ++it) {
                 if(*it == entity) {
                     _componentEntityPool.erase(it);
@@ -95,6 +102,10 @@ private:
      * @brief Maps entities to their place in the component array to keep it packed.
      */
     int _entityToIndexMap[entityConstants::MAX_ENTITIES];
+    /**
+     * @brief Maps indexes of the component array to their respective entities
+     */
+    int _indexToEntityMap[entityConstants::MAX_ENTITIES];
     /**
      * @brief The list of entities currently who have the component. This decreases entity lookup time at the expense of more memory. 
      */

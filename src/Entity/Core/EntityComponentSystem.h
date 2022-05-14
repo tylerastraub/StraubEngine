@@ -42,9 +42,17 @@ public:
      * @brief Removes the entity from the system
      */
     void destroyEntity(Entity entity) {
+        for(auto system : _watchers[entity]) {
+            system->onEntityDelete(entity);
+        }
+        _watchers[entity].clear();
         _entityManager->destroyEntity(entity);
         _componentManager->entityDestroyed(entity);
         _systemManager->entityDestroyed(entity);
+    }
+
+    void addWatcher(System* system, Entity entity) {
+        _watchers[entity].push_back(system);
     }
 
     // Component
@@ -125,6 +133,7 @@ private:
     std::unique_ptr<EntityManager> _entityManager = nullptr;
     std::unique_ptr<ComponentManager> _componentManager = nullptr;
     std::unique_ptr<SystemManager> _systemManager = nullptr;
+    std::vector<System*> _watchers[entityConstants::MAX_ENTITIES];
 
 };
 
