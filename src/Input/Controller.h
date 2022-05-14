@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include "Settings.h"
+#include "vec2.h"
 
 class Controller {
 public:
@@ -26,30 +27,33 @@ public:
     int getAxisState(SDL_GameControllerAxis axis);
     int getAxisStateLastTick(SDL_GameControllerAxis axis);
 
+    /**
+     * @brief Get the percent the analog stick is along the given axis
+     * 
+     * @param axis Which axis to check
+     * @return The percent on a scale from 0.f-1.f
+     */
+    float getAxisPercent(SDL_GameControllerAxis axis);
+
 private:
+    strb::vec2 calculateStickDirection(int xValue, int yValue);
+
+    const int16_t MAX_ANALOG_VALUE = 32767;
     const int ANALOG_DEAD_ZONE = 8000;
     const int TRIGGER_DEAD_ZONE = 4000;
     const int NUM_OF_BUTTON_STATES = 24;
 
     // Left analog stick
-    // -1 for left, 1 for right
-    int _leftAnalogXDir = 0;
-    // -1 for up, 1 for down
-    int _leftAnalogYDir = 0;
-    // -1 for left, 1 for right
-    int _lastLeftAnalogXDir = 0;
-    // -1 for up, 1 for down
-    int _lastLeftAnalogYDir = 0;
+    int _leftAnalogXValue = 0;
+    int _leftAnalogYValue = 0;
+    int _lastLeftAnalogXValue = 0;
+    int _lastLeftAnalogYValue = 0;
 
     // Right analog stick
-    // -1 for left, 1 for right
-    int _rightAnalogXDir = 0;
-    // -1 for up, 1 for down
-    int _rightAnalogYDir = 0;
-    // -1 for left, 1 for right
-    int _lastRightAnalogXDir = 0;
-    // -1 for up, 1 for down
-    int _lastRightAnalogYDir = 0;
+    int _rightAnalogXValue = 0;
+    int _rightAnalogYValue = 0;
+    int _lastRightAnalogXValue = 0;
+    int _lastRightAnalogYValue = 0;
 
     // List of current states of all buttons. Access array using SDL_GameControllerButton_Extended
     bool _currentButtonStates[24] = {0};
