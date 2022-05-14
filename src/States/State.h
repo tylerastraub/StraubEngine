@@ -5,6 +5,7 @@
 #include "Spritesheet.h"
 #include "Audio.h"
 #include "Settings.h"
+#include "vec2.h"
 
 #include <SDL.h>
 #include <unordered_map>
@@ -23,7 +24,7 @@ public:
     virtual ~State() = default;
 
     // Virtual methods
-    virtual void init() = 0;
+    virtual bool init() = 0;
     virtual void tick(float timescale) = 0;
     virtual void render() = 0;
     // Note that if you are using the keyboard class, it is recommended to call the updateInputs() method in tick() instead
@@ -36,17 +37,15 @@ public:
     void setNextState(State* state);
     void setRenderer(SDL_Renderer* renderer);
     void setRenderScale(int scale);
-    void addSpritesheet(std::string spritesheetID, Spritesheet* spritesheet);
     void addText(TextSize size, Text* text);
     void setAudioPlayer(Audio* audioPlayer);
     void setSettings(Settings* settings);
     void completeSettingsChange();
     
-    SDL_Point getGameSize();
+    strb::vec2 getGameSize();
     State* getNextState();
     SDL_Renderer* getRenderer();
     int getRenderScale();
-    Spritesheet* getSpritesheet(std::string spritesheetID);
     Text* getText(TextSize size);
     Audio* getAudioPlayer();
     Settings* getSettings();
@@ -56,11 +55,10 @@ protected:
     bool _settingsChanged = false;
 
 private:
-    SDL_Point _gameSize = {0, 0};
+    strb::vec2 _gameSize = {0, 0};
     State* _nextState = nullptr;
     SDL_Renderer* _renderer = nullptr;
     int _renderScale = 1;
-    std::unordered_map<std::string, Spritesheet*> _spritesheets;
     std::unordered_map<TextSize, Text*> _text;
     Audio* _audioPlayer = nullptr;
     Settings* _settings = nullptr;

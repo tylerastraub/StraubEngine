@@ -1,7 +1,7 @@
 #include "State.h"
 
 void State::setGameSize(int w, int h) {
-    _gameSize = {w, h};
+    _gameSize = {(float) w, (float) h};
 }
 
 void State::setNextState(State* state) {
@@ -15,10 +15,6 @@ void State::setRenderer(SDL_Renderer* renderer) {
 
 void State::setRenderScale(int scale) {
     _renderScale = scale;
-}
-
-void State::addSpritesheet(std::string spritesheetID, Spritesheet* spritesheet) {
-    _spritesheets[spritesheetID] = spritesheet;
 }
 
 void State::addText(TextSize size, Text* text) {
@@ -37,7 +33,7 @@ void State::completeSettingsChange() {
     _settingsChanged = false;
 }
 
-SDL_Point State::getGameSize() {
+strb::vec2 State::getGameSize() {
     return _gameSize;
 }
 
@@ -51,10 +47,6 @@ SDL_Renderer* State::getRenderer() {
 
 int State::getRenderScale() {
     return _renderScale;
-}
-
-Spritesheet* State::getSpritesheet(std::string spritesheetID) {
-    return _spritesheets[spritesheetID];
 }
 
 Text* State::getText(TextSize size) {

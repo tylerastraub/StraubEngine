@@ -40,6 +40,7 @@ public:
      */
     void render(int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, SDL_Point center = {-1, -1});
 
+    SDL_Texture* getTexture();
     SDL_Point getTileIndex();
     int getWidth();
     int getHeight();
@@ -51,8 +52,7 @@ public:
     int getMsBetweenFrames();
 
     /**
-     * @brief Set the tile index of the spritesheet. Note that this is relative to INDEX_SIZE, so if
-     * INDEX_SIZE = 16, x = 2, and y = 3, then the top left coordinate of the srcRect will be (32, 48) 
+     * @brief Set the tile index of the spritesheet. Note that this is relative to the current tile size.
      * 
      * @param x The X coordinate of the tile index
      * @param y The y coordinate of the tile index
@@ -98,7 +98,7 @@ public:
 
 private:
     // Size of source rectangle in spritesheet
-    SDL_Point _tileSize = {16, 16};
+    SDL_Point _tileSize = {32, 32};
     // Actual size of spritesheet file in pixels
     SDL_Point _size = {0, 0};
     SDL_Renderer* _renderer = nullptr;
@@ -111,8 +111,6 @@ private:
     int _numOfFrames = 1;
     // Number of milliseconds between each frame of animation
     int _msBetweenFrames = 79;
-
-    int _msSinceAnimationStart = 0;
 
 };
 

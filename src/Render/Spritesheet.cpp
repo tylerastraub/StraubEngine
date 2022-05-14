@@ -20,7 +20,7 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
     _renderer = renderer;
     std::string relativePath = SDL_GetBasePath() + path;
 
-    //Load image at specified path
+    // Load image at specified path
     SDL_Surface* loadedSurface = IMG_Load(relativePath.c_str());
     if(loadedSurface == nullptr) {
         printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
@@ -29,13 +29,13 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
     else {
         _size.x = loadedSurface->w;
         _size.y = loadedSurface->h;
-        //Create texture from surface pixels
+        // Create texture from surface pixels
         _texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
         if(_texture == nullptr) {
             return false;
             printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
         }
-        //Get rid of old loaded surface
+        // Get rid of old loaded surface
         SDL_FreeSurface(loadedSurface);
     }
 
@@ -43,13 +43,6 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
 }
 
 void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, double angle, SDL_Point center) {
-    if(isAnimated()) {
-        setTileIndex((SDL_GetTicks() - _msSinceAnimationStart) / getMsBetweenFrames() % getNumOfFrames(), getTileIndex().y);
-        if(getTileIndex().x >= getNumOfFrames()) {
-            int xIndex = (isLooped()) ? 0 : getNumOfFrames() - 1;
-            setTileIndex(xIndex, getTileIndex().y);
-        }
-    }
     SDL_Rect srcRect;
     srcRect.x = _tileIndex.x;
     srcRect.y = _tileIndex.y;
@@ -62,6 +55,10 @@ void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, doub
     else {
         SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, &center, flip);
     }
+}
+
+SDL_Texture* Spritesheet::getTexture() {
+    return _texture;
 }
 
 SDL_Point Spritesheet::getTileIndex() {
@@ -105,10 +102,6 @@ int Spritesheet::getMsBetweenFrames() {
 void Spritesheet::setTileIndex(int x, int y) {
     if(x >= 0 && x < _size.x / _tileSize.x &&
        y >= 0 && y < _size.y / _tileSize.y) {
-        if(_tileIndex.y / _tileSize.y != y) {
-            // y index changed - start timer fresh
-            _msSinceAnimationStart = SDL_GetTicks();
-        }
         _tileIndex.x = x * _tileSize.x;
         _tileIndex.y = y * _tileSize.y;
     }
