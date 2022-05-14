@@ -38,6 +38,7 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Input
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Physics
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Specialized
     ${PROJECT_SOURCE_DIR}/src/Entity/Core
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems
     )
