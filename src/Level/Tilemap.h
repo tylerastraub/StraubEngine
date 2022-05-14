@@ -27,6 +27,7 @@ public:
 
     int getTilemapWidth();
     int getTilemapHeight();
+    int getTileSize();
     Tile getTile(int x, int y);
 
 private:

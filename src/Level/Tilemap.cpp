@@ -59,6 +59,10 @@ int Tilemap::getTilemapHeight() {
     return _tilemapHeight;
 }
 
+int Tilemap::getTileSize() {
+    return _tileSize;
+}
+
 Tile Tilemap::getTile(int x, int y) {
     if(x >= 0 && x < _tilemapWidth && y >= 0 && y < _tilemapHeight) {
         return _tilemap[y][x];

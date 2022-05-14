@@ -3,6 +3,8 @@
 
 #include "CollisionMap.h"
 #include "RenderPlane.h"
+#include "vec2.h"
+#include "DirectionComponent.h"
 
 #include <memory>
 #include <unordered_map>
@@ -13,6 +15,7 @@ public:
     ~Level() = default;
 
     void render(int xOffset, int yOffset);
+    void renderBackground(int xOffset, int yOffset);
     
     void setTileset(Spritesheet* spritesheet);
     void setGameSize(int w, int h);
@@ -21,6 +24,9 @@ public:
 
     // Gets the tilemap for the focalground
     Tilemap* getTilemap();
+    CollisionMap* getCollisionMap();
+    int getTileSize();
+    std::vector<EntitySpawn> getEntitySpawners();
 
 private:
     std::shared_ptr<CollisionMap> _cMap = nullptr;

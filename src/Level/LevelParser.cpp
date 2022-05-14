@@ -1,6 +1,7 @@
 #include "LevelParser.h"
 #include "CollisionMap.h"
 #include "RenderPlane.h"
+#include "EntityRegistry.h"
 
 #include <SDL.h>
 
@@ -9,20 +10,37 @@ Level LevelParser::parseLevel(tson::Map* map) {
     tson::Tileset* tileset = nullptr;
 
     for(auto layer : map->getLayers()) {
-        if(layer.getName() == "COLLISIONMAP") {
+        int tileSize = -1;
+        if(layer.getName() == "collisionmap") {
+            if(map->getLayer("focalground") == nullptr) continue;
             std::shared_ptr<CollisionMap> cMap = std::make_shared<CollisionMap>();
-            cMap->allocate(layer.getSize().x, layer.getSize().y);
-            for(auto &[pos, tileObject] : layer.getTileObjects()) {
-                bool collides = tileObject.getTile()->getType() == "solid" ? true : false;
-                cMap->setCollisionMapIndex(tileObject.getPosition().x, tileObject.getPosition().y, collides);
+            // object layers don't have actual sizes so we gotta do this
+            cMap->allocate(map->getLayer("focalground")->getSize().x, map->getLayer("focalground")->getSize().y);
+            tileSize = map->getTilesets()[0].getTileSize().x;
+            for(auto object : layer.getObjects()) {
+                bool collides = object.getType() == "solid" ? true : false;
+                cMap->setCollisionMapIndex(object.getPosition().x / tileSize, object.getPosition().y / tileSize, collides);
             }
             level.setCollisionMap(cMap);
+        }
+        else if(layer.getName() == "objectmap") {
+            if(map->getLayer("focalground") == nullptr) continue;
+            for(auto object : layer.getObjects()) {
+                if(object.getName() == "entityspawn") {
+                    if(object.getProperties().hasProperty("direction")) {
+                        Direction dir = (std::any_cast<std::string>(object.getProp("direction")->getValue()) == "west") ? Direction::WEST : Direction::EAST;
+                        level.addEntitySpawn(object.getType(), object.getPosition().x, object.getPosition().y, dir);
+                    }
+                    else {
+                        level.addEntitySpawn(object.getType(), object.getPosition().x, object.getPosition().y);
+                    }
+                }
+            }
         }
         else {
             std::shared_ptr<RenderPlane> plane = std::make_shared<RenderPlane>(getLayerPlane(layer.getName()));
             std::shared_ptr<Tilemap> tilemap = std::make_shared<Tilemap>();
             tilemap->allocate(layer.getSize().x, layer.getSize().y);
-            int tileSize = -1;
             for(auto &[pos, tileObject] : layer.getTileObjects()) {
                 tileset = tileObject.getTile()->getTileset();
                 if(tileSize == -1) tileSize = tileset->getTileSize().x;
@@ -47,26 +65,26 @@ Plane LevelParser::getLayerPlane(std::string layerName) {
     else if(layerName == "focalground") {
         return Plane::FOCALGROUND;
     }
-    else if(layerName == "background1") {
-        return Plane::BACKGROUND_1;
+    else if(layerName == "background_shallow") {
+        return Plane::BACKGROUND_SHALLOW;
     }
-    else if(layerName == "background2") {
-        return Plane::BACKGROUND_2;
+    else if(layerName == "background_deep") {
+        return Plane::BACKGROUND_DEEP;
     }
-    else if(layerName == "background3") {
-        return Plane::BACKGROUND_3;
+    else if(layerName == "background_deepest") {
+        return Plane::BACKGROUND_DEEPEST;
     }
     
     return Plane::NOVAL;
 }
 
 TileType LevelParser::getTileType(std::string type) {
-    if(type == "ground") {
-        return TileType::GROUND;
+    if(type == "solid") {
+        return TileType::SOLID;
     }
-    else if(type == "wall") {
-        return TileType::WALL;
+    else if(type == "platform") {
+        return TileType::PLATFORM;
     }
     
     return TileType::NOVAL;
- }
+}

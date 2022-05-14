@@ -5,13 +5,13 @@
 
 enum class TileType {
     NOVAL = -1,
-    GROUND,
-    WALL,
+    SOLID,
+    PLATFORM,
 };
 
 struct Tile {
-    TileType type;
-    SDL_Rect spritesheetRect;
+    TileType type = TileType::NOVAL;
+    SDL_Rect spritesheetRect = {0, 0, 0, 0};
 };
 
 #endif

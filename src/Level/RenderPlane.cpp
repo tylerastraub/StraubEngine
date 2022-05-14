@@ -3,7 +3,7 @@
 RenderPlane::RenderPlane(Plane layerIndex) : _layerIndex(layerIndex) {}
 
 void RenderPlane::render(int xOffset, int yOffset) {
-    _tilemap->render(xOffset, yOffset);
+    _tilemap->render(xOffset / _parallaxScale, yOffset / _parallaxScale);
 }
 
 void RenderPlane::setTileset(Spritesheet* spritesheet) {

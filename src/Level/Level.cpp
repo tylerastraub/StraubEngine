@@ -1,9 +1,16 @@
 #include "Level.h"
+#include "EntityRegistry.h"
 
 #include <iostream>
 
 void Level::render(int xOffset, int yOffset) {
     _renderPlanes[Plane::FOCALGROUND]->render(xOffset, yOffset);
+}
+
+void Level::renderBackground(int xOffset, int yOffset) {
+    _renderPlanes[Plane::BACKGROUND_DEEPEST]->render(xOffset, yOffset);
+    _renderPlanes[Plane::BACKGROUND_DEEP]->render(xOffset, yOffset);
+    _renderPlanes[Plane::BACKGROUND_SHALLOW]->render(xOffset, yOffset);
 }
 
 void Level::setTileset(Spritesheet* spritesheet) {
@@ -31,4 +38,12 @@ void Level::addRenderPlane(Plane layerIndex, std::shared_ptr<RenderPlane> plane)
 
 Tilemap* Level::getTilemap() {
     return _renderPlanes[Plane::FOCALGROUND]->getTilemap();
+}
+
+CollisionMap* Level::getCollisionMap() {
+    return _cMap.get();
+}
+
+int Level::getTileSize() {
+    return getTilemap()->getTileSize();
 }
