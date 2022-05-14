@@ -3,8 +3,8 @@
 
 namespace strb {
     struct vec2 {
-        vec2() : x(0), y(0) {}
-        vec2(int x, int y) : x(x), y(y) {}
+        vec2() : x(0.f), y(0.f) {}
+        vec2(float x, float y) : x(x), y(y) {}
 
         vec2 operator+(vec2 const& v) {
             return vec2(x + v.x, y + v.y);
@@ -94,8 +94,8 @@ namespace strb {
             return x != v.x || y != v.y;
         }
 
-        int x;
-        int y;
+        float x;
+        float y;
     };
 };
 
