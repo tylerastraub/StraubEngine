@@ -26,7 +26,6 @@ public:
     Tilemap* getTilemap();
     CollisionMap* getCollisionMap();
     int getTileSize();
-    std::vector<EntitySpawn> getEntitySpawners();
 
 private:
     std::shared_ptr<CollisionMap> _cMap = nullptr;

@@ -26,15 +26,7 @@ Level LevelParser::parseLevel(tson::Map* map) {
         else if(layer.getName() == "objectmap") {
             if(map->getLayer("focalground") == nullptr) continue;
             for(auto object : layer.getObjects()) {
-                if(object.getName() == "entityspawn") {
-                    if(object.getProperties().hasProperty("direction")) {
-                        Direction dir = (std::any_cast<std::string>(object.getProp("direction")->getValue()) == "west") ? Direction::WEST : Direction::EAST;
-                        level.addEntitySpawn(object.getType(), object.getPosition().x, object.getPosition().y, dir);
-                    }
-                    else {
-                        level.addEntitySpawn(object.getType(), object.getPosition().x, object.getPosition().y);
-                    }
-                }
+                // parse tiled objects here
             }
         }
         else {

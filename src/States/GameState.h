@@ -13,7 +13,7 @@ public:
     GameState() = default;
     ~GameState() = default;
 
-    void init() override;
+    bool init() override;
     void tick(float timescale) override;
     void render() override;
     void handleKeyboardInput(SDL_Event e) override {};

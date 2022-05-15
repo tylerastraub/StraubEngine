@@ -81,9 +81,6 @@ bool Game::init() {
                         _currentState = new GameState();
                         _currentState->setGameSize(GAME_WIDTH, GAME_HEIGHT);
                         _currentState->setRenderer(_renderer);
-                        for(auto it : _spritesheets) {
-                            _currentState->addSpritesheet(it.first, it.second.get());
-                        }
                         for(auto it : _text) {
                             _currentState->addText(it.first, it.second.get());
                         }
@@ -186,9 +183,6 @@ void Game::startGameLoop() {
             _currentState = tempState;
             _currentState->setGameSize(GAME_WIDTH, GAME_HEIGHT);
             _currentState->setRenderer(_renderer);
-            for(auto it : _spritesheets) {
-                _currentState->addSpritesheet(it.first, it.second.get());
-            }
             for(auto it : _text) {
                 _currentState->addText(it.first, it.second.get());
             }

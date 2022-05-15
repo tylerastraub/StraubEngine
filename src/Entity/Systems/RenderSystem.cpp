@@ -12,7 +12,7 @@ void RenderSystem::updateRenderQuadSmoothMovement(float percent) {
         if(ecs->hasComponent<TransformComponent>(ent)) {
             auto& transform = ecs->getComponent<TransformComponent>(ent);
             auto& renderComponent = ecs->getComponent<RenderComponent>(ent);
-            strb::vec2f delta = (transform.position - transform.lastPosition) * 16;
+            strb::vec2 delta = (transform.position - transform.lastPosition) * 16;
             renderComponent.renderQuad.x = transform.lastPosition.x * 16 + delta.x * percent + renderComponent.renderQuadOffset.x;
             renderComponent.renderQuad.y = transform.lastPosition.y * 16 + delta.y * percent + renderComponent.renderQuadOffset.y;
         }

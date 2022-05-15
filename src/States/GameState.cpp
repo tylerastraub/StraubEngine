@@ -5,10 +5,12 @@
 
 std::mt19937 RandomGen::randEng{(unsigned int) std::chrono::system_clock::now().time_since_epoch().count()};
 
-void GameState::init() {
+bool GameState::init() {
     _keyboard = std::make_unique<Keyboard>();
     _mouse = std::make_unique<Mouse>(getRenderScale(), getRenderScale());
     _controller = std::make_unique<Controller>();
+
+    return true;
 }
 
 void GameState::tick(float timescale) {

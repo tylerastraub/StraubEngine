@@ -9,13 +9,14 @@ public:
     PhysicsSystem() = default;
     ~PhysicsSystem() = default;
 
-    bool updateSingleEntity(float timescale, Entity entity);
-    bool updateAllButEntities(float timescale, std::list<Entity> entities);
-    bool update(float timescale);
+    bool updateX(float timescale);
+    bool updateY(float timescale);
 
     void setLevel(Level level);
 
 private:
+    void moveToZero(float &value, float amount);
+
     Level _level;
 
 };
