@@ -75,7 +75,7 @@ bool InputSystem::inputDown(InputEvent input) {
             _keyboard->isKeyDown(_settings->getScancode(InputEvent::DOWN));
     }
     else {
-        return _controller->isButtonDown(_settings->getButton(input));
+        return _controller->isButtonDown(_settings->getButton(input)) || _keyboard->isKeyDown(_settings->getScancode(input));
     }
 }
 
@@ -101,7 +101,7 @@ bool InputSystem::inputUp(InputEvent input) {
             _keyboard->isKeyUp(_settings->getScancode(InputEvent::DOWN));
     }
     else {
-        return _controller->isButtonUp(_settings->getButton(input));
+        return _controller->isButtonUp(_settings->getButton(input)) || _keyboard->isKeyUp(_settings->getScancode(input));
     }
 }
 
@@ -131,7 +131,7 @@ bool InputSystem::inputPressed(InputEvent input) {
             _keyboard->isKeyPressed(_settings->getScancode(InputEvent::DOWN));
     }
     else {
-        return _controller->isButtonPressed(_settings->getButton(input));
+        return _controller->isButtonPressed(_settings->getButton(input)) || _keyboard->isKeyPressed(_settings->getScancode(input));
     }
 }
 
@@ -161,6 +161,6 @@ bool InputSystem::inputReleased(InputEvent input) {
             _keyboard->isKeyReleased(_settings->getScancode(InputEvent::DOWN));
     }
     else {
-        return _controller->isButtonReleased(_settings->getButton(input));
+        return _controller->isButtonReleased(_settings->getButton(input)) || _keyboard->isKeyReleased(_settings->getScancode(input));
     }
 }
