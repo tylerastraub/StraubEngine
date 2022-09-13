@@ -65,12 +65,15 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
         return;
     }
 
+    int charCount = 0;
     for(auto word : _words) {
         if(x + word.w > maxTextWidth) {
             x = startX;
             y += std::ceil((float) word.h * _newLineSpacing);
         }
         for(size_t i = 0; i < word.text.size(); ++i) {
+            ++charCount;
+            if(charCount > _numOfChars * _percentOfTextDisplayed) return;
             char c = word.text[i];
             if(c == '\n') {
                 x = startX;
@@ -103,6 +106,7 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
 
 void Text::setString(std::string s) {
     _words.clear();
+    _numOfChars = 0;
     _textString = s;
     if(s.empty()) return;
     Word currentWord;
@@ -118,6 +122,7 @@ void Text::setString(std::string s) {
             currentWord = Word();
             continue;
         }
+        ++_numOfChars;
         currentWord.text.push_back(c);
         Bounds b = _characters[c].second;
         currentWord.w += _characters[c].second.w;
@@ -127,6 +132,10 @@ void Text::setString(std::string s) {
         }
     }
     if(!currentWord.text.empty()) _words.push_back(currentWord); // add that last word
+}
+
+void Text::setPercentOfTextDisplayed(float percent) {
+    _percentOfTextDisplayed = percent;
 }
 
 int Text::getWidth() {
@@ -139,4 +148,8 @@ int Text::getHeight() {
 
 std::string Text::getString() {
     return _textString;
+}
+
+int Text::getNumOfChars() {
+    return _numOfChars;
 }

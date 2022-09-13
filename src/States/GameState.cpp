@@ -12,12 +12,17 @@ bool GameState::init() {
     _controller = std::make_unique<Controller>();
 
     _dialogueBox.setText(getText(TextSize::TINY));
+    _dialogueBox.setIsEnabled(true);
+    _dialogueBox.setReadSpeed(ReadSpeed::VERY_SLOW);
+    _dialogueBox.setString("Hi! This is a test to see if the dialogue box works. Should wrap correctly!");
 
     return true;
 }
 
 void GameState::tick(float timescale) {
     // Logic goes here BEFORE input updates!
+    if(_keyboard->isKeyPressed(SDL_SCANCODE_Z)) _dialogueBox.setTextFullyDisplayed(true);
+    _dialogueBox.tick(timescale);
 
     // Input updates
     _keyboard->updateInputs();
@@ -28,7 +33,6 @@ void GameState::render() {
     SDL_SetRenderDrawColor(getRenderer(), 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(getRenderer());
 
-    _dialogueBox.setString("Hi! This is a test to see if the dialogue box works. Should wrap correctly!");
     _dialogueBox.render(0, getGameSize().y - 32);
 
     SDL_RenderPresent(getRenderer());

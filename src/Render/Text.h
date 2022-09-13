@@ -30,10 +30,12 @@ public:
     void render(int x, int y, int r = 255, int g = 255, int b = 255, int a = 255, int maxTextWidth = 99999);
 
     void setString(std::string s);
+    void setPercentOfTextDisplayed(float percent);
 
     int getWidth();
     int getHeight();
     std::string getString();
+    int getNumOfChars();
 
 private:
     SDL_Renderer* _renderer = nullptr;
@@ -41,11 +43,13 @@ private:
     std::unordered_map<char, std::pair<SDL_Texture*, Bounds>> _characters;
     std::string _textString = "";
     std::vector<Word> _words;
+    int _numOfChars = 0;
 
     int _width = 0;
     int _height = 0;
 
     float _newLineSpacing = 1.05f; // line spacing between lines. standard should be something like 1.15f
+    float _percentOfTextDisplayed = 1.f; // how much of text should be displayed from 0.0 to 1.0. used for slowly displaying text
 };
 
 #endif
