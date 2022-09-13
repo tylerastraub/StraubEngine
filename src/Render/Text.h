@@ -5,13 +5,20 @@
 #include <SDL_ttf.h>
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 struct Bounds {
-    int w;
-    int h;
+    int w = 0;
+    int h = 0;
 
     Bounds() {}
     Bounds(int w, int h) : w(w), h(h) {}
+};
+
+struct Word {
+    std::string text = "";
+    int w = 0;
+    int h = 0;
 };
 
 class Text {
@@ -29,13 +36,16 @@ public:
     std::string getString();
 
 private:
-    SDL_Renderer* _renderer;
+    SDL_Renderer* _renderer = nullptr;
     TTF_Font* _gameFont = nullptr;
     std::unordered_map<char, std::pair<SDL_Texture*, Bounds>> _characters;
-    std::string _textString;
+    std::string _textString = "";
+    std::vector<Word> _words;
 
     int _width = 0;
     int _height = 0;
+
+    float _newLineSpacing = 1.05f; // line spacing between lines. standard should be something like 1.15f
 };
 
 #endif

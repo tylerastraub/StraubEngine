@@ -65,54 +65,68 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
         return;
     }
 
-    for(size_t i = 0; i < _textString.size(); ++i) {
-        char c = _textString[i];
-        if(c == ' ') {
-            if(x != startX) x += _characters['a'].second.w;
-            continue;
-        }
-        else if(c == '\n') {
+    for(auto word : _words) {
+        if(x + word.w > maxTextWidth) {
             x = startX;
-            y += std::ceil((float) _characters['a'].second.h * 1.15);
-            continue;
+            y += std::ceil((float) word.h * _newLineSpacing);
         }
-        SDL_Texture* character;
-        Bounds charBounds;
-        try {
-            character = _characters[c].first;
-            charBounds = _characters[c].second;
+        for(size_t i = 0; i < word.text.size(); ++i) {
+            char c = word.text[i];
+            if(c == '\n') {
+                x = startX;
+                y += std::ceil((float) _characters['a'].second.h * _newLineSpacing);
+                continue;
+            }
+            SDL_Texture* character;
+            Bounds charBounds;
+            try {
+                character = _characters[c].first;
+                charBounds = _characters[c].second;
+            }
+            catch(std::out_of_range) {
+                std::cout << "Error: Invalid character in string! Character: " << c << std::endl;
+                return;
+            }
+            SDL_SetTextureColorMod(character, r, g, b);
+            SDL_SetTextureAlphaMod(character, a);
+            SDL_Rect charRect;
+            charRect.x = x;
+            charRect.y = y;
+            charRect.w = charBounds.w;
+            charRect.h = charBounds.h;
+            SDL_RenderCopy(_renderer, character, NULL, &charRect);
+            x += charRect.w;
         }
-        catch(std::out_of_range) {
-            std::cout << "Error: Invalid character in string! Character: " << c << std::endl;
-            return;
-        }
-        SDL_SetTextureColorMod(character, r, g, b);
-        SDL_SetTextureAlphaMod(character, a);
-        SDL_Rect charRect;
-        charRect.x = x;
-        charRect.y = y;
-        charRect.w = charBounds.w;
-        charRect.h = charBounds.h;
-        SDL_RenderCopy(_renderer, character, NULL, &charRect);
-        x += charRect.w;
-        if(x + charRect.w > maxTextWidth && i != _textString.size() - 1) {
-            x = startX;
-            if(_textString[i + 1] != '\n') y += std::ceil((float) charRect.h * 1.15);
-        }
+        if(x != startX) x += _characters['a'].second.w; // add space between words
     }
 }
 
 void Text::setString(std::string s) {
+    _words.clear();
     _textString = s;
-    _width = 0;
-    _height = 0;
     if(s.empty()) return;
+    Word currentWord;
     for(auto c : _textString) {
-        if(c == '\n') continue;
+        if(c == ' ') {
+            if(!currentWord.text.empty()) _words.push_back(currentWord);
+            currentWord = Word();
+            continue;
+        }
+        else if(c == '\n') {
+            currentWord.text = "\n";
+            _words.push_back(currentWord);
+            currentWord = Word();
+            continue;
+        }
+        currentWord.text.push_back(c);
         Bounds b = _characters[c].second;
-        _width += _characters[c].second.w;
-        if(_characters[c].second.h > _height) _height = _characters[c].second.h;
+        currentWord.w += _characters[c].second.w;
+        if(_characters[c].second.h > currentWord.h) {
+            currentWord.h = _characters[c].second.h;
+            if(currentWord.h > _height) _height = currentWord.h;
+        }
     }
+    if(!currentWord.text.empty()) _words.push_back(currentWord); // add that last word
 }
 
 int Text::getWidth() {

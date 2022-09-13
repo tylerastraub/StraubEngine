@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "SpritesheetRegistry.h"
 
 #include <chrono>
 #include <SDL_image.h>
@@ -129,6 +130,11 @@ bool Game::loadResources() {
     _text[TextSize::LARGE] = largeText;
 
     // Spritesheets
+    std::shared_ptr<Spritesheet> dialogueSpritesheet = std::make_shared<Spritesheet>();
+    if(!dialogueSpritesheet->load(_renderer, "res/spritesheet/dialogue_box.png")) return false;
+    dialogueSpritesheet->setTileWidth(320);
+    dialogueSpritesheet->setTileHeight(32);
+    SpritesheetRegistry::addSpritesheet("DIALOGUE_BOX", dialogueSpritesheet);
 
     // Audio
     _audioPlayer = std::make_unique<Audio>();

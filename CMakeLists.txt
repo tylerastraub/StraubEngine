@@ -26,12 +26,6 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities
     ${PROJECT_SOURCE_DIR}/src/Engine/StandardTypes
-    ${PROJECT_SOURCE_DIR}/src/States
-    ${PROJECT_SOURCE_DIR}/src/Render
-    ${PROJECT_SOURCE_DIR}/src/Render/Effects
-    ${PROJECT_SOURCE_DIR}/src/Input
-    ${PROJECT_SOURCE_DIR}/src/Localization
-    ${PROJECT_SOURCE_DIR}/src/Level
     ${PROJECT_SOURCE_DIR}/src/Entity
     ${PROJECT_SOURCE_DIR}/src/Entity/Components
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Generic
@@ -41,11 +35,17 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Specialized
     ${PROJECT_SOURCE_DIR}/src/Entity/Core
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems
+    ${PROJECT_SOURCE_DIR}/src/Input
+    ${PROJECT_SOURCE_DIR}/src/Level
+    ${PROJECT_SOURCE_DIR}/src/Localization
+    ${PROJECT_SOURCE_DIR}/src/Render
+    ${PROJECT_SOURCE_DIR}/src/Render/Effects
+    ${PROJECT_SOURCE_DIR}/src/States
     )
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
-    ${PROJECT_SOURCE_DIR}/src/Engine/Game.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/FileIO.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/Game.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Settings.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio/Audio.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RandomGen.cpp
@@ -55,17 +55,17 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/PhysicsSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/RenderSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/ScriptSystem.cpp
-    ${PROJECT_SOURCE_DIR}/src/States/State.cpp
     ${PROJECT_SOURCE_DIR}/src/States/GameState.cpp
-    ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
+    ${PROJECT_SOURCE_DIR}/src/States/State.cpp
+    ${PROJECT_SOURCE_DIR}/src/Render/DialogueBox.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
+    ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Effects/ScreenShake.cpp
+    ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Keyboard.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Mouse.cpp
-    ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Level.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
-    ${PROJECT_SOURCE_DIR}/src/Level/CollisionMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/RenderPlane.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Tilemap.cpp
     )

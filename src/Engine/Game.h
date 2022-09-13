@@ -32,7 +32,6 @@ private:
     State* _nextState = nullptr;
 
     // Resources
-    std::unordered_map<std::string, std::shared_ptr<Spritesheet>> _spritesheets;
     std::unordered_map<TextSize, std::shared_ptr<Text>> _text;
     std::unique_ptr<Audio> _audioPlayer = nullptr;
     std::unique_ptr<Settings> _settings = nullptr;

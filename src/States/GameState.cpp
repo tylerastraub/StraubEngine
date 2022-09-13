@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "RandomGen.h"
+#include "SpritesheetRegistry.h"
 
 #include <chrono>
 
@@ -9,6 +10,8 @@ bool GameState::init() {
     _keyboard = std::make_unique<Keyboard>();
     _mouse = std::make_unique<Mouse>(getRenderScale(), getRenderScale());
     _controller = std::make_unique<Controller>();
+
+    _dialogueBox.setText(getText(TextSize::TINY));
 
     return true;
 }
@@ -24,6 +27,9 @@ void GameState::tick(float timescale) {
 void GameState::render() {
     SDL_SetRenderDrawColor(getRenderer(), 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(getRenderer());
+
+    _dialogueBox.setString("Hi! This is a test to see if the dialogue box works. Should wrap correctly!");
+    _dialogueBox.render(0, getGameSize().y - 32);
 
     SDL_RenderPresent(getRenderer());
 }
