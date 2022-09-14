@@ -12,9 +12,10 @@ bool GameState::init() {
     _controller = std::make_unique<Controller>();
 
     _dialogueBox.setText(getText(TextSize::TINY));
+    _dialogueBox.setAudio(getAudioPlayer());
     _dialogueBox.setIsEnabled(true);
-    _dialogueBox.setReadSpeed(ReadSpeed::VERY_SLOW);
-    _dialogueBox.setString("Hi! This is a test to see if the dialogue box works. Should wrap correctly!");
+    _dialogueBox.setReadSpeed(ReadSpeed::SLOW);
+    _dialogueBox.setString("The quick brown fox jumped over the lazy dog.\nWhat a concept!\nI wonder if he practices?");
 
     return true;
 }

@@ -36,6 +36,8 @@ public:
     int getHeight();
     std::string getString();
     int getNumOfChars();
+    int getNumOfRenderedChars();
+    char getLastCharacter();
 
 private:
     SDL_Renderer* _renderer = nullptr;
@@ -44,11 +46,13 @@ private:
     std::string _textString = "";
     std::vector<Word> _words;
     int _numOfChars = 0;
+    int _numOfRenderedChars = 0;
+    char _lastCharacter = ' ';
 
     int _width = 0;
     int _height = 0;
 
-    float _newLineSpacing = 1.05f; // line spacing between lines. standard should be something like 1.15f
+    float _newLineSpacing = 1.05f; // line spacing between lines. standard should be something like 1.05f
     float _percentOfTextDisplayed = 1.f; // how much of text should be displayed from 0.0 to 1.0. used for slowly displaying text
 };
 

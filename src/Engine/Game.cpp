@@ -102,29 +102,29 @@ bool Game::init() {
 bool Game::loadResources() {
     // Text
     std::shared_ptr<Text> tinyText = std::make_shared<Text>(_renderer);
-    if(!tinyText->load(_gameFontPath, 10)) {
-        std::cout << "Error: Failed to load font '" << _gameFontPath << "'!" << std::endl;
+    if(!tinyText->load(_tinyTextFontPath, 8)) {
+        std::cout << "Error: Failed to load font '" << _tinyTextFontPath << "'!" << std::endl;
         return false;
     }
     _text[TextSize::TINY] = tinyText;
     
     std::shared_ptr<Text> smallText = std::make_shared<Text>(_renderer);
-    if(!smallText->load(_gameFontPath, 14)) {
-        std::cout << "Error: Failed to load font '" << _gameFontPath << "'!" << std::endl;
+    if(!smallText->load(_smallTextFontPath, 14)) {
+        std::cout << "Error: Failed to load font '" << _smallTextFontPath << "'!" << std::endl;
         return false;
     }
     _text[TextSize::SMALL] = smallText;
 
     std::shared_ptr<Text> mediumText = std::make_shared<Text>(_renderer);
-    if(!mediumText->load(_gameFontPath, 18)) {
-        std::cout << "Error: Failed to load font '" << _gameFontPath << "'!" << std::endl;
+    if(!mediumText->load(_mediumTextFontPath, 20)) {
+        std::cout << "Error: Failed to load font '" << _mediumTextFontPath << "'!" << std::endl;
         return false;
     }
     _text[TextSize::MEDIUM] = mediumText;
     
     std::shared_ptr<Text> largeText = std::make_shared<Text>(_renderer);
-    if(!largeText->load(_gameFontPath, 22)) {
-        std::cout << "Error: Failed to load font '" << _gameFontPath << "'!" << std::endl;
+    if(!largeText->load(_largeTextFontPath, 24)) {
+        std::cout << "Error: Failed to load font '" << _largeTextFontPath << "'!" << std::endl;
         return false;
     }
     _text[TextSize::LARGE] = largeText;
@@ -138,6 +138,7 @@ bool Game::loadResources() {
 
     // Audio
     _audioPlayer = std::make_unique<Audio>();
+    if(!_audioPlayer->addAudio(AudioSound::CHARACTER_BLIP, "res/audio/character_blip.wav")) return false;
 
     return true;
 }

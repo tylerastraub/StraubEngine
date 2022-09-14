@@ -5,6 +5,10 @@
 
 void DialogueBox::tick(float timescale) {
     if(!_textIsFullyDisplayed) _timeActive += timescale * 1000.f;
+    if(_numOfCharactersRendered != _text->getNumOfRenderedChars() && _text->getLastCharacter() != ' ') {
+        _numOfCharactersRendered = _text->getNumOfRenderedChars();
+        _audio->playAudio(-1, AudioSound::CHARACTER_BLIP);
+    }
 }
 
 void DialogueBox::render(int x, int y) {
@@ -19,11 +23,15 @@ void DialogueBox::render(int x, int y) {
         _text->setPercentOfTextDisplayed(percent);
         if(percent >= 1.f) setTextFullyDisplayed(true);
     }
-    _text->render(x + BORDER_BUFFER, y + 2, 255, 255, 255, 255, dialogueBox->getWidth() - BORDER_BUFFER * 2);
+    _text->render(x + X_BORDER_BUFFER, y + Y_BORDER_BUFFER, 255, 255, 255, 255, dialogueBox->getWidth() - X_BORDER_BUFFER * 2);
 }
 
 void DialogueBox::setText(Text* text) {
     _text = text;
+}
+
+void DialogueBox::setAudio(Audio* audio) {
+    _audio = audio;
 }
 
 void DialogueBox::setString(std::string s) {

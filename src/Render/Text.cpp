@@ -16,8 +16,7 @@ Text::~Text() {
 bool Text::load(const char * fontPath, int ptSize) {
     TTF_Font* font = TTF_OpenFont(fontPath, ptSize);
 
-    if(font == NULL)
-    {
+    if(font == nullptr) {
         printf("Failed to load font '%s'! SDL_ttf Error: %s\n", fontPath, TTF_GetError());
         return false;
     }
@@ -29,23 +28,20 @@ bool Text::load(const char * fontPath, int ptSize) {
         // this could be a good place to look.
         SDL_Surface* textSurface = TTF_RenderGlyph_Solid(font, c, white);
         SDL_Texture* texture = nullptr;
-        if( textSurface == NULL )
-        {
+        if(textSurface == nullptr) {
             printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
             return false;
         }
-        else
-        {
+        else {
             Bounds charBounds(textSurface->w, textSurface->h);
 
-            //Create texture from surface pixels
+            // Create texture from surface pixels
             texture = SDL_CreateTextureFromSurface(_renderer, textSurface);
-            if( texture == NULL )
-            {
+            if(texture == nullptr) {
                 printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
                 return false;
             }
-            //Get rid of old surface
+            // Get rid of old surface
             SDL_FreeSurface(textSurface);
 
             _characters[c] = std::make_pair(texture, charBounds);
@@ -73,13 +69,18 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
         }
         for(size_t i = 0; i < word.text.size(); ++i) {
             ++charCount;
+            if(_numOfRenderedChars != charCount) {
+                _numOfRenderedChars = charCount;
+            }
             if(charCount > _numOfChars * _percentOfTextDisplayed) return;
             char c = word.text[i];
             if(c == '\n') {
+                _lastCharacter = ' ';
                 x = startX;
                 y += std::ceil((float) _characters['a'].second.h * _newLineSpacing);
                 continue;
             }
+            _lastCharacter = c;
             SDL_Texture* character;
             Bounds charBounds;
             try {
@@ -117,9 +118,11 @@ void Text::setString(std::string s) {
             continue;
         }
         else if(c == '\n') {
+            if(!currentWord.text.empty()) _words.push_back(currentWord);
             currentWord.text = "\n";
             _words.push_back(currentWord);
             currentWord = Word();
+            ++_numOfChars;
             continue;
         }
         ++_numOfChars;
@@ -152,4 +155,12 @@ std::string Text::getString() {
 
 int Text::getNumOfChars() {
     return _numOfChars;
+}
+
+int Text::getNumOfRenderedChars() {
+    return _numOfRenderedChars;
+}
+
+char Text::getLastCharacter() {
+    return _lastCharacter;
 }
