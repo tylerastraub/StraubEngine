@@ -109,16 +109,22 @@ void Text::setString(std::string s) {
     _words.clear();
     _numOfChars = 0;
     _textString = s;
+    _width = 0;
+    _height = 0;
     if(s.empty()) return;
     Word currentWord;
     for(auto c : _textString) {
         if(c == ' ') {
             if(!currentWord.text.empty()) _words.push_back(currentWord);
+            _width += currentWord.w;
+            _width += _characters[' '].second.w;
             currentWord = Word();
             continue;
         }
         else if(c == '\n') {
+            // todo: fix this so that newline strings are centered properly
             if(!currentWord.text.empty()) _words.push_back(currentWord);
+            _width += currentWord.w;
             currentWord.text = "\n";
             _words.push_back(currentWord);
             currentWord = Word();
