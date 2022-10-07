@@ -23,7 +23,7 @@ Entity EntityManager::createEntity() {
 
 void EntityManager::destroyEntity(Entity entity) {
     if(entity < entityConstants::MAX_ENTITIES) {
-        _signatures[entity].reset(entity);
+        _signatures[entity].reset();
         _availableIds.push(entity);
         --_activeEntities;
     }
