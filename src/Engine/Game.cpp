@@ -134,7 +134,7 @@ bool Game::loadResources() {
     if(!dialogueSpritesheet->load(_renderer, "res/spritesheet/dialogue_box.png")) return false;
     dialogueSpritesheet->setTileWidth(320);
     dialogueSpritesheet->setTileHeight(32);
-    SpritesheetRegistry::addSpritesheet("DIALOGUE_BOX", dialogueSpritesheet);
+    SpritesheetRegistry::addSpritesheet(SpritesheetID::DIALOGUE_BOX, dialogueSpritesheet);
 
     // Audio
     _audioPlayer = std::make_unique<Audio>();

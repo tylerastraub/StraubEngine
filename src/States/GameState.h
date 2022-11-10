@@ -5,7 +5,6 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Controller.h"
-#include "DialogueBox.h"
 
 #include <memory>
 
@@ -28,8 +27,6 @@ private:
     std::unique_ptr<Controller> _controller = nullptr;
 
     SDL_FPoint _renderOffset = {0.f, 0.f};
-
-    DialogueBox _dialogueBox;
 };
 
 #endif

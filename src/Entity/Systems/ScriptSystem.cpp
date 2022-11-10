@@ -6,6 +6,6 @@ void ScriptSystem::update(float timescale) {
     auto ecs = EntityRegistry::getInstance();
     for(auto ent : _entities) {
         auto& script = ecs->getComponent<ScriptComponent>(ent);
-        script.script->update(ent, timescale);
+        script.script->update(ent, timescale, _audioPlayer);
     }
 }

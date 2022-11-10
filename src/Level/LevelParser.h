@@ -1,20 +1,24 @@
 #ifndef LEVEL_PARSER_H
 #define LEVEL_PARSER_H
 
-#include "Level.h"
-#include "tileson.hpp"
 #include "Tile.h"
+#include "Level.h"
+#include "SpritesheetID.h"
+#include "PrefabType.h"
+
+#include <vector>
+#include <string>
 
 class LevelParser {
 public:
     LevelParser() = default;
     ~LevelParser() = default;
 
-    static Level parseLevel(tson::Map* map);
+    static std::vector<std::vector<Tile>> parseLevelFromTxt(std::string filePath);
+    static Level parseLevelFromTmx(std::string filePath, SpritesheetID spritesheetId);
 
 private:
-    static Plane getLayerPlane(std::string layerName);
-    static TileType getTileType(std::string type);
+    static PrefabType convertStringToPrefabType(std::string prefabTypeString);
 
 };
 

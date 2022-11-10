@@ -1,6 +1,8 @@
 #ifndef SCRIPT_COMPONENT_H
 #define SCRIPT_COMPONENT_H
 
+#include "Audio.h"
+
 #include <memory>
 #include <cstdint>
 
@@ -17,7 +19,7 @@ public:
      * @param timescale The timescale to update by - is usually fixed.
      * @param phase The current phase the TurnSystem is in. Scripts can choose to ignore this.
      */
-    virtual void update(Entity owner, float timescale) = 0;
+    virtual void update(Entity owner, float timescale, Audio* audio) = 0;
 
 private:
 

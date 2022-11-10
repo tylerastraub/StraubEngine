@@ -7,6 +7,7 @@ enum class TileType {
     NOVAL = -1,
     SOLID,
     PLATFORM,
+    HAZARD,
 };
 
 struct Tile {

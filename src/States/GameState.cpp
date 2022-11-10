@@ -11,19 +11,11 @@ bool GameState::init() {
     _mouse = std::make_unique<Mouse>(getRenderScale(), getRenderScale());
     _controller = std::make_unique<Controller>();
 
-    _dialogueBox.setText(getText(TextSize::TINY));
-    _dialogueBox.setAudio(getAudioPlayer());
-    _dialogueBox.setIsEnabled(true);
-    _dialogueBox.setReadSpeed(ReadSpeed::SLOW);
-    _dialogueBox.setString("The quick brown fox jumped over the lazy dog.\nWhat a concept!\nI wonder if he practices?");
-
     return true;
 }
 
 void GameState::tick(float timescale) {
     // Logic goes here BEFORE input updates!
-    if(_keyboard->isKeyPressed(SDL_SCANCODE_Z)) _dialogueBox.setTextFullyDisplayed(true);
-    _dialogueBox.tick(timescale);
 
     // Input updates
     _keyboard->updateInputs();
@@ -33,8 +25,6 @@ void GameState::tick(float timescale) {
 void GameState::render() {
     SDL_SetRenderDrawColor(getRenderer(), 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(getRenderer());
-
-    _dialogueBox.render(0, getGameSize().y - 32);
 
     SDL_RenderPresent(getRenderer());
 }

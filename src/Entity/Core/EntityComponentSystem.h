@@ -55,6 +55,10 @@ public:
         _watchers[entity].push_back(system);
     }
 
+    void reregisterEntity(Entity entity) {
+        _systemManager->entitySignatureChanged(entity, _entityManager->getSignature(entity));
+    }
+
     // Component
     /**
      * @brief Adds a component to the entity

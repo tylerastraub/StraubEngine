@@ -122,7 +122,6 @@ void Text::setString(std::string s) {
             continue;
         }
         else if(c == '\n') {
-            // todo: fix this so that newline strings are centered properly
             if(!currentWord.text.empty()) _words.push_back(currentWord);
             _width += currentWord.w;
             currentWord.text = "\n";

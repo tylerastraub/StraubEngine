@@ -3,13 +3,12 @@
 
 #include "Text.h"
 #include "Audio.h"
+#include "ReadSpeed.h"
+#include "Dialogue.h"
 
-enum class ReadSpeed {
-    VERY_SLOW = 150, // 6-7 characters per second
-    SLOW = 67, // 15 characters per second
-    MEDIUM = 33, // 30 characters per second. character blip starts to sound worse at this speed
-    FAST = 17 // 60 characters per second
-};
+#include <vector>
+
+using Conversation = std::vector<Dialogue>;
 
 class DialogueBox {
 public:
@@ -18,10 +17,14 @@ public:
 
     void tick(float timescale);
     void render(int x, int y);
+    void advanceDialogue();
+    void reset();
 
     void setText(Text* text);
     void setAudio(Audio* audio);
     void setString(std::string s);
+    void setConversation(Conversation conversation);
+    void setDialogue(Dialogue dialogue);
     void setIsEnabled(bool isEnabled);
     void setTextFullyDisplayed(bool textFullyDisplayed);
     void setReadSpeed(ReadSpeed speed);
@@ -43,6 +46,13 @@ private:
     int _readSpeed = 33; // num of milliseconds between display of each character
     bool _textIsFullyDisplayed = false;
     int _numOfCharactersRendered = 0;
+
+    Conversation _conversation;
+    Dialogue _currentDialogue;
+
+    std::string _speakerName = "";
+    SpritesheetID _portrait = SpritesheetID::NOVAL;
+    std::string _currentString = "";
 };
 
 #endif

@@ -19,9 +19,14 @@ elseif(APPLE)
     find_package(SDL2TTF REQUIRED)
 endif()
 
+set(TMXLITE_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/tmxlite")
+
 set(SOURCE_INCLUDES
+    ${TMXLITE_LIBRARY_DIR}/include
     ${PROJECT_SOURCE_DIR}/lib
+    ${PROJECT_SOURCE_DIR}/lib/nlohmann
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/Dialogue
     ${PROJECT_SOURCE_DIR}/src/Engine
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities
@@ -33,7 +38,10 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Physics
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Specialized
+    ${PROJECT_SOURCE_DIR}/src/Entity/Components/Trigger
     ${PROJECT_SOURCE_DIR}/src/Entity/Core
+    ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs
+    ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems
     ${PROJECT_SOURCE_DIR}/src/Input
     ${PROJECT_SOURCE_DIR}/src/Level
@@ -44,6 +52,8 @@ set(SOURCE_INCLUDES
     )
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
+    ${PROJECT_SOURCE_DIR}/src/Dialogue/DialogueParser.cpp
+    ${PROJECT_SOURCE_DIR}/src/Dialogue/DialogueBox.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/FileIO.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Game.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Settings.cpp
@@ -51,13 +61,14 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RandomGen.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render/SpritesheetPropertiesComponent.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Core/EntityManager.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/DialogueTrigger.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/PrefabSpawnTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/InputSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/PhysicsSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/RenderSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/ScriptSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/States/GameState.cpp
     ${PROJECT_SOURCE_DIR}/src/States/State.cpp
-    ${PROJECT_SOURCE_DIR}/src/Render/DialogueBox.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Effects/ScreenShake.cpp
@@ -66,13 +77,28 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Input/Mouse.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Level.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
-    ${PROJECT_SOURCE_DIR}/src/Level/RenderPlane.cpp
-    ${PROJECT_SOURCE_DIR}/src/Level/Tilemap.cpp
     )
+    
+if(WIN32)
+    set(TMX_SOURCES
+        ${TMXLITE_LIBRARY_DIR}/src/detail/pugixml.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/FreeFuncs.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/ImageLayer.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/Map.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/miniz.c
+        ${TMXLITE_LIBRARY_DIR}/src/Object.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/ObjectGroup.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/Property.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/TileLayer.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/LayerGroup.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/Tileset.cpp
+        ${TMXLITE_LIBRARY_DIR}/src/ObjectTypes.cpp
+        )
+endif()
 
 if(WIN32)
     include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
-    add_executable(StraubEngine ${SOURCES})
+    add_executable(StraubEngine ${SOURCES} ${TMX_SOURCES})
     # remove -mconsole for release builds
     target_link_libraries(StraubEngine -lmingw32 ${SDL2_LIBRARY_DIR}/libSDL2main.a ${SDL2_LIBRARY_DIR}/libSDL2.dll.a ${SDL2_IMAGE_LIBRARY_DIR}/libSDL2_image.dll.a ${SDL2_TTF_LIBRARY_DIR}/libSDL2_ttf.dll.a -mwindows -mconsole)
     add_custom_command(TARGET StraubEngine POST_BUILD
@@ -84,7 +110,7 @@ if(WIN32)
 elseif(APPLE)
     include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
     add_executable(StraubEngine MACOSX_BUNDLE ${SOURCES})
-    target_link_libraries(StraubEngine ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2TTF_LIBRARY})
+    target_link_libraries(StraubEngine ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2TTF_LIBRARY} ${TMXLITE_LIBRARY_DIR}/libtmxlite.a)
     set_target_properties(StraubEngine PROPERTIES
         BUNDLE True
         MACOSX_BUNDLE_EXECUTABLE_NAME StraubEngine

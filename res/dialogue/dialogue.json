@@ -1,0 +1,212 @@
+{
+    "dialogueEntries": [
+        {
+            "id": 0,
+            "conversationId": 0,
+            "fields": [
+                {
+                    "name": "SPEAKER",
+                    "value": "The name of the person talking",
+                    "enabled": false
+                },
+                {
+                    "name": "PORTRAIT",
+                    "value": -1,
+                    "extraNotes": "The enum value of the spritesheetID to be used for the portrait.",
+                    "enabled": false
+                },
+                {
+                    "name": "READ_SPEED",
+                    "value": "How fast text is displayed. Can be 'SNAIL', 'VERY_SLOW', 'SLOW', 'MEDIUM', OR 'FAST'."
+                },
+                {
+                    "name": "TEXT",
+                    "value": "What the speaker is saying"
+                },
+                {
+                    "name": "DEV_COMMENTS",
+                    "value0": "This can be used to add notes. It is ignored by the game so any fields are okay.",
+                    "value1": "The conversationId is to group a string of dialogues in case you want to circle back.",
+                    "value2": "The nextDialogueId is for the next dialogue to segway into.",
+                    "value3": "If finalDialogueId == id, we then transition to nextConversationId.",
+                    "value4": "If nextConversationId == conversationId, then we end the dialogue."
+                }
+            ],
+            "outgoingLinks": {
+                "nextDialogueId": 0,
+                "finalDialogueId": 0,
+                "nextConversationId": 0
+            }
+        },
+        {
+            "id": 1,
+            "conversationId": 1,
+            "isRoot": true,
+            "fields": [
+                {
+                    "name": "SPEAKER",
+                    "value": "",
+                    "enabled": false
+                },
+                {
+                    "name": "PORTRAIT",
+                    "value": -1,
+                    "enabled": false
+                },
+                {
+                    "name": "READ_SPEED",
+                    "value": "MEDIUM"
+                },
+                {
+                    "name": "TEXT",
+                    "value": "Hey, can you hear me?"
+                },
+                {
+                    "name": "DEV_COMMENTS",
+                    "value": ""
+                }
+            ],
+            "outgoingLinks": {
+                "nextDialogueId": 2,
+                "finalDialogueId": 3,
+                "nextConversationId": 1
+            }
+        },
+        {
+            "id": 2,
+            "conversationId": 1,
+            "isRoot": false,
+            "fields": [
+                {
+                    "name": "SPEAKER",
+                    "value": "???",
+                    "enabled": false
+                },
+                {
+                    "name": "PORTRAIT",
+                    "value": -1,
+                    "enabled": false
+                },
+                {
+                    "name": "READ_SPEED",
+                    "value": "MEDIUM"
+                },
+                {
+                    "name": "TEXT",
+                    "value": "Oh nice, you can!"
+                },
+                {
+                    "name": "DEV_COMMENTS",
+                    "value": ""
+                }
+            ],
+            "outgoingLinks": {
+                "nextDialogueId": 3,
+                "finalDialogueId": 3,
+                "nextConversationId": 1
+            }
+        },
+        {
+            "id": 3,
+            "conversationId": 1,
+            "isRoot": false,
+            "fields": [
+                {
+                    "name": "SPEAKER",
+                    "value": "???",
+                    "enabled": false
+                },
+                {
+                    "name": "PORTRAIT",
+                    "value": -1,
+                    "enabled": false
+                },
+                {
+                    "name": "READ_SPEED",
+                    "value": "SLOW"
+                },
+                {
+                    "name": "TEXT",
+                    "value": "Well, uh... I don't have anything else to say..."
+                },
+                {
+                    "name": "DEV_COMMENTS",
+                    "value": ""
+                }
+            ],
+            "outgoingLinks": {
+                "nextDialogueId": 3,
+                "finalDialogueId": 3,
+                "nextConversationId": 1
+            }
+        },
+        {
+            "id": 4,
+            "conversationId": 2,
+            "isRoot": false,
+            "fields": [
+                {
+                    "name": "SPEAKER",
+                    "value": "???",
+                    "enabled": false
+                },
+                {
+                    "name": "PORTRAIT",
+                    "value": -1,
+                    "enabled": false
+                },
+                {
+                    "name": "READ_SPEED",
+                    "value": "MEDIUM"
+                },
+                {
+                    "name": "TEXT",
+                    "value": "Oh hey, it's me again!"
+                },
+                {
+                    "name": "DEV_COMMENTS",
+                    "value": ""
+                }
+            ],
+            "outgoingLinks": {
+                "nextDialogueId": 5,
+                "finalDialogueId": 5,
+                "nextConversationId": 2
+            }
+        },
+        {
+            "id": 5,
+            "conversationId": 2,
+            "isRoot": false,
+            "fields": [
+                {
+                    "name": "SPEAKER",
+                    "value": "???",
+                    "enabled": false
+                },
+                {
+                    "name": "PORTRAIT",
+                    "value": -1,
+                    "enabled": false
+                },
+                {
+                    "name": "READ_SPEED",
+                    "value": "MEDIUM"
+                },
+                {
+                    "name": "TEXT",
+                    "value": "I still don't have anything to really say..."
+                },
+                {
+                    "name": "DEV_COMMENTS",
+                    "value": ""
+                }
+            ],
+            "outgoingLinks": {
+                "nextDialogueId": 5,
+                "finalDialogueId": 5,
+                "nextConversationId": 2
+            }
+        }
+    ]
+}

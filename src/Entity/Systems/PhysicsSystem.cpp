@@ -9,7 +9,6 @@
 bool PhysicsSystem::updateX(float timescale) {
     bool entityMoved = false;
     auto ecs = EntityRegistry::getInstance();
-    Tilemap* tilemap = _level.getTilemap();
     for(auto ent : _entities) {
         auto& physics = ecs->getComponent<PhysicsComponent>(ent);
         auto& transform = ecs->getComponent<TransformComponent>(ent);
@@ -28,7 +27,6 @@ bool PhysicsSystem::updateX(float timescale) {
 bool PhysicsSystem::updateY(float timescale) {
     bool entityMoved = false;
     auto ecs = EntityRegistry::getInstance();
-    Tilemap* tilemap = _level.getTilemap();
     for(auto ent : _entities) {
         entityMoved = true;
         auto& physics = ecs->getComponent<PhysicsComponent>(ent);

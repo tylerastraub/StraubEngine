@@ -5,16 +5,14 @@
 #include "SpritesheetPropertiesComponent.h"
 #include "DirectionComponent.h"
 #include "StateComponent.h"
+#include "AnimationComponent.h"
 
-void RenderSystem::updateRenderQuadSmoothMovement(float percent) {
+void RenderSystem::update(float timescale) {
     auto ecs = EntityRegistry::getInstance();
     for(auto ent : _entities) {
-        if(ecs->hasComponent<TransformComponent>(ent)) {
-            auto& transform = ecs->getComponent<TransformComponent>(ent);
-            auto& renderComponent = ecs->getComponent<RenderComponent>(ent);
-            strb::vec2 delta = (transform.position - transform.lastPosition) * 16;
-            renderComponent.renderQuad.x = transform.lastPosition.x * 16 + delta.x * percent + renderComponent.renderQuadOffset.x;
-            renderComponent.renderQuad.y = transform.lastPosition.y * 16 + delta.y * percent + renderComponent.renderQuadOffset.y;
+        if(ecs->hasComponent<AnimationComponent>(ent)) {
+            auto& animationComponent = ecs->getComponent<AnimationComponent>(ent);
+            animationComponent.msSinceAnimationStart += timescale * 1000.f;
         }
     }
 }
@@ -24,6 +22,9 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
     for(auto ent : _entities) {
         auto& renderComponent = ecs->getComponent<RenderComponent>(ent);
+        auto& transform = ecs->getComponent<TransformComponent>(ent);
+        renderComponent.renderQuad.x = transform.position.x + renderComponent.renderQuadOffset.x;
+        renderComponent.renderQuad.y = transform.position.y + renderComponent.renderQuadOffset.y;
         SDL_Rect quad = renderComponent.renderQuad;
         quad.x += renderXOffset;
         quad.y += renderYOffset;
@@ -43,7 +44,27 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
                 propsComponent.spritesheet->setMsBetweenFrames(props.msBetweenFrames);
                 propsComponent.spritesheet->setNumOfFrames(props.numOfFrames);
                 if(props.isAnimated) {
-                    propsComponent.spritesheet->setTileIndex(propsComponent.spritesheet->getTileIndex().x, props.yTileIndex);
+                    auto& animationComponent = ecs->getComponent<AnimationComponent>(ent);
+                    auto& state = ecs->getComponent<StateComponent>(ent);
+                    // check for change in y index to restart animation counter
+                    if(state.state != animationComponent.lastState) {
+                        animationComponent.msSinceAnimationStart = 0;
+                    }
+                    if(props.isLooped) {
+                        animationComponent.xIndex = animationComponent.msSinceAnimationStart / props.msBetweenFrames % props.numOfFrames;
+                    }
+                    else {
+                        animationComponent.xIndex = animationComponent.msSinceAnimationStart / props.msBetweenFrames;
+                        if(animationComponent.xIndex >= props.numOfFrames) animationComponent.xIndex = props.numOfFrames - 1;
+                    }
+                    propsComponent.spritesheet->setTileIndex(animationComponent.xIndex, props.yTileIndex);
+                    animationComponent.lastState = state.state;
+                    if(ecs->hasComponent<StateComponent>(ent) &&
+                        ecs->hasComponent<DirectionComponent>(ent)) {
+                        auto& state = ecs->getComponent<StateComponent>(ent).state;
+                        auto& direction = ecs->getComponent<DirectionComponent>(ent).direction;
+                        propsComponent.addSpritesheetProperties(state, direction, props);
+                    }
                 }
                 else {
                     propsComponent.spritesheet->setTileIndex(props.xTileIndex, props.yTileIndex);

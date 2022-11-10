@@ -1,49 +1,100 @@
 #include "Level.h"
 #include "EntityRegistry.h"
 
-#include <iostream>
+void Level::allocateTilemap(int width, int height) {
+    if(width < 1 || height < 1) return;
+    _tilemapWidth = width;
+    _tilemapHeight = height;
+    std::vector<std::vector<Tile>> tilemap;
+    for(int y = 0; y < _tilemapHeight; ++y) {
+        std::vector<Tile> row;
+        for(int x = 0; x < _tilemapWidth; ++x) {
+            row.push_back(Tile{});
+        }
+        tilemap.push_back(row);
+    }
+    _tilemap = tilemap;
+}
+
+
+void Level::spawnPrefabs() {
+    auto ecs = EntityRegistry::getInstance();
+    for(auto ent : _prefabs) {
+        ecs->reregisterEntity(ent);
+    }
+}
 
 void Level::render(int xOffset, int yOffset) {
-    _renderPlanes[Plane::FOCALGROUND]->render(xOffset, yOffset);
-}
+    if(_tileset == nullptr) return;
+    for(int x = 0; x < _tilemapWidth; ++x) {
+        for(int y = 0; y < _tilemapHeight; ++y) {
+            if((x + 1) * _tileSize + xOffset < 0 || x * _tileSize + xOffset > _tilemapWidth * _tileSize ||
+               (y + 1) * _tileSize + yOffset < 0 || y * _tileSize + yOffset > _tilemapHeight * _tileSize) {
+                continue;
+               }
+            Tile t = getTileAt(x, y);
+            if(t.spritesheetRect.w == 0 && t.spritesheetRect.h == 0) continue;
 
-void Level::renderBackground(int xOffset, int yOffset) {
-    _renderPlanes[Plane::BACKGROUND_DEEPEST]->render(xOffset, yOffset);
-    _renderPlanes[Plane::BACKGROUND_DEEP]->render(xOffset, yOffset);
-    _renderPlanes[Plane::BACKGROUND_SHALLOW]->render(xOffset, yOffset);
-}
+            _tileset->setTileWidth(t.spritesheetRect.w);
+            _tileset->setTileHeight(t.spritesheetRect.h);
+            _tileset->setTileIndex(t.spritesheetRect.x, t.spritesheetRect.y);
+            // in future, these properties could be added to tile struct
+            _tileset->setIsAnimated(false);
 
-void Level::setTileset(Spritesheet* spritesheet) {
-    for(auto plane : _renderPlanes) {
-        plane.second->setTileset(spritesheet);
+            _tileset->render(x * _tileSize + xOffset, y * _tileSize + yOffset, t.spritesheetRect.w, t.spritesheetRect.h);
+        }
     }
 }
 
-void Level::setGameSize(int w, int h) {
-    for(auto plane : _renderPlanes) {
-        plane.second->setGameSize(w, h);
+void Level::setTilemap(std::vector<std::vector<Tile>> tilemap) {
+    _tilemap = tilemap;
+    _tilemapHeight = _tilemap.size();
+    if(_tilemap.size() > 0) {
+        _tilemapWidth = _tilemap[0].size();
     }
 }
 
-void Level::setCollisionMap(std::shared_ptr<CollisionMap> cMap) {
-    _cMap = cMap;
+void Level::setTileSize(int tileSize) {
+    _tileSize = tileSize;
 }
 
-void Level::addRenderPlane(Plane layerIndex, std::shared_ptr<RenderPlane> plane) {
-    if(_renderPlanes[layerIndex] != nullptr) 
-        std::cout << "Note: overwriting plane at layer index " << (int) layerIndex << "!" << std::endl;
-
-    _renderPlanes[layerIndex] = plane;
+void Level::setTileAt(int x, int y, Tile tile) {
+    if(x >= 0 && x < _tilemapWidth && y >= 0 && y < _tilemapHeight) {
+        _tilemap[y][x] = tile;
+    }
 }
 
-Tilemap* Level::getTilemap() {
-    return _renderPlanes[Plane::FOCALGROUND]->getTilemap();
+void Level::setTileset(Spritesheet* tileset) {
+    _tileset = tileset;
 }
 
-CollisionMap* Level::getCollisionMap() {
-    return _cMap.get();
+void Level::setPlayerId(Entity player) {
+    _playerId = player;
+}
+
+void Level::addPrefab(Entity entity) {
+    _prefabs.push_back(entity);
+}
+
+Tile Level::getTileAt(int x, int y) {
+    if(x >= 0 && x < _tilemapWidth && y >= 0 && y < _tilemapHeight) {
+        return _tilemap[y][x];
+    }
+    return Tile{TileType::NOVAL, {0, 0, 0, 0}};
 }
 
 int Level::getTileSize() {
-    return getTilemap()->getTileSize();
+    return _tileSize;
+}
+
+int Level::getTilemapWidth() {
+    return _tilemapWidth;
+}
+
+int Level::getTilemapHeight() {
+    return _tilemapHeight;
+}
+
+Entity Level::getPlayerId() {
+    return _playerId;
 }

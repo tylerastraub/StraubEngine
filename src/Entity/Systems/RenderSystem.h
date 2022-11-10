@@ -11,12 +11,7 @@ public:
     RenderSystem() = default;
     ~RenderSystem() = default;
 
-    /**
-     * @brief Updates the render quad position between the previous render quad position and the current transform position.
-     * 
-     * @param percent The percent from 0-1 between the previous pos and the current pos the render quad should be. Usually a function of time.
-     **/ 
-    void updateRenderQuadSmoothMovement(float percent);
+    void update(float timescale);
 
     void render(SDL_Renderer* renderer, int renderXOffset = 0, int renderYOffset = 0);
 
