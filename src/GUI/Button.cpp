@@ -17,10 +17,10 @@ void Button::render(int x, int y, bool centerAlign) {
     if(centerAlign) xOffset = getRenderWidth() / 2 - _text->getWidth() / 2;
     int yOffset = getRenderHeight() / 2 - _text->getHeight() / 2;
     if(getPropertyValue("dimTextDisplay") == "true") {
-        _text->draw(x + xOffset, y + yOffset, 150, 150, 150);
+        _text->render(x + xOffset, y + yOffset, 150, 150, 150);
     }
     else {
-        _text->draw(x + xOffset, y + yOffset);
+        _text->render(x + xOffset, y + yOffset);
     }
 }
 

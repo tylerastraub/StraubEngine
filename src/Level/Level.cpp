@@ -54,6 +54,10 @@ void Level::setTilemap(std::vector<std::vector<Tile>> tilemap) {
     }
 }
 
+void Level::setLightMap(std::shared_ptr<LightMap> lMap) {
+    _lMap = lMap;
+}
+
 void Level::setTileSize(int tileSize) {
     _tileSize = tileSize;
 }
@@ -97,4 +101,8 @@ int Level::getTilemapHeight() {
 
 Entity Level::getPlayerId() {
     return _playerId;
+}
+
+LightMap* Level::getLightMap() {
+    return _lMap.get();
 }

@@ -12,7 +12,7 @@ void TextContainer::render(int x, int y, bool centerAlign) {
     std::string maxWidthString = getPropertyValue("maxTextWidth");
     int maxWidth = 99999;
     if(!maxWidthString.empty()) maxWidth = std::stoi(maxWidthString);
-    _text->draw(x + xOffset, y + yOffset, 255, 255, 255, 255, maxWidth);
+    _text->render(x + xOffset, y + yOffset, 255, 255, 255, 255, maxWidth);
 }
 
 void TextContainer::setValue(std::string value) {

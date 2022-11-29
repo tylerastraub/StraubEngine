@@ -4,10 +4,6 @@ void Timer::update(float timescale) {
     _timer -= timescale * 1000.f;
     if(_mostRecentSecond != _timer / 1000) {
         _mostRecentSecond = _timer / 1000;
-        // play clock tick when there is 3, 2, or 1 secs left
-        if(_mostRecentSecond >= 0 && _mostRecentSecond < 3 && _audio) {
-            _audio->playAudio(-1, AudioSound::CLOCK_TICK, 1.f);
-        }
     }
     if(_timer < 0) _timer = 0;
 }

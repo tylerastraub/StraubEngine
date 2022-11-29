@@ -4,9 +4,11 @@
 #include "Tile.h"
 #include "Spritesheet.h"
 #include "vec2.h"
+#include "LightMap.h"
 
 #include <vector>
 #include <cstdint>
+#include <memory>
 
 using Entity = std::uint16_t;
 
@@ -20,6 +22,7 @@ public:
     void render(int xOffset, int yOffset);
 
     void setTilemap(std::vector<std::vector<Tile>> tilemap);
+    void setLightMap(std::shared_ptr<LightMap> lightMap);
     void setTileSize(int tileSize);
     void setTileAt(int x, int y, Tile tile);
     void setTileset(Spritesheet* tileset);
@@ -31,8 +34,10 @@ public:
     int getTilemapWidth();
     int getTilemapHeight();
     Entity getPlayerId();
+    LightMap* getLightMap();
 
 private:
+    std::shared_ptr<LightMap> _lMap = nullptr;
     std::vector<std::vector<Tile>> _tilemap;
     int _tilemapWidth = 0;
     int _tilemapHeight = 0;

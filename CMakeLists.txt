@@ -42,7 +42,11 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Entity/Core
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers
-    ${PROJECT_SOURCE_DIR}/src/Entity/Systems
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Generic
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Input
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Physics
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render
+    ${PROJECT_SOURCE_DIR}/src/GUI
     ${PROJECT_SOURCE_DIR}/src/Input
     ${PROJECT_SOURCE_DIR}/src/Level
     ${PROJECT_SOURCE_DIR}/src/Localization
@@ -57,26 +61,36 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Engine/FileIO.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Game.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Settings.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/Timer.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/Audio/Audio.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RandomGen.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSNullValue.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSObject.cpp
+    ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSTable.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render/SpritesheetPropertiesComponent.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Core/EntityManager.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/DialogueTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/PrefabSpawnTrigger.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/InputSystem.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/PhysicsSystem.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/RenderSystem.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/ScriptSystem.cpp
-    ${PROJECT_SOURCE_DIR}/src/States/GameState.cpp
-    ${PROJECT_SOURCE_DIR}/src/States/State.cpp
-    ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
-    ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
-    ${PROJECT_SOURCE_DIR}/src/Render/Effects/ScreenShake.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Generic/ScriptSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Input/InputSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Physics/PhysicsSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/RenderSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/GUI/BlankElement.cpp
+    ${PROJECT_SOURCE_DIR}/src/GUI/Button.cpp
+    ${PROJECT_SOURCE_DIR}/src/GUI/GUI.cpp
+    ${PROJECT_SOURCE_DIR}/src/GUI/GUIElement.cpp
+    ${PROJECT_SOURCE_DIR}/src/GUI/TextContainer.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Keyboard.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Mouse.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Level.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
+    ${PROJECT_SOURCE_DIR}/src/Level/LightMap.cpp
+    ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
+    ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
+    ${PROJECT_SOURCE_DIR}/src/Render/Effects/ScreenShake.cpp
+    ${PROJECT_SOURCE_DIR}/src/States/GameState.cpp
+    ${PROJECT_SOURCE_DIR}/src/States/State.cpp
     )
     
 if(WIN32)
