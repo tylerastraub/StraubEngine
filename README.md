@@ -2,13 +2,13 @@
 
 ## What is StraubEngine?
 
-StraubEngine is a fully open source engine written in C++ and the SDL2 framework that runs on both Windows and macOS. It features integrated Tiled support, keyboard/mouse/controller input, hardware accelerated rendering, and more. StraubEngine makes use of a couple headers to add functionality such as Cute Sound and Tileson.
+StraubEngine is a fully open source engine written in C++ and the SDL2 framework that runs on both Windows and macOS. It features integrated Tiled support, keyboard/mouse/controller input, hardware accelerated rendering, and more. StraubEngine makes use of a couple headers to add functionality such as Cute Sound and tmxlite.
 
-In its current state, StraubEngine is fairly barebones, and is certainly not a suitable alternative to many of the mainstream engines (or even any of the lesser known SDL2 engines). The purpose of StraubEngine rather is to provide a learning resource for those who want to create their own engine for smaller 2D games, as well as provide a boilerplate for prototypes.
+In its current state, StraubEngine lacks documentation, optimization, and does not follow a very "uniform" way of doing things. The purpose of StraubEngine rather is to provide a learning resource for those who want to create their own engine for smaller 2D games, as well as provide a boilerplate for prototypes for myself.
 
 ## How to compile
 
-Include is a CMakeLists.txt file which can be used to compile using CMake. Note that for Windows, all SDL2 related library paths are hard-coded in, so you will need to change these to fit your own build. Running your built executable also requires runtime libraries for SDL2, SDL2_image, and SDL2_ttf, as well as the usual C++ runtime libraries.
+Included is a CMakeLists.txt file which can be used to compile using CMake. Note that for Windows, all SDL2 related library paths are hard-coded in, so you will need to change these to fit your own build. Running your built executable also requires runtime libraries for SDL2, SDL2_image, and SDL2_ttf, as well as the usual C++ runtime libraries.
 
 Tileson makes use of std::filesystem which is a C++ 17 include, so you will need to make sure your GCC or clang compiler is up to date enough to support that.
 
