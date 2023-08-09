@@ -1,5 +1,5 @@
-#ifndef LIGHT_MAP_H
-#define LIGHT_MAP_H
+#ifndef FLOATING_LIGHT_MAP_H
+#define FLOATING_LIGHT_MAP_H
 
 #include "vec2.h"
 
@@ -22,31 +22,32 @@ struct Hue {
 
 struct Light {
     uint16_t id;
-    // The light's tile position
+    // The light's absolute position
     strb::vec2 pos = {0.f, 0.f};
     // The light's brightness from a scale of 0-1
     float brightness = 0.f;
     // The rate at which the light falls off the further it gets from the source (from 0-1). Default is 0.2
     float falloff = 0.2f;
-    
+
     Hue hue;
 };
 
 /**
  * @brief 2D lightmap used for creating static lighting map.
- * Lighting is calculated using a integer position.
+ * Lighting is calculated using a floating point position.
  */
-class LightMap {
+class FloatingPointLightMap {
 public:
-    LightMap() = default;
-    ~LightMap() = default;
+    FloatingPointLightMap() = default;
+    ~FloatingPointLightMap() = default;
 
     void allocate(int width, int depth);
 
     uint16_t addLightSource(strb::vec2 pos, float brightness, Hue hue, float falloff = 0.2f);
     void removeLightSource(uint16_t lightId);
 
-    Hue getBrightness(strb::vec2 pos);
+    Hue getHue(strb::vec2 pos);
+    int getBrightness(strb::vec2 pos);
 
 private:
     bool isLightInBounds(strb::vec2 pos);
@@ -56,6 +57,7 @@ private:
     uint16_t _currentLightId = 0;
 
     std::list<Light> _lightSources;
+    // std::pair<brightness, hue>
     std::vector<std::vector<std::pair<int, Hue>>> _lightMap;
 
     int _lightMapWidth = 0;

@@ -1,10 +1,16 @@
 #ifndef vec3_H
 #define vec3_H
 
+#include <iostream>
+
 namespace strb {
     struct vec3 {
         vec3() : x(0.f), y(0.f) {}
         vec3(float x, float y, float z) : x(x), y(y), z(z) {}
+
+        friend std::ostream& operator<<(std::ostream& os, const vec3& vec) {
+            return os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ") ";
+        }
 
         vec3 operator+(vec3 const& v) {
             return vec3(x + v.x, y + v.y, z + v.z);
