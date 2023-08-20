@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec2.h"
+
 #include <SDL.h>
 
 struct SpritesheetProperties {
@@ -11,5 +13,5 @@ struct SpritesheetProperties {
     int msBetweenFrames = 79;
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     double angle = 0.0;
-    SDL_Point center = {-1, -1};
+    strb::vec2i center = {-1, -1};
 };

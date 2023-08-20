@@ -14,7 +14,7 @@ void ScreenShake::setMaxOffset(float maxOffset) {
     _maxOffset = maxOffset;
 }
 
-SDL_FPoint ScreenShake::getScreenShake() {
+strb::vec2f ScreenShake::getScreenShake() {
     float xCoefficient = (float) RandomGen::getRandomInt(0, 1);
     if(xCoefficient == 0.f) xCoefficient = -1.f;
     float yCoefficient = (float) RandomGen::getRandomInt(0, 1);

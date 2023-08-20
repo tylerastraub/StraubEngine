@@ -28,7 +28,7 @@ namespace prefab {
         return create({0, 0, 0, 0}, true, false, -1);
     }
 
-    Entity DialogueTrigger::create(SDL_Rect triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId) {
+    Entity DialogueTrigger::create(strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId) {
         auto ecs = EntityRegistry::getInstance();
         Entity ent = ecs->createEntity();
 

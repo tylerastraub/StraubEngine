@@ -1,4 +1,5 @@
 #include "Text.h"
+#include "rect2.h"
 
 #include <iostream>
 #include <cmath>
@@ -22,10 +23,7 @@ bool Text::load(const char * fontPath, int ptSize) {
     }
 
     SDL_Color white = {255, 255, 255};
-    SDL_Color black = {0, 0, 0};
     for(char c = '!'; c < '{'; ++c) {
-        // Note that Blended is more expensive than Solid. If performance becomes an issue,
-        // this could be a good place to look.
         SDL_Surface* textSurface = TTF_RenderGlyph_Solid(font, c, white);
         SDL_Texture* texture = nullptr;
         if(textSurface == nullptr) {

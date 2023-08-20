@@ -2,9 +2,9 @@
 
 #include "vec2.h"
 #include "PrefabType.h"
+#include "rect2.h"
 
 #include <cstdint>
-#include <SDL.h>
 #include <string>
 
 using Entity = std::uint16_t;
@@ -17,7 +17,7 @@ namespace prefab {
 
         static Entity create();
         static Entity create(
-            SDL_Rect triggerRect,
+            strb::rect2i triggerRect,
             bool triggerOnce,
             bool entityMustBeGrounded,
             PrefabType prefabType,

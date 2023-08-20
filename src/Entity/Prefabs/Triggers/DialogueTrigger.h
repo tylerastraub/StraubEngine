@@ -1,7 +1,8 @@
 #pragma once
 
+#include "rect2.h"
+
 #include <cstdint>
-#include <SDL.h>
 
 using Entity = std::uint16_t;
 
@@ -12,7 +13,7 @@ namespace prefab {
         ~DialogueTrigger() = default;
 
         static Entity create();
-        static Entity create(SDL_Rect triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId);
+        static Entity create(strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId);
 
     private:
 

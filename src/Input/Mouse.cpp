@@ -54,7 +54,7 @@ void Mouse::setMouseMoved(bool moved) {
     _mouseMoved = moved;
 }
 
-SDL_Point Mouse::getMousePos() {
+strb::vec2i Mouse::getMousePos() {
     return _mousePos;
 }
 
@@ -66,7 +66,7 @@ int Mouse::getMouseY() {
     return _mousePos.y;
 }
 
-SDL_Rect Mouse::getMouseGrabBox() {
+strb::rect2i Mouse::getMouseGrabBox() {
     return _mouseGrabBox;
 }
 

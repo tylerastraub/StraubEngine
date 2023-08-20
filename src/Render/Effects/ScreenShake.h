@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include "vec2.h"
 
 class ScreenShake {
 public:
@@ -12,7 +12,7 @@ public:
     void setShakeAmount(float shakeAmount);
     void setMaxOffset(float maxOffset);
 
-    SDL_FPoint getScreenShake();
+    strb::vec2f getScreenShake();
 
 private:
     float _shakeAmount = 0.f;

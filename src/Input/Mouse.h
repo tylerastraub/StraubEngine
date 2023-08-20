@@ -1,5 +1,8 @@
 #pragma once
 
+#include "rect2.h"
+#include "vec2.h"
+
 #include <SDL.h>
 
 class Mouse {
@@ -23,20 +26,20 @@ public:
     void setRightButtonDown(bool rightButtonDown);
     void setMouseMoved(bool moved);
 
-    SDL_Point getMousePos();
+    strb::vec2i getMousePos();
     int getMouseX();
     int getMouseY();
     int getMouseDX();
     int getMouseDY();
-    SDL_Rect getMouseGrabBox();
+    strb::rect2i getMouseGrabBox();
     bool isLeftButtonDown();
     bool isRightButtonDown();
     bool mouseMoved();
 
 private:
-    SDL_Point _mousePos = {0, 0};
-    SDL_Point _mouseDelta = {0, 0};
-    SDL_Rect _mouseGrabBox = {0, 0, 0, 0};
+    strb::vec2i _mousePos = {0, 0};
+    strb::vec2i _mouseDelta = {0, 0};
+    strb::rect2i _mouseGrabBox = {0, 0, 0, 0};
     bool _leftButtonDown = false;
     bool _rightButtonDown = false;
     bool _mouseMoved = false;

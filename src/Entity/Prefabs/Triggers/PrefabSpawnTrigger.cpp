@@ -28,7 +28,7 @@ namespace prefab {
     }
 
     Entity PrefabSpawnTrigger::create(
-        SDL_Rect triggerRect,
+        strb::rect2i triggerRect,
         bool triggerOnce,
         bool entityMustBeGrounded,
         PrefabType prefabType,

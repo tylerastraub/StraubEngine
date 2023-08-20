@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include "rect2.h"
 
 enum class TileType {
     NOVAL = -1,
@@ -11,5 +11,5 @@ enum class TileType {
 
 struct Tile {
     TileType type = TileType::NOVAL;
-    SDL_Rect spritesheetRect = {0, 0, 0, 0};
+    strb::rect2i spritesheetRect = {0, 0, 0, 0};
 };

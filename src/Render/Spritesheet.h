@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec2.h"
+
 #include <string>
 #include <SDL.h>
 
@@ -37,10 +39,10 @@ public:
      * @param angle The angle to rotate the sprite. Set to 0.0 by default.
      * @param center The center of the sprite for rotating. Uses the center of the sprite by default.
      */
-    void render(int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, SDL_Point center = {-1, -1});
+    void render(int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, strb::vec2i center = {-1, -1});
 
     SDL_Texture* getTexture();
-    SDL_Point getTileIndex();
+    strb::vec2i getTileIndex();
     int getWidth();
     int getHeight();
     int getTileWidth();
@@ -97,13 +99,13 @@ public:
 
 private:
     // Size of source rectangle in spritesheet
-    SDL_Point _tileSize = {32, 32};
+    strb::vec2i _tileSize = {32, 32};
     // Actual size of spritesheet file in pixels
-    SDL_Point _size = {0, 0};
+    strb::vec2i _size = {0, 0};
     SDL_Renderer* _renderer = nullptr;
     SDL_Texture* _texture = nullptr;
 
-    SDL_Point _tileIndex = {0, 0};
+    strb::vec2i _tileIndex = {0, 0};
     bool _isAnimated = false;
     bool _isLooped = false;
     // If animated, number of frames the spritesheet has.

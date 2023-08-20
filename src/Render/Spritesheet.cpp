@@ -1,4 +1,5 @@
 #include "Spritesheet.h"
+#include "rect2.h"
 
 #include <SDL_image.h>
 #include <iostream>
@@ -42,7 +43,7 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
     return true;
 }
 
-void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, double angle, SDL_Point center) {
+void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, double angle, strb::vec2i center) {
     SDL_Rect srcRect;
     srcRect.x = _tileIndex.x;
     srcRect.y = _tileIndex.y;
@@ -53,7 +54,8 @@ void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, doub
         SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, NULL, flip);
     }
     else {
-        SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, &center, flip);
+        SDL_Point pointCenter = {center.x, center.y};
+        SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, &pointCenter, flip);
     }
 }
 
@@ -61,7 +63,7 @@ SDL_Texture* Spritesheet::getTexture() {
     return _texture;
 }
 
-SDL_Point Spritesheet::getTileIndex() {
+strb::vec2i Spritesheet::getTileIndex() {
     return {_tileIndex.x / _tileSize.x, _tileIndex.y / _tileSize.y};
 }
 

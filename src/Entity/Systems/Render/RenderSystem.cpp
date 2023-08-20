@@ -6,6 +6,7 @@
 #include "DirectionComponent.h"
 #include "StateComponent.h"
 #include "AnimationComponent.h"
+#include "rect2.h"
 
 void RenderSystem::update(float timescale) {
     auto ecs = EntityRegistry::getInstance();
@@ -25,7 +26,12 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
         auto& transform = ecs->getComponent<TransformComponent>(ent);
         renderComponent.renderQuad.x = transform.position.x + renderComponent.renderQuadOffset.x;
         renderComponent.renderQuad.y = transform.position.y + renderComponent.renderQuadOffset.y;
-        SDL_Rect quad = renderComponent.renderQuad;
+        SDL_Rect quad = {
+            renderComponent.renderQuad.x,
+            renderComponent.renderQuad.y,
+            renderComponent.renderQuad.w,
+            renderComponent.renderQuad.h
+        };
         quad.x += renderXOffset;
         quad.y += renderYOffset;
         // bounds check before rendering
