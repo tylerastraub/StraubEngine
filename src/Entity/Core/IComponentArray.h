@@ -1,5 +1,4 @@
-#ifndef ICOMPONENT_ARRAY_H
-#define ICOMPONENT_ARRAY_H
+#pragma once
 
 #include <cstdint>
 
@@ -19,5 +18,3 @@ public:
 private:
 
 };
-
-#endif

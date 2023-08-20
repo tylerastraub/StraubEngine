@@ -1,5 +1,4 @@
-#ifndef SPRITESHEET_REGISTRY_H
-#define SPRITESHEET_REGISTRY_H
+#pragma once
 
 #include "Spritesheet.h"
 #include "SpritesheetID.h"
@@ -28,5 +27,3 @@ private:
     static inline std::unordered_map<SpritesheetID, std::shared_ptr<Spritesheet>> _spritesheets;
 
 };
-
-#endif

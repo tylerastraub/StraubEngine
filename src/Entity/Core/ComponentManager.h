@@ -1,5 +1,4 @@
-#ifndef COMPONENT_MANAGER_H
-#define COMPONENT_MANAGER_H
+#pragma once
 
 #include "EntityConstants.h"
 #include "ComponentArray.h"
@@ -91,5 +90,3 @@ private:
     ComponentType _nextAvailableComponentType = 0;
 
 };
-
-#endif

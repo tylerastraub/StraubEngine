@@ -1,5 +1,4 @@
-#ifndef AUDIO_H
-#define AUDIO_H
+#pragma once
 
 #include <cute_sound.h>
 #include <unordered_map>
@@ -26,5 +25,3 @@ private:
     // 2D map using entity ID as key. This allows each entity to have its own playing sounds so that it can freely stop them as well. Use -1 for ID if no entity is playing the audio
     std::unordered_map<int, std::unordered_map<AudioSound, AudioPool*>> _playingAudio;
 };
-
-#endif

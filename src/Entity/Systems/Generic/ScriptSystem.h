@@ -1,5 +1,4 @@
-#ifndef SCRIPT_SYSTEM_H
-#define SCRIPT_SYSTEM_H
+#pragma once
 
 #include "System.h"
 
@@ -13,5 +12,3 @@ public:
 private:
 
 };
-
-#endif

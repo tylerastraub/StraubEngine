@@ -1,5 +1,4 @@
-#ifndef CAMERA_SYSTEM_H
-#define CAMERA_SYSTEM_H
+#pragma once
 
 #include "System.h"
 #include "vec2.h"
@@ -41,5 +40,3 @@ private:
     strb::vec2i _levelSize = {0, 0}; // The level size in pixels
 
 };
-
-#endif

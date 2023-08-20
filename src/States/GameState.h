@@ -1,5 +1,4 @@
-#ifndef GAME_STATE_H
-#define GAME_STATE_H
+#pragma once
 
 #include "State.h"
 #include "Keyboard.h"
@@ -25,5 +24,3 @@ private:
     strb::vec2f _renderOffset = {0.f, 0.f};
 
 };
-
-#endif

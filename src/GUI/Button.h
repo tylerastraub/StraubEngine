@@ -1,5 +1,4 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#pragma once
 
 #include "GUIElement.h"
 #include "Text.h"
@@ -20,5 +19,3 @@ private:
     Text* _text = nullptr;
 
 };
-
-#endif

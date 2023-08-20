@@ -1,5 +1,4 @@
-#ifndef PHYSICS_COMPONENT_H
-#define PHYSICS_COMPONENT_H
+#pragma once
 
 #include "vec2.h"
 
@@ -16,5 +15,3 @@ struct PhysicsComponent {
     float airFrictionCoefficient = 5.f;
     float gravity = 15.f;
 };
-
-#endif

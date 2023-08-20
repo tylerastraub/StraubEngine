@@ -1,5 +1,4 @@
-#ifndef DIALOGUE_BOX_H
-#define DIALOGUE_BOX_H
+#pragma once
 
 #include "Text.h"
 #include "Audio.h"
@@ -54,5 +53,3 @@ private:
     SpritesheetID _portrait = SpritesheetID::NOVAL;
     std::string _currentString = "";
 };
-
-#endif

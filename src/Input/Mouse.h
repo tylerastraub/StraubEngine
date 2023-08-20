@@ -1,5 +1,4 @@
-#ifndef MOUSE_H
-#define MOUSE_H
+#pragma once
 
 #include <SDL.h>
 
@@ -45,5 +44,3 @@ private:
     float _xRenderScale = 0.f;
     float _yRenderScale = 0.f;
 };
-
-#endif

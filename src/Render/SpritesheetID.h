@@ -1,10 +1,7 @@
-#ifndef SPRITESHEET_ID_H
-#define SPRITESHEET_ID_H
+#pragma once
 
 enum class SpritesheetID {
     NOVAL = -1,
     DIALOGUE_BOX,
     DEFAULT_TILESET,
 };
-
-#endif

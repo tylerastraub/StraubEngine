@@ -1,5 +1,4 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#pragma once
 
 #include <SDL.h>
 
@@ -25,5 +24,3 @@ private:
     Uint8 _lastFrameKeyStates[SDL_NUM_SCANCODES] = {0};
 
 };
-
-#endif

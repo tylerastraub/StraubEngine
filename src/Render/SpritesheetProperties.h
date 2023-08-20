@@ -1,5 +1,4 @@
-#ifndef SPRITESHEET_PROPERTIES
-#define SPRITESHEET_PROPERTIES
+#pragma once
 
 #include <SDL.h>
 
@@ -14,5 +13,3 @@ struct SpritesheetProperties {
     double angle = 0.0;
     SDL_Point center = {-1, -1};
 };
-
-#endif

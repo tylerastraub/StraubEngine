@@ -1,5 +1,4 @@
-#ifndef STATE_COMPONENT_H
-#define STATE_COMPONENT_H
+#pragma once
 
 enum class EntityState {
     NOVAL = -1,
@@ -10,5 +9,3 @@ enum class EntityState {
 struct StateComponent {
     EntityState state = EntityState::NOVAL;
 };
-
-#endif

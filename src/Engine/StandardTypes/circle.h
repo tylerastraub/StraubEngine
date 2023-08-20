@@ -1,5 +1,4 @@
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#pragma once
 
 #include "vec2.h"
 
@@ -9,5 +8,3 @@ namespace strb {
         float radius = 0.f;
     };
 }
-
-#endif

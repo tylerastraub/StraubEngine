@@ -1,5 +1,4 @@
-#ifndef VEC_UTILS_H
-#define VEC_UTILS_H
+#pragma once
 
 #include "vec2.h"
 #include "vec3.h"
@@ -29,5 +28,3 @@ public:
 private:
 
 };
-
-#endif

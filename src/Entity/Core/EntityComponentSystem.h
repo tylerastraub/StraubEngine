@@ -1,5 +1,4 @@
-#ifndef ENTITY_COMPONENT_SYSTEM_H
-#define ENTITY_COMPONENT_SYSTEM_H
+#pragma once
 
 #include "EntityManager.h"
 #include "ComponentManager.h"
@@ -144,5 +143,3 @@ private:
     std::vector<System*> _watchers[entityConstants::MAX_ENTITIES];
 
 };
-
-#endif

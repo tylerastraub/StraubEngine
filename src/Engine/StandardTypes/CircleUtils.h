@@ -1,5 +1,4 @@
-#ifndef CIRCLE_UTILS_H
-#define CIRCLE_UTILS_H
+#pragma once
 
 #include "circle.h"
 
@@ -14,5 +13,3 @@ public:
 private:
 
 };
-
-#endif

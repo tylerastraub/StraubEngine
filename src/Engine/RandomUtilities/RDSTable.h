@@ -1,5 +1,4 @@
-#ifndef RDS_TABLE_H
-#define RDS_TABLE_H
+#pragma once
 
 #include <vector>
 
@@ -26,5 +25,3 @@ private:
     // How many objects should drop from this table
     int _rdsCount = 0;
 };
-
-#endif

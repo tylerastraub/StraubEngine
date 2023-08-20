@@ -1,5 +1,4 @@
-#ifndef SYSTEM_MANAGER_H
-#define SYSTEM_MANAGER_H
+#pragma once
 
 #include "EntityConstants.h"
 #include "System.h"
@@ -66,5 +65,3 @@ private:
     std::unordered_map<const char *, std::shared_ptr<System>> _systems;
 
 };
-
-#endif

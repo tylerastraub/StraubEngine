@@ -1,5 +1,4 @@
-#ifndef DIRECTION_COMPONENT_H
-#define DIRECTION_COMPONENT_H
+#pragma once
 
 enum class Direction {
     NORTH,
@@ -15,5 +14,3 @@ enum class Direction {
 struct DirectionComponent {
     Direction direction;
 };
-
-#endif

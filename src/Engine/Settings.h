@@ -1,5 +1,4 @@
-#ifndef CONTROLS_H
-#define CONTROLS_H
+#pragma once
 
 #include <unordered_map>
 #include <SDL.h>
@@ -87,5 +86,3 @@ private:
     bool _musicEnabled = true;
     
 };
-
-#endif

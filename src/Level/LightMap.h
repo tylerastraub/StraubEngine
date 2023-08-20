@@ -1,5 +1,4 @@
-#ifndef LIGHT_MAP_H
-#define LIGHT_MAP_H
+#pragma once
 
 #include "vec2.h"
 
@@ -61,5 +60,3 @@ private:
     int _lightMapWidth = 0;
     int _lightMapDepth = 0;
 };
-
-#endif

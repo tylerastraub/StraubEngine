@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include "State.h"
 #include "GameState.h"
@@ -43,5 +42,3 @@ private:
     std::shared_ptr<Mouse> _mouse = nullptr;
     std::shared_ptr<Controller> _controller = nullptr;
 };
-
-#endif

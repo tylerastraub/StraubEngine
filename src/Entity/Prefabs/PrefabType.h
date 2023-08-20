@@ -1,5 +1,4 @@
-#ifndef PREFAB_TYPE_H
-#define PREFAB_TYPE_H
+#pragma once
 
 enum class PrefabType {
     NOVAL = -1,
@@ -11,5 +10,3 @@ enum class PrefabType {
     DIALOGUE_TRIGGER,
     ENTITY_SPAWN_TRIGGER,
 };
-
-#endif

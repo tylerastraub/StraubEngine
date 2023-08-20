@@ -1,5 +1,4 @@
-#ifndef ANIMATION_COMPONENT_H
-#define ANIMATION_COMPONENT_H
+#pragma once
 
 #include "StateComponent.h"
 
@@ -8,5 +7,3 @@ struct AnimationComponent {
     int xIndex = 0;
     EntityState lastState = EntityState::NOVAL;
 };
-
-#endif

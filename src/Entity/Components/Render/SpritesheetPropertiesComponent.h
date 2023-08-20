@@ -1,5 +1,4 @@
-#ifndef SPRITESHEET_PROPERITES_COMPONENT
-#define SPRITESHEET_PROPERITES_COMPONENT
+#pragma once
 
 #include "SpritesheetProperties.h"
 #include "StateComponent.h"
@@ -25,5 +24,3 @@ private:
     std::unordered_map<std::string, SpritesheetProperties> _propertiesMap;
     SpritesheetProperties _primarySpritesheetProperties;
 };
-
-#endif

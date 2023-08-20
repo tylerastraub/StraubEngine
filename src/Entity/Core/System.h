@@ -1,5 +1,4 @@
-#ifndef SYSTEM_H
-#define SYSTEM_H
+#pragma once
 
 #include "Audio.h"
 
@@ -15,5 +14,3 @@ public:
     std::set<Entity, std::greater<Entity>> _entities;
     Audio* _audioPlayer = nullptr;
 };
-
-#endif

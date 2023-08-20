@@ -1,5 +1,4 @@
-#ifndef RANDOMGEN_H
-#define RANDOMGEN_H
+#pragma once
 
 #include <random>
 
@@ -18,5 +17,3 @@ public:
 private:
     static std::mt19937 randEng;
 };
-
-#endif

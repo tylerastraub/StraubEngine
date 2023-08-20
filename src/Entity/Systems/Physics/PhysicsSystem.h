@@ -1,5 +1,4 @@
-#ifndef PHYSICS_SYSTEM_H
-#define PHYSICS_SYSTEM_H
+#pragma once
 
 #include "System.h"
 #include "Level.h"
@@ -20,5 +19,3 @@ private:
     Level _level;
 
 };
-
-#endif

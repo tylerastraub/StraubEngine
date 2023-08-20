@@ -1,5 +1,4 @@
-#ifndef ENTITY_REGISTRY_H
-#define ENTITY_REGISTRY_H
+#pragma once
 
 #include "EntityComponentSystem.h"
 
@@ -17,5 +16,3 @@ private:
     static inline EntityComponentSystem* _instance = nullptr;
 
 };
-
-#endif

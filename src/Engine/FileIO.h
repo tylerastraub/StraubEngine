@@ -1,5 +1,4 @@
-#ifndef FILEIO_H
-#define FILEIO_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -15,5 +14,3 @@ public:
 private:
 
 };
-
-#endif

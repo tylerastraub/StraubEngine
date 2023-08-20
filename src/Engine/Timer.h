@@ -1,5 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #include "Audio.h"
 
@@ -30,5 +29,3 @@ private:
     int _mostRecentSecond = 0;
 
 };
-
-#endif

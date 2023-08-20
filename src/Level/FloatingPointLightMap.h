@@ -1,5 +1,4 @@
-#ifndef FLOATING_LIGHT_MAP_H
-#define FLOATING_LIGHT_MAP_H
+#pragma once
 
 #include "vec2.h"
 
@@ -63,5 +62,3 @@ private:
     int _lightMapWidth = 0;
     int _lightMapDepth = 0;
 };
-
-#endif

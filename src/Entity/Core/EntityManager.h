@@ -1,5 +1,4 @@
-#ifndef ENTITY_MANAGER_H
-#define ENTITY_MANAGER_H
+#pragma once
 
 #include "EntityConstants.h"
 
@@ -50,5 +49,3 @@ private:
     Signature _signatures[entityConstants::MAX_ENTITIES];
     int _activeEntities = 0;
 };
-
-#endif

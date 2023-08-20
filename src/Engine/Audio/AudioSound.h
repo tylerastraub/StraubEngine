@@ -1,5 +1,4 @@
-#ifndef AUDIO_SOUND_H
-#define AUDIO_SOUND_H
+#pragma once
 
 enum class AudioSound {
     NOVAL = -1,
@@ -7,5 +6,3 @@ enum class AudioSound {
     JUMP,
     CHARACTER_BLIP,
 };
-
-#endif

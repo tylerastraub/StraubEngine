@@ -1,5 +1,4 @@
-#ifndef TRIGGER_COMPONENT_H
-#define TRIGGER_COMPONENT_H
+#pragma once
 
 #include "ScriptComponent.h"
 
@@ -15,5 +14,3 @@ struct TriggerComponent {
     bool triggerOnce = true;
     bool entityMustBeGrounded = false;
 };
-
-#endif

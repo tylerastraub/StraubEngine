@@ -1,5 +1,4 @@
-#ifndef INPUT_EVENT_H
-#define INPUT_EVENT_H
+#pragma once
 
 enum class InputEvent {
     NOVAL = -1,
@@ -10,5 +9,3 @@ enum class InputEvent {
     JUMP,
     ACTION,
 };
-
-#endif

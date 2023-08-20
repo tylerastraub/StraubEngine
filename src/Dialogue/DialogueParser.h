@@ -1,5 +1,4 @@
-#ifndef DIALOGUE_PARSER_H
-#define DIALOGUE_PARSER_H
+#pragma once
 
 #include "SpritesheetID.h"
 #include "Dialogue.h"
@@ -33,5 +32,3 @@ private:
     std::unordered_map<int, Conversation> _conversations;
 
 };
-
-#endif

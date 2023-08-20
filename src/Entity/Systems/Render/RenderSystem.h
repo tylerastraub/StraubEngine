@@ -1,5 +1,4 @@
-#ifndef RENDER_SYSTEM_H
-#define RENDER_SYSTEM_H
+#pragma once
 
 #include "System.h"
 #include "vec2.h"
@@ -21,5 +20,3 @@ private:
     strb::vec2i _renderBounds = {0, 0};
 
 };
-
-#endif

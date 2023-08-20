@@ -1,5 +1,4 @@
-#ifndef RDS_OBJECT_H
-#define RDS_OBJECT_H
+#pragma once
 
  enum class ObjectType {
     NOVAL = -1,
@@ -35,5 +34,3 @@ protected:
     // What object to drop on hit. Use enums for validating as actual int values are not unique
     int _rdsValue;
 };
-
-#endif

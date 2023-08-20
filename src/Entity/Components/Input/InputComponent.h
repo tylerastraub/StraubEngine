@@ -1,5 +1,4 @@
-#ifndef INPUT_COMPONENT_H
-#define INPUT_COMPONENT_H
+#pragma once
 
 #include "InputEvent.h"
 
@@ -8,5 +7,3 @@
 struct InputComponent {
     std::vector<InputEvent> allowedInputs;
 };
-
-#endif

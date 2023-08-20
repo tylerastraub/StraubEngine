@@ -1,5 +1,4 @@
-#ifndef STATE_H
-#define STATE_H
+#pragma once
 
 #include "Text.h"
 #include "Spritesheet.h"
@@ -74,5 +73,3 @@ private:
     std::shared_ptr<Mouse> _mouse = nullptr;
     std::shared_ptr<Controller> _controller = nullptr;
 };
-
-#endif

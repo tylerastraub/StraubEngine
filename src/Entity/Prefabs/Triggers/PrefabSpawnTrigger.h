@@ -1,5 +1,4 @@
-#ifndef PREFAB_SPAWN_TRIGGER_H
-#define PREFAB_SPAWN_TRIGGER_H
+#pragma once
 
 #include "vec2.h"
 #include "PrefabType.h"
@@ -30,5 +29,3 @@ namespace prefab {
 
     };
 }
-
-#endif

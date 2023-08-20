@@ -1,5 +1,4 @@
-#ifndef SCREEN_SHAKE_H
-#define SCREEN_SHAKE_H
+#pragma once
 
 #include <SDL.h>
 
@@ -21,5 +20,3 @@ private:
     float _shakeDecrement = 0.8f;
 
 };
-
-#endif

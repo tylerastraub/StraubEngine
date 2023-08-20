@@ -1,5 +1,4 @@
-#ifndef SCREEN_FADE_H
-#define SCREEN_FADE_H
+#pragma once
 
 class ScreenFade {
 public:
@@ -25,5 +24,3 @@ private:
     float _fadeDelta = 0.f;
 
 };
-
-#endif

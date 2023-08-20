@@ -1,5 +1,4 @@
-#ifndef LEVEL_PARSER_H
-#define LEVEL_PARSER_H
+#pragma once
 
 #include "Tile.h"
 #include "Level.h"
@@ -21,5 +20,3 @@ private:
     static PrefabType convertStringToPrefabType(std::string prefabTypeString);
 
 };
-
-#endif

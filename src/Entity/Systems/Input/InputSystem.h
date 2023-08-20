@@ -1,5 +1,4 @@
-#ifndef INPUT_SYSTEM_H
-#define INPUT_SYSTEM_H
+#pragma once
 
 #include "System.h"
 #include "Keyboard.h"
@@ -30,5 +29,3 @@ private:
 
     bool _inputRequested = false;
 };
-
-#endif

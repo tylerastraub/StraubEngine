@@ -1,5 +1,4 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#pragma once
 
 #include "Settings.h"
 #include "vec2.h"
@@ -60,5 +59,3 @@ private:
     // List of button states the previous tick
     bool _lastTickButtonStates[24] = {0};
 };
-
-#endif

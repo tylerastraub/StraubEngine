@@ -1,5 +1,4 @@
-#ifndef COMPONENT_ARRAY_H
-#define COMPONENT_ARRAY_H
+#pragma once
 
 #include "IComponentArray.h"
 #include "EntityConstants.h"
@@ -114,5 +113,3 @@ private:
     // Number of valid items in the component array currently
     size_t _size = 0;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef SCRIPT_COMPONENT_H
-#define SCRIPT_COMPONENT_H
+#pragma once
 
 #include "Audio.h"
 
@@ -28,5 +27,3 @@ private:
 struct ScriptComponent {
     std::shared_ptr<IScript> script = nullptr;
 };
-
-#endif

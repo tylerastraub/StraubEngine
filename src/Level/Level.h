@@ -1,5 +1,4 @@
-#ifndef LEVEL_H
-#define LEVEL_H
+#pragma once
 
 #include "Tile.h"
 #include "Spritesheet.h"
@@ -47,5 +46,3 @@ private:
     Entity _playerId;
 
 };
-
-#endif

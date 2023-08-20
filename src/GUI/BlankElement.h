@@ -1,5 +1,4 @@
-#ifndef BLANK_ELEMENT_H
-#define BLANK_ELEMENT_H
+#pragma once
 
 #include "GUIElement.h"
 
@@ -13,5 +12,3 @@ public:
 private:
 
 };
-
-#endif

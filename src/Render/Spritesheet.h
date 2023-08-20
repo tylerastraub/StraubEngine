@@ -1,5 +1,4 @@
-#ifndef SPRITESHEET_H
-#define SPRITESHEET_H
+#pragma once
 
 #include <string>
 #include <SDL.h>
@@ -113,5 +112,3 @@ private:
     int _msBetweenFrames = 79;
 
 };
-
-#endif

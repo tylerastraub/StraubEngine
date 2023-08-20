@@ -1,5 +1,4 @@
-#ifndef GUI_ELEMENT_H
-#define GUI_ELEMENT_H
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -61,5 +60,3 @@ private:
     std::string _value;
     std::unordered_map<std::string, std::string> _properties;
 };
-
-#endif

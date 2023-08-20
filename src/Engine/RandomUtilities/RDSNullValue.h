@@ -1,5 +1,4 @@
-#ifndef RDS_NULL_VALUE_H
-#define RDS_NULL_VALUE_H
+#pragma once
 
 #include "RDSObject.h"
 
@@ -8,5 +7,3 @@ public:
     RDSNullValue(int probability);
     ~RDSNullValue() = default;
 };
-
-#endif

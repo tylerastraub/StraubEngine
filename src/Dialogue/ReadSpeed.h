@@ -1,5 +1,4 @@
-#ifndef READ_SPEED_H
-#define READ_SPEED_H
+#pragma once
 
 enum class ReadSpeed {
     SNAIL = 500, // 2 characters per second
@@ -8,5 +7,3 @@ enum class ReadSpeed {
     MEDIUM = 33, // 30 characters per second. character blip starts to sound worse at this speed
     FAST = 17 // 60 characters per second
 };
-
-#endif

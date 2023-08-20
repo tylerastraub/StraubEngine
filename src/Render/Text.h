@@ -1,5 +1,4 @@
-#ifndef TEXT_H
-#define TEXT_H
+#pragma once
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -55,5 +54,3 @@ private:
     float _newLineSpacing = 1.05f; // line spacing between lines. standard should be something like 1.05f
     float _percentOfTextDisplayed = 1.f; // how much of text should be displayed from 0.0 to 1.0. used for slowly displaying text
 };
-
-#endif

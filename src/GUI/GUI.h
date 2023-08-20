@@ -1,5 +1,4 @@
-#ifndef GUI_H
-#define GUI_H
+#pragma once
 
 #include "Button.h"
 #include "TextContainer.h"
@@ -53,5 +52,3 @@ private:
 
     std::vector<std::vector<std::shared_ptr<GUIElement>>> _grid;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TILE_H
-#define TILE_H
+#pragma once
 
 #include <SDL.h>
 
@@ -14,5 +13,3 @@ struct Tile {
     TileType type = TileType::NOVAL;
     SDL_Rect spritesheetRect = {0, 0, 0, 0};
 };
-
-#endif

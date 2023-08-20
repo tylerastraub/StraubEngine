@@ -1,5 +1,4 @@
-#ifndef COLLISION_COMPONENT_H
-#define COLLISION_COMPONENT_H
+#pragma once
 
 #include "vec2.h"
 
@@ -14,5 +13,3 @@ struct CollisionComponent {
     bool collidingUp = false;
     bool collidingDown = false;
 };
-
-#endif

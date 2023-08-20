@@ -1,5 +1,4 @@
-#ifndef DIALOGUE_TRIGGER_H
-#define DIALOGUE_TRIGGER_H
+#pragma once
 
 #include <cstdint>
 #include <SDL.h>
@@ -19,5 +18,3 @@ namespace prefab {
 
     };
 }
-
-#endif

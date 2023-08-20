@@ -1,5 +1,4 @@
-#ifndef DIALOGUE_H
-#define DIALOGUE_H
+#pragma once
 
 #include "SpritesheetID.h"
 #include "ReadSpeed.h"
@@ -27,5 +26,3 @@ struct Dialogue {
         return id > rhs.id;
     }
 };
-
-#endif
