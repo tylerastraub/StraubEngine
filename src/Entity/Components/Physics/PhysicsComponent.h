@@ -4,10 +4,10 @@
 #include "vec2.h"
 
 struct PhysicsComponent {
-    strb::vec2 velocity = {0.f, 0.f};
-    strb::vec2 acceleration = {0.f, 0.f};
-    strb::vec2 airAcceleration = {0.f, 0.f};
-    strb::vec2 maxVelocity = {0.f, 0.f};
+    strb::vec2f velocity = {0.f, 0.f};
+    strb::vec2f acceleration = {0.f, 0.f};
+    strb::vec2f airAcceleration = {0.f, 0.f};
+    strb::vec2f maxVelocity = {0.f, 0.f};
 
     bool touchingGround = false;
     int offGroundCount = 0; // Number of frames the entity has been off the ground

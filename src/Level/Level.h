@@ -3,7 +3,6 @@
 
 #include "Tile.h"
 #include "Spritesheet.h"
-#include "vec2.h"
 #include "LightMap.h"
 
 #include <vector>

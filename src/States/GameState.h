@@ -22,7 +22,7 @@ public:
     void handleMouseInput(SDL_Event e) override;
 
 private:
-    strb::vec2 _renderOffset = {0.f, 0.f};
+    strb::vec2f _renderOffset = {0.f, 0.f};
 
 };
 

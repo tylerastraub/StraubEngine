@@ -111,6 +111,6 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
     }
 }
 
-void RenderSystem::setRenderBounds(strb::vec2 renderBounds) {
+void RenderSystem::setRenderBounds(strb::vec2i renderBounds) {
     _renderBounds = renderBounds;
 }

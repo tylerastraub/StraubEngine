@@ -24,7 +24,7 @@ void LightMap::allocate(int width, int depth) {
  * @param falloff How fast the light fades out. A brightness of 0.2 means each subsequent tile is 20% dimmer
  * @return uint16_t The light ID (used to remove the light, which is necessary for dynamic/moving lights)
  */
-uint16_t LightMap::addLightSource(strb::vec2 pos, float brightness, Hue hue, float falloff) {
+uint16_t LightMap::addLightSource(strb::vec2f pos, float brightness, Hue hue, float falloff) {
     Light light;
     light.id = _currentLightId;
     ++_currentLightId;
@@ -53,7 +53,7 @@ void LightMap::removeLightSource(uint16_t lightId) {
     }
 }
 
-Hue LightMap::getBrightness(strb::vec2 pos) {
+Hue LightMap::getBrightness(strb::vec2f pos) {
     // bounds check
     if(!isLightInBounds(pos)) return Hue();
     std::pair<int, Hue> hue = _lightMap[pos.y][pos.x];
@@ -65,7 +65,7 @@ Hue LightMap::getBrightness(strb::vec2 pos) {
     return hue.second;
 }
 
-bool LightMap::isLightInBounds(strb::vec2 pos) {
+bool LightMap::isLightInBounds(strb::vec2f pos) {
     if(pos.x < 0 || pos.x >= _lightMapWidth || pos.y < 0 || pos.y >= _lightMapDepth) {
         return false;
     }
@@ -74,7 +74,7 @@ bool LightMap::isLightInBounds(strb::vec2 pos) {
 
 void LightMap::updateLightMap(Light light) {
 
-    strb::vec2 neighbors[4] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    strb::vec2i neighbors[4] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
     float falloff = light.falloff;
 
@@ -114,7 +114,7 @@ void LightMap::updateLightMap(Light light) {
     // std::cout << "LightMap: " << iterations << " iterations ran" << std::endl;
 }
 
-void LightMap::addLightToLightMap(strb::vec2 pos, float brightness, Hue hue) {
+void LightMap::addLightToLightMap(strb::vec2f pos, float brightness, Hue hue) {
     // bounds check
     if(!isLightInBounds(pos)) return;
     brightness *= 255;

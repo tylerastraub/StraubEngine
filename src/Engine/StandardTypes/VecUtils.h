@@ -6,7 +6,7 @@
 
 class VecUtils {
 public:
-    static int dotProduct(strb::vec2 v1, strb::vec2 v2) {
+    static int dotProduct(strb::vec2f v1, strb::vec2f v2) {
         return v1.x * v2.x + v1.y * v2.y;
     }
 
@@ -14,7 +14,11 @@ public:
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
 
-    static bool isZero(strb::vec2 vec) {
+    static bool isZero(strb::vec2f vec) {
+        return vec.x == 0.f && vec.y == 0.f;
+    }
+
+    static bool isZero(strb::vec2i vec) {
         return vec.x == 0 && vec.y == 0;
     }
 

@@ -17,13 +17,13 @@ public:
     void setLevelSize(int x, int y);
     void setCameraSpeed(float cameraSpeed);
 
-    strb::vec2 getCurrentCameraOffset();
+    strb::vec2f getCurrentCameraOffset();
     bool atXEdge();
     bool atYEdge();
 
 private:
-    strb::vec2 _currentCameraOffset = {0.f, 0.f};
-    strb::vec2 _goalCameraOffset = {0.f, 0.f};
+    strb::vec2f _currentCameraOffset = {0.f, 0.f};
+    strb::vec2f _goalCameraOffset = {0.f, 0.f};
     
     /**
      * Percent of distance camera moves between camera and target. For instance,
@@ -37,8 +37,8 @@ private:
      */
     float _cameraSpeed = 0.075f;
 
-    strb::vec2 _gameSize = {0, 0}; // The size of the game window in pixels
-    strb::vec2 _levelSize = {0, 0}; // The level size in pixels
+    strb::vec2i _gameSize = {0, 0}; // The size of the game window in pixels
+    strb::vec2i _levelSize = {0, 0}; // The level size in pixels
 
 };
 

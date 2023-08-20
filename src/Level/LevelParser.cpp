@@ -2,6 +2,7 @@
 #include "FileIO.h"
 #include "SpritesheetRegistry.h"
 #include "EntityRegistry.h"
+#include "vec2.h"
 // Prefabs
 #include "DialogueTrigger.h"
 #include "PrefabSpawnTrigger.h"
@@ -24,7 +25,7 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
         const auto& layers = map.getLayers();
 
         // Tilesets
-        strb::vec2 tilesetSize;
+        strb::vec2i tilesetSize;
         std::vector<tmx::Property> tileProperties;
         const auto& tilesets = map.getTilesets();
         for(const auto& tileset : tilesets) {
@@ -80,7 +81,7 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                             else if(object.getClass() == "prefabSpawn") {
                                 auto aabb = object.getAABB();
                                 PrefabType prefabType = PrefabType::NOVAL;
-                                strb::vec2 prefabSpawnPos = {0.f, 0.f};
+                                strb::vec2f prefabSpawnPos = {0.f, 0.f};
                                 std::string prefabValue = "";
                                 bool triggerOnce = true;
                                 bool entityMustBeGrounded = false;

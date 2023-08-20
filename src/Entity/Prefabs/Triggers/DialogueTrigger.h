@@ -1,8 +1,6 @@
 #ifndef DIALOGUE_TRIGGER_H
 #define DIALOGUE_TRIGGER_H
 
-#include "vec2.h"
-
 #include <cstdint>
 #include <SDL.h>
 

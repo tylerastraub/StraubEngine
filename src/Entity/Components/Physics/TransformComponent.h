@@ -4,8 +4,8 @@
 #include "vec2.h"
 
 struct TransformComponent {
-    strb::vec2 position;
-    strb::vec2 lastPosition;
+    strb::vec2f position;
+    strb::vec2f lastPosition;
 };
 
 #endif

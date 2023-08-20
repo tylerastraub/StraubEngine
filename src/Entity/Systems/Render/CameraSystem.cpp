@@ -42,7 +42,7 @@ void CameraSystem::setCameraSpeed(float cameraSpeed) {
     _cameraSpeed = cameraSpeed;
 }
 
-strb::vec2 CameraSystem::getCurrentCameraOffset() {
+strb::vec2f CameraSystem::getCurrentCameraOffset() {
     return _currentCameraOffset * -1.f;
 }
 

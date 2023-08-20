@@ -24,7 +24,7 @@ void FloatingPointLightMap::allocate(int width, int depth) {
  * @param falloff How fast the light fades out. A brightness of 0.2 means each subsequent tile is 20% dimmer
  * @return uint16_t The light ID (used to remove the light, which is necessary for dynamic/moving lights)
  */
-uint16_t FloatingPointLightMap::addLightSource(strb::vec2 pos, float brightness, Hue hue, float falloff) {
+uint16_t FloatingPointLightMap::addLightSource(strb::vec2f pos, float brightness, Hue hue, float falloff) {
     Light light;
     light.id = _currentLightId;
     ++_currentLightId;
@@ -54,19 +54,19 @@ void FloatingPointLightMap::removeLightSource(uint16_t lightId) {
     std::cout << "Error: attempting to remove nonexistent light source. ID: " << lightId << std::endl;
 }
 
-Hue FloatingPointLightMap::getHue(strb::vec2 pos) {
+Hue FloatingPointLightMap::getHue(strb::vec2f pos) {
     // bounds check
     if(!isLightInBounds(pos)) return Hue();
     std::pair<int, Hue> hue = _lightMap[pos.y][pos.x];
     if(hue.first < 0) return Hue();
     else if(hue.first > 255) return Hue();
-    hue.second.red *= ((float) hue.first / (float) 255);
-    hue.second.blue *= ((float) hue.first / (float) 255);
-    hue.second.green *= ((float) hue.first / (float) 255);
+    hue.second.red *= ((float) hue.first / 255.f);
+    hue.second.blue *= ((float) hue.first / 255.f);
+    hue.second.green *= ((float) hue.first / 255.f);
     return hue.second;
 }
 
-int FloatingPointLightMap::getBrightness(strb::vec2 pos) {
+int FloatingPointLightMap::getBrightness(strb::vec2f pos) {
     // bounds check
     if(!isLightInBounds(pos)) return 0;
     std::pair<int, Hue> light = _lightMap[pos.y][pos.x];
@@ -75,7 +75,7 @@ int FloatingPointLightMap::getBrightness(strb::vec2 pos) {
     return light.first;
 }
 
-bool FloatingPointLightMap::isLightInBounds(strb::vec2 pos) {
+bool FloatingPointLightMap::isLightInBounds(strb::vec2f pos) {
     if(pos.x < 0 || pos.x >= _lightMapWidth || pos.y < 0 || pos.y >= _lightMapDepth) {
         return false;
     }
@@ -84,9 +84,9 @@ bool FloatingPointLightMap::isLightInBounds(strb::vec2 pos) {
 
 // iterations are inconsistent - sometimes barely moving (but staying in the same tile) will have a different lightmap result
 void FloatingPointLightMap::updateLightMap(Light light) {
-    strb::vec2 neighbors[4] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    strb::vec2i neighbors[4] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
     // calculate directional light falloff so that moving lights appear smoother
-    strb::vec2 posRemainder = {light.pos.x - std::floor(light.pos.x) - 0.5f, light.pos.y - std::floor(light.pos.y) - 0.5f};
+    strb::vec2f posRemainder = {light.pos.x - std::floor(light.pos.x) - 0.5f, light.pos.y - std::floor(light.pos.y) - 0.5f};
     float directionalFalloff[4] = {
         light.falloff * (1 - posRemainder.x),
         light.falloff * (1 - posRemainder.y),
@@ -118,7 +118,7 @@ void FloatingPointLightMap::updateLightMap(Light light) {
         addLightToLightMap(currentLight.pos, currentLight.brightness, currentLight.hue);
         if(std::abs(currentLight.brightness) - std::abs(currentLight.falloff) > 0) {
             for(size_t i = 0; i < neighborsSize; ++i) {
-                strb::vec2 neighbor = neighbors[i];
+                strb::vec2i neighbor = neighbors[i];
                 // use directional falloff for first iteration only
                 float falloff = (currentLight.pos == light.pos) ? directionalFalloff[i] : light.falloff;
                 if(isLightInBounds(currentLight.pos + neighbor)) {
@@ -135,7 +135,7 @@ void FloatingPointLightMap::updateLightMap(Light light) {
     // std::cout << "LightMap: " << iterations << " iterations ran" << std::endl;
 }
 
-void FloatingPointLightMap::addLightToLightMap(strb::vec2 pos, float brightness, Hue hue) {
+void FloatingPointLightMap::addLightToLightMap(strb::vec2f pos, float brightness, Hue hue) {
     // bounds check
     if(!isLightInBounds(pos)) return;
     brightness *= 255;

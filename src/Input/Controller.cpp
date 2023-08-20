@@ -151,14 +151,14 @@ float Controller::getAxisPercent(SDL_GameControllerAxis axis) {
     }
 }
 
-strb::vec2 Controller::calculateStickDirection(int xValue, int yValue) {
+strb::vec2i Controller::calculateStickDirection(int xValue, int yValue) {
     if(xValue == 0 && yValue == 0) return {0, 0};
     if(std::abs(xValue) > std::abs(yValue)) {
-        float dir = (xValue < 0) ? -1.f : 1.f;
-        return {dir, 0.f};
+        int dir = (xValue < 0) ? -1 : 1;
+        return {dir, 0};
     }
     else {
-        float dir = (yValue < 0) ? -1.f : 1.f;
-        return {0.f, dir};
+        int dir = (yValue < 0) ? -1 : 1;
+        return {0, dir};
     }
 }

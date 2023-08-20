@@ -36,7 +36,7 @@ public:
     float getAxisPercent(SDL_GameControllerAxis axis);
 
 private:
-    strb::vec2 calculateStickDirection(int xValue, int yValue);
+    strb::vec2i calculateStickDirection(int xValue, int yValue);
 
     const int16_t MAX_ANALOG_VALUE = 32767;
     const int ANALOG_DEAD_ZONE = 8000;

@@ -5,7 +5,7 @@
 
 namespace strb {
     struct circle {
-        strb::vec2 pos = {0.f, 0.f};
+        strb::vec2f pos = {0.f, 0.f};
         float radius = 0.f;
     };
 }

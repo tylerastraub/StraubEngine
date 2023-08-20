@@ -23,7 +23,7 @@ struct Hue {
 struct Light {
     uint16_t id;
     // The light's tile position
-    strb::vec2 pos = {0.f, 0.f};
+    strb::vec2f pos = {0.f, 0.f};
     // The light's brightness from a scale of 0-1
     float brightness = 0.f;
     // The rate at which the light falls off the further it gets from the source (from 0-1). Default is 0.2
@@ -43,15 +43,15 @@ public:
 
     void allocate(int width, int depth);
 
-    uint16_t addLightSource(strb::vec2 pos, float brightness, Hue hue, float falloff = 0.2f);
+    uint16_t addLightSource(strb::vec2f pos, float brightness, Hue hue, float falloff = 0.2f);
     void removeLightSource(uint16_t lightId);
 
-    Hue getBrightness(strb::vec2 pos);
+    Hue getBrightness(strb::vec2f pos);
 
 private:
-    bool isLightInBounds(strb::vec2 pos);
+    bool isLightInBounds(strb::vec2f pos);
     void updateLightMap(Light light);
-    void addLightToLightMap(strb::vec2 pos, float brightness, Hue hue);
+    void addLightToLightMap(strb::vec2f pos, float brightness, Hue hue);
 
     uint16_t _currentLightId = 0;
 

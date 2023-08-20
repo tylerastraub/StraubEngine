@@ -1,7 +1,7 @@
 #include "State.h"
 
 void State::setGameSize(int w, int h) {
-    _gameSize = {(float) w, (float) h};
+    _gameSize = {w, h};
 }
 
 void State::setNextState(State* state) {
@@ -13,7 +13,7 @@ void State::setRenderer(SDL_Renderer* renderer) {
     _renderer = renderer;    
 }
 
-void State::setRenderScale(strb::vec2 renderScale) {
+void State::setRenderScale(strb::vec2f renderScale) {
     _renderScale = renderScale;
 }
 
@@ -39,7 +39,7 @@ void State::setInput(std::shared_ptr<Keyboard> keyboard, std::shared_ptr<Mouse> 
     _controller = controller;
 }
 
-strb::vec2 State::getGameSize() {
+strb::vec2i State::getGameSize() {
     return _gameSize;
 }
 
@@ -51,7 +51,7 @@ SDL_Renderer* State::getRenderer() {
     return _renderer;
 }
 
-strb::vec2 State::getRenderScale() {
+strb::vec2f State::getRenderScale() {
     return _renderScale;
 }
 

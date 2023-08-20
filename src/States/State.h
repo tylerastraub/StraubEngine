@@ -40,17 +40,17 @@ public:
     void setGameSize(int w, int h);
     void setNextState(State* state);
     void setRenderer(SDL_Renderer* renderer);
-    void setRenderScale(strb::vec2 renderScale);
+    void setRenderScale(strb::vec2f renderScale);
     void addText(TextSize size, std::shared_ptr<Text> text);
     void setAudioPlayer(std::shared_ptr<Audio> audioPlayer);
     void setSettings(std::shared_ptr<Settings> settings);
     void completeSettingsChange();
     void setInput(std::shared_ptr<Keyboard> keyboard, std::shared_ptr<Mouse> mouse, std::shared_ptr<Controller> controller);
     
-    strb::vec2 getGameSize();
+    strb::vec2i getGameSize();
     State* getNextState();
     SDL_Renderer* getRenderer();
-    strb::vec2 getRenderScale();
+    strb::vec2f getRenderScale();
     std::shared_ptr<Text> getText(TextSize size);
     std::shared_ptr<Audio> getAudioPlayer();
     std::shared_ptr<Settings> getSettings();
@@ -63,10 +63,10 @@ protected:
     bool _settingsChanged = false;
 
 private:
-    strb::vec2 _gameSize = {0, 0};
+    strb::vec2i _gameSize = {0, 0};
     State* _nextState = nullptr;
     SDL_Renderer* _renderer = nullptr;
-    strb::vec2 _renderScale = {1.f, 1.f};
+    strb::vec2f _renderScale = {1.f, 1.f};
     std::unordered_map<TextSize, std::shared_ptr<Text>> _text;
     std::shared_ptr<Audio> _audioPlayer = nullptr;
     std::shared_ptr<Settings> _settings = nullptr;

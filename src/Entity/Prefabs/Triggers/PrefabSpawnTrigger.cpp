@@ -32,7 +32,7 @@ namespace prefab {
         bool triggerOnce,
         bool entityMustBeGrounded,
         PrefabType prefabType,
-        strb::vec2 prefabSpawnPos,
+        strb::vec2f prefabSpawnPos,
         std::string prefabValue
     ) {
         auto ecs = EntityRegistry::getInstance();

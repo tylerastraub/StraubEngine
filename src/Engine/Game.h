@@ -23,7 +23,7 @@ private:
 
     const int GAME_WIDTH = 320;
     const int GAME_HEIGHT = 180;
-    strb::vec2 _renderScale = {1.f, 1.f};
+    strb::vec2f _renderScale = {1.f, 1.f};
 
     SDL_Window* _window = nullptr;
     SDL_Renderer* _renderer = nullptr;

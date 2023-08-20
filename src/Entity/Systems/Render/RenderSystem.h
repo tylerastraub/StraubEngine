@@ -15,10 +15,10 @@ public:
 
     void render(SDL_Renderer* renderer, int renderXOffset = 0, int renderYOffset = 0);
 
-    void setRenderBounds(strb::vec2 renderBounds);
+    void setRenderBounds(strb::vec2i renderBounds);
 
 private:
-    strb::vec2 _renderBounds = {0, 0};
+    strb::vec2i _renderBounds = {0, 0};
 
 };
 
