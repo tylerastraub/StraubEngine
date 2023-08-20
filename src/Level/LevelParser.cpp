@@ -33,6 +33,13 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
             tilesetSize.y = tileset.getImageSize().y;
         }
 
+        // Custom map properties
+        for(auto prop : map.getProperties()) {
+            // if(prop.getName() == "propName" && prop.getType() == tmx::Property::Type::String) {
+            //     level.setProperty(prop.getStringValue());
+            // }
+        }
+
         // Map layers
         for(const auto& layer : layers) {
             // Object layer
@@ -44,7 +51,7 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                         if(object.getName() == "insert prefab name here") {
                             // create prefab here
                         }
-                        // TRIGGERS
+                        // ============================== TRIGGERS ==============================
                         else if(object.getName() == "trigger") {
                             if(object.getClass() == "dialogue") {
                                 auto aabb = object.getAABB();
@@ -110,6 +117,7 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                         }
                     }
                 }
+                // ============================== COLLISION MAP ==============================
                 else if(layer->getName() == "collisionmap") {
                     for(const auto& object : objects) {
                         int xPos = object.getPosition().x / level.getTileSize();
@@ -128,7 +136,7 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                     }
                 }
             }
-            // Tile layers
+            // ============================== TILE LAYERS ==============================
             else if(layer->getType() == tmx::Layer::Type::Tile) {
                 const auto& tileLayer = layer->getLayerAs<tmx::TileLayer>();
                 auto& tiles = tileLayer.getTiles();

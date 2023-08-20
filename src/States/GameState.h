@@ -22,11 +22,8 @@ public:
     void handleMouseInput(SDL_Event e) override;
 
 private:
-    std::unique_ptr<Keyboard> _keyboard = nullptr;
-    std::unique_ptr<Mouse> _mouse = nullptr;
-    std::unique_ptr<Controller> _controller = nullptr;
+    strb::vec2 _renderOffset = {0.f, 0.f};
 
-    SDL_FPoint _renderOffset = {0.f, 0.f};
 };
 
 #endif

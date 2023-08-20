@@ -6,10 +6,14 @@
 #include "Audio.h"
 #include "Settings.h"
 #include "vec2.h"
+#include "Keyboard.h"
+#include "Mouse.h"
+#include "Controller.h"
 
 #include <SDL.h>
 #include <unordered_map>
 #include <vector>
+#include <memory>
 
 enum class TextSize {
     TINY = 0,
@@ -36,20 +40,24 @@ public:
     void setGameSize(int w, int h);
     void setNextState(State* state);
     void setRenderer(SDL_Renderer* renderer);
-    void setRenderScale(int scale);
-    void addText(TextSize size, Text* text);
-    void setAudioPlayer(Audio* audioPlayer);
-    void setSettings(Settings* settings);
+    void setRenderScale(strb::vec2 renderScale);
+    void addText(TextSize size, std::shared_ptr<Text> text);
+    void setAudioPlayer(std::shared_ptr<Audio> audioPlayer);
+    void setSettings(std::shared_ptr<Settings> settings);
     void completeSettingsChange();
+    void setInput(std::shared_ptr<Keyboard> keyboard, std::shared_ptr<Mouse> mouse, std::shared_ptr<Controller> controller);
     
     strb::vec2 getGameSize();
     State* getNextState();
     SDL_Renderer* getRenderer();
-    int getRenderScale();
-    Text* getText(TextSize size);
-    Audio* getAudioPlayer();
-    Settings* getSettings();
+    strb::vec2 getRenderScale();
+    std::shared_ptr<Text> getText(TextSize size);
+    std::shared_ptr<Audio> getAudioPlayer();
+    std::shared_ptr<Settings> getSettings();
     bool settingsChanged();
+    std::shared_ptr<Keyboard> getKeyboard();
+    std::shared_ptr<Mouse> getMouse();
+    std::shared_ptr<Controller> getController();
 
 protected:
     bool _settingsChanged = false;
@@ -58,10 +66,13 @@ private:
     strb::vec2 _gameSize = {0, 0};
     State* _nextState = nullptr;
     SDL_Renderer* _renderer = nullptr;
-    int _renderScale = 1;
-    std::unordered_map<TextSize, Text*> _text;
-    Audio* _audioPlayer = nullptr;
-    Settings* _settings = nullptr;
+    strb::vec2 _renderScale = {1.f, 1.f};
+    std::unordered_map<TextSize, std::shared_ptr<Text>> _text;
+    std::shared_ptr<Audio> _audioPlayer = nullptr;
+    std::shared_ptr<Settings> _settings = nullptr;
+    std::shared_ptr<Keyboard> _keyboard = nullptr;
+    std::shared_ptr<Mouse> _mouse = nullptr;
+    std::shared_ptr<Controller> _controller = nullptr;
 };
 
 #endif

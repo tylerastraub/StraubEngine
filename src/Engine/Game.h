@@ -23,11 +23,11 @@ private:
 
     const int GAME_WIDTH = 320;
     const int GAME_HEIGHT = 180;
-    int _renderScale = 4;
+    strb::vec2 _renderScale = {1.f, 1.f};
 
     SDL_Window* _window = nullptr;
     SDL_Renderer* _renderer = nullptr;
-    SDL_GameController* _controller = nullptr;
+    SDL_GameController* _gameController = nullptr;
 
     bool _exitFlag = false;
 
@@ -36,8 +36,12 @@ private:
 
     // Resources
     std::unordered_map<TextSize, std::shared_ptr<Text>> _text;
-    std::unique_ptr<Audio> _audioPlayer = nullptr;
-    std::unique_ptr<Settings> _settings = nullptr;
+    std::shared_ptr<Audio> _audioPlayer = nullptr;
+    std::shared_ptr<Settings> _settings = nullptr;
+    
+    std::shared_ptr<Keyboard> _keyboard = nullptr;
+    std::shared_ptr<Mouse> _mouse = nullptr;
+    std::shared_ptr<Controller> _controller = nullptr;
 };
 
 #endif

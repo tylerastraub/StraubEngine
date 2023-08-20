@@ -23,6 +23,10 @@ public:
      * @brief Initializes the entity component system. May also be called to reset the system.
      */
     void init() {
+        for(size_t i = 0; i < entityConstants::MAX_ENTITIES; ++i) {
+            _watchers[i].clear();
+        }
+        _watchers->clear();
         _entityManager = std::make_unique<EntityManager>();
         _componentManager = std::make_unique<ComponentManager>();
         _systemManager = std::make_unique<SystemManager>();

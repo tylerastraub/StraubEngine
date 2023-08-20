@@ -30,9 +30,11 @@ bool Game::init() {
         }
 
         // Window and renderer initialization
-        _settings = std::make_unique<Settings>();
+        _settings = std::make_shared<Settings>();
         _settings->loadSettings("settings.cfg");
         _window = SDL_CreateWindow(_windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _settings->getVideoWidth(), _settings->getVideoHeight(), _settings->getVideoMode() | SDL_WINDOW_RESIZABLE);
+        _renderScale.x = _settings->getVideoWidth() / GAME_WIDTH;
+        _renderScale.y = _settings->getVideoHeight() / GAME_HEIGHT;
         if(_window == nullptr)
         {
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -56,15 +58,18 @@ bool Game::init() {
                     std::cout << "SDL_ttf could not be initialized! SDL_ttf Error: " << TTF_GetError() << std::endl;
                 }
                 else {
-                    // Gamepad initialization
+                    // Gamepad/keyboard initialization
+                    _keyboard = std::make_shared<Keyboard>();
+                    _mouse = std::make_shared<Mouse>(_renderScale.x, _renderScale.y);
+                    _controller = std::make_shared<Controller>();
                     SDL_JoystickEventState(SDL_ENABLE);
                     if(SDL_IsGameController(0)) {
-                        _controller = SDL_GameControllerOpen(0);
-                        if(_controller == NULL) {
+                        _gameController = SDL_GameControllerOpen(0);
+                        if(_gameController == NULL) {
                             std::cout << "Error: Unable to open controller!" << std::endl;
                         }
                         else {
-                            std::cout << "Controller connected: " << SDL_GameControllerName(_controller) << std::endl;
+                            std::cout << "Controller connected: " << SDL_GameControllerName(_gameController) << std::endl;
                             if(SDL_GameControllerAddMappingsFromFile("res/controllermappings.txt") == -1) {
                                 std::cout << "Error loading controller mappings! SDL_Error: " << SDL_GetError() << std::endl;
                             }
@@ -82,11 +87,12 @@ bool Game::init() {
                         _currentState = new GameState();
                         _currentState->setGameSize(GAME_WIDTH, GAME_HEIGHT);
                         _currentState->setRenderer(_renderer);
+                        _currentState->setInput(_keyboard, _mouse, _controller);
                         for(auto it : _text) {
-                            _currentState->addText(it.first, it.second.get());
+                            _currentState->addText(it.first, it.second);
                         }
-                        _currentState->setAudioPlayer(_audioPlayer.get());
-                        _currentState->setSettings(_settings.get());
+                        _currentState->setAudioPlayer(_audioPlayer);
+                        _currentState->setSettings(_settings);
                         _currentState->init();
                         SDL_ShowCursor(SDL_DISABLE);
                         windowCreatedSuccessfully = true;
@@ -137,7 +143,7 @@ bool Game::loadResources() {
     SpritesheetRegistry::addSpritesheet(SpritesheetID::DIALOGUE_BOX, dialogueSpritesheet);
 
     // Audio
-    _audioPlayer = std::make_unique<Audio>();
+    _audioPlayer = std::make_shared<Audio>();
     if(!_audioPlayer->addAudio(AudioSound::CHARACTER_BLIP, "res/audio/character_blip.wav")) return false;
 
     return true;
@@ -190,11 +196,12 @@ void Game::startGameLoop() {
             _currentState = tempState;
             _currentState->setGameSize(GAME_WIDTH, GAME_HEIGHT);
             _currentState->setRenderer(_renderer);
+            _currentState->setInput(_keyboard, _mouse, _controller);
             for(auto it : _text) {
-                _currentState->addText(it.first, it.second.get());
+                _currentState->addText(it.first, it.second);
             }
-            _currentState->setAudioPlayer(_audioPlayer.get());
-            _currentState->setSettings(_settings.get());
+            _currentState->setAudioPlayer(_audioPlayer);
+            _currentState->setSettings(_settings);
             _currentState->init();
         }
 
@@ -240,7 +247,7 @@ void Game::startGameLoop() {
 void Game::exit() {
     SDL_DestroyWindow(_window);
     SDL_DestroyRenderer(_renderer);
-    SDL_GameControllerClose(_controller);
+    SDL_GameControllerClose(_gameController);
 
     _window = nullptr;
     _renderer = nullptr;
