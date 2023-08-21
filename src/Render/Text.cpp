@@ -122,6 +122,7 @@ void Text::setString(std::string s) {
         else if(c == '\n') {
             if(!currentWord.text.empty()) _words.push_back(currentWord);
             _width += currentWord.w;
+            currentWord = Word();
             currentWord.text = "\n";
             _words.push_back(currentWord);
             currentWord = Word();
@@ -137,7 +138,10 @@ void Text::setString(std::string s) {
             if(currentWord.h > _height) _height = currentWord.h;
         }
     }
-    if(!currentWord.text.empty()) _words.push_back(currentWord); // add that last word
+    if(!currentWord.text.empty()) {
+        _words.push_back(currentWord); // add that last word
+        _width += currentWord.w;
+    }
 }
 
 void Text::setPercentOfTextDisplayed(float percent) {
