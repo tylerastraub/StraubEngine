@@ -51,6 +51,6 @@ private:
     int _width = 0;
     int _height = 0;
 
-    float _newLineSpacing = 1.05f; // line spacing between lines. standard should be something like 1.05f
+    float _newLineSpacing = 1.05f; // line spacing between lines
     float _percentOfTextDisplayed = 1.f; // how much of text should be displayed from 0.0 to 1.0. used for slowly displaying text
 };

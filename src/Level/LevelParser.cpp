@@ -174,7 +174,7 @@ Level LevelParser::parseLevelFromTmx(entt::registry& ecs, std::string filePath, 
 PrefabType LevelParser::convertStringToPrefabType(std::string prefabTypeString) {
     PrefabType result = PrefabType::NOVAL;
     if(prefabTypeString == "ITEM") {
-        result = PrefabType::PICKUP;
+        result = PrefabType::ITEM;
     }
     else if(prefabTypeString == "PROJECTILE") {
         result = PrefabType::PROJECTILE;

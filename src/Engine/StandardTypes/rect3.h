@@ -10,7 +10,7 @@ namespace strb {
         T x, y, z, w, d, h;
        /**
         * width = x axis, depth = y axis, height = z axis
-        * world space view:
+        * world space view in isometric view:
         *      z|
         *       |
         *       |

@@ -9,7 +9,7 @@ public:
         return v1.x * v2.x + v1.y * v2.y;
     }
 
-    static int dotProduct(strb::vec3 v1, strb::vec3 v2) {
+    static int dotProduct(strb::vec3f v1, strb::vec3f v2) {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
 
@@ -21,7 +21,11 @@ public:
         return vec.x == 0 && vec.y == 0;
     }
 
-    static bool isZero(strb::vec3 vec) {
+    static bool isZero(strb::vec3f vec) {
+        return vec.x == 0.f && vec.y == 0.f && vec.z == 0.f;
+    }
+
+    static bool isZero(strb::vec3i vec) {
         return vec.x == 0 && vec.y == 0 && vec.z == 0;
     }
 

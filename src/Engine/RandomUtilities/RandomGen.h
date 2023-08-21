@@ -2,9 +2,14 @@
 
 #include <random>
 
+/**
+ * Use the following line of code ONCE in desired file to instantiate random seed:
+ * std::mt19937 RandomGen::randEng{(unsigned int) std::chrono::system_clock::now().time_since_epoch().count()};
+*/
+
 class RandomGen {
 public:
-    RandomGen();
+    RandomGen() = default;
     ~RandomGen() = default;
 
     static void setSeed(unsigned int seed);

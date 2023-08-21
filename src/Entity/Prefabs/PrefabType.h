@@ -5,8 +5,7 @@ enum class PrefabType {
     PLAYER,
     PROJECTILE,
     MOVING_PLATFORM,
-    PICKUP,
-    ENGINE,
+    ITEM,
     DIALOGUE_TRIGGER,
     ENTITY_SPAWN_TRIGGER,
 };
