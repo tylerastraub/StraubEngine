@@ -8,7 +8,7 @@ struct PhysicsComponent {
     strb::vec2f airAcceleration = {0.f, 0.f};
     strb::vec2f maxVelocity = {0.f, 0.f};
 
-    bool touchingGround = false;
+    bool touchingGround = true;
     int offGroundCount = 0; // Number of frames the entity has been off the ground
     float jumpPower = 0.f;
     float frictionCoefficient = 20.f;

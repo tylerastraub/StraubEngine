@@ -1,21 +1,16 @@
 #pragma once
 
-#include "System.h"
-#include "Level.h"
+#include <entt/entity/registry.hpp>
 
-class PhysicsSystem : public System {
+class PhysicsSystem {
 public:
     PhysicsSystem() = default;
     ~PhysicsSystem() = default;
 
-    bool updateX(float timescale);
-    bool updateY(float timescale);
-
-    void setLevel(Level level);
+    bool updateX(entt::registry& ecs, float timescale);
+    bool updateY(entt::registry& ecs, float timescale);
 
 private:
     void moveToZero(float &value, float amount);
-
-    Level _level;
 
 };

@@ -1,7 +1,6 @@
 #include "LevelParser.h"
 #include "FileIO.h"
 #include "SpritesheetRegistry.h"
-#include "EntityRegistry.h"
 #include "vec2.h"
 // Prefabs
 #include "DialogueTrigger.h"
@@ -13,8 +12,9 @@
 #include <tmxlite/Layer.hpp>
 #include <tmxlite/TileLayer.hpp>
 #include <tmxlite/ObjectGroup.hpp>
+#include <entt/entity/registry.hpp>
 
-Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID spritesheetId) {
+Level LevelParser::parseLevelFromTmx(entt::registry& ecs, std::string filePath, SpritesheetID spritesheetId) {
     Level level;
     level.setTileset(SpritesheetRegistry::getSpritesheet(spritesheetId));
 
@@ -70,13 +70,13 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                                         entityMustBeGrounded = prop.getBoolValue();
                                     }
                                 }
-                                Entity trigger = prefab::DialogueTrigger::create(
+                                entt::entity trigger = prefab::DialogueTrigger::create(
+                                    ecs,
                                     {(int) aabb.left, (int) aabb.top, (int) aabb.width, (int) aabb.height},
                                     triggerOnce,
                                     entityMustBeGrounded,
                                     conversationId
                                 );
-                                level.addPrefab(trigger);
                             }
                             else if(object.getClass() == "prefabSpawn") {
                                 auto aabb = object.getAABB();
@@ -105,7 +105,8 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                                         prefabValue = prop.getStringValue();
                                     }
                                 }
-                                Entity trigger = prefab::PrefabSpawnTrigger::create(
+                                entt::entity trigger = prefab::PrefabSpawnTrigger::create(
+                                    ecs,
                                     {(int) aabb.left, (int) aabb.top, (int) aabb.width, (int) aabb.height},
                                     triggerOnce,
                                     entityMustBeGrounded,
@@ -113,7 +114,6 @@ Level LevelParser::parseLevelFromTmx(std::string filePath, SpritesheetID sprites
                                     prefabSpawnPos,
                                     prefabValue
                                 );
-                                level.addPrefab(trigger);
                             }
                         }
                     }

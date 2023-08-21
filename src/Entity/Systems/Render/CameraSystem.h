@@ -1,9 +1,7 @@
 #pragma once
-
-#include "System.h"
 #include "vec2.h"
 
-class CameraSystem : public System {
+class CameraSystem {
 public:
     CameraSystem() = default;
     ~CameraSystem() = default;

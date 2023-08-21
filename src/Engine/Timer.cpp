@@ -13,7 +13,7 @@ void Timer::reset() {
     _mostRecentSecond = _timerResetDefault / 1000;
 }
 
-void Timer::setAudio(Audio* audio) {
+void Timer::setAudio(std::shared_ptr<Audio> audio) {
     _audio = audio;
 }
 

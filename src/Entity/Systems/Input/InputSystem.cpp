@@ -1,48 +1,46 @@
 #include "InputSystem.h"
-#include "EntityRegistry.h"
 #include "InputComponent.h"
+#include "PhysicsComponent.h"
 
 #include <algorithm>
 
-void InputSystem::init(Keyboard* keyboard, Controller* controller, Settings* settings) {
+void InputSystem::init(std::shared_ptr<Keyboard> keyboard, std::shared_ptr<Controller> controller, std::shared_ptr<Settings> settings) {
     _keyboard = keyboard;
     _controller = controller;
     _settings = settings;
 }
 
-void InputSystem::update() {
-    auto ecs = EntityRegistry::getInstance();
-    for(auto ent : _entities) {
-        auto& inputComponent = ecs->getComponent<InputComponent>(ent);
+void InputSystem::update(entt::registry& ecs) {
+    auto entities = ecs.view<InputComponent, PhysicsComponent>();
+    for(auto ent : entities) {
+        auto& inputComponent = ecs.get<InputComponent>(ent);
+        auto& physics = ecs.get<PhysicsComponent>(ent);
         auto allowedInputs = inputComponent.allowedInputs;
 
         // X inputs
-        if(inputPressed(InputEvent::LEFT) &&
+        if(inputDown(InputEvent::LEFT) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::LEFT) != allowedInputs.end()) {
             _inputRequested = true;
-            std::cout << "left pressed" << std::endl;
+            physics.velocity.x -= physics.acceleration.x;
         }
-        else if(inputPressed(InputEvent::RIGHT) &&
+        else if(inputDown(InputEvent::RIGHT) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::RIGHT) != allowedInputs.end()) {
             _inputRequested = true;
-            std::cout << "right pressed" << std::endl;
+            physics.velocity.x += physics.acceleration.x;
         }
 
         // Y inputs
-        if(inputPressed(InputEvent::UP) &&
+        if(inputDown(InputEvent::UP) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::UP) != allowedInputs.end()) {
             _inputRequested = true;
-            std::cout << "up pressed" << std::endl;
+            physics.velocity.y -= physics.acceleration.y;
         }
-        else if(inputPressed(InputEvent::DOWN) &&
+        else if(inputDown(InputEvent::DOWN) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::DOWN) != allowedInputs.end()) {
             _inputRequested = true;
-            std::cout << "down pressed" << std::endl;
+            physics.velocity.y += physics.acceleration.y;
         }
     }
-
-    _keyboard->updateInputs();
-    _controller->updateInputs();
 }
 
 void InputSystem::completeInputRequest() {

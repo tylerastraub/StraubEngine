@@ -1,5 +1,4 @@
 #include "Level.h"
-#include "EntityRegistry.h"
 
 void Level::allocateTilemap(int width, int height) {
     if(width < 1 || height < 1) return;
@@ -14,14 +13,6 @@ void Level::allocateTilemap(int width, int height) {
         tilemap.push_back(row);
     }
     _tilemap = tilemap;
-}
-
-
-void Level::spawnPrefabs() {
-    auto ecs = EntityRegistry::getInstance();
-    for(auto ent : _prefabs) {
-        ecs->reregisterEntity(ent);
-    }
 }
 
 void Level::render(int xOffset, int yOffset) {
@@ -72,12 +63,8 @@ void Level::setTileset(Spritesheet* tileset) {
     _tileset = tileset;
 }
 
-void Level::setPlayerId(Entity player) {
+void Level::setPlayerId(entt::entity player) {
     _playerId = player;
-}
-
-void Level::addPrefab(Entity entity) {
-    _prefabs.push_back(entity);
 }
 
 Tile Level::getTileAt(int x, int y) {
@@ -99,7 +86,7 @@ int Level::getTilemapHeight() {
     return _tilemapHeight;
 }
 
-Entity Level::getPlayerId() {
+entt::entity Level::getPlayerId() {
     return _playerId;
 }
 

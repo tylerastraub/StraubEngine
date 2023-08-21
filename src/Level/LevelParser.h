@@ -13,8 +13,7 @@ public:
     LevelParser() = default;
     ~LevelParser() = default;
 
-    static std::vector<std::vector<Tile>> parseLevelFromTxt(std::string filePath);
-    static Level parseLevelFromTmx(std::string filePath, SpritesheetID spritesheetId);
+    static Level parseLevelFromTmx(entt::registry& ecs, std::string filePath, SpritesheetID spritesheetId);
 
 private:
     static PrefabType convertStringToPrefabType(std::string prefabTypeString);

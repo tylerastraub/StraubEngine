@@ -1,18 +1,19 @@
 #pragma once
-
-#include "System.h"
 #include "Keyboard.h"
 #include "Controller.h"
 #include "Settings.h"
 
-class InputSystem : public System {
+#include <entt/entity/registry.hpp>
+#include <memory>
+
+class InputSystem {
 public:
     InputSystem() = default;
     ~InputSystem() = default;
 
-    void init(Keyboard* keyboard, Controller* controller, Settings* settings);
+    void init(std::shared_ptr<Keyboard> keyboard, std::shared_ptr<Controller> controller, std::shared_ptr<Settings> settings);
 
-    void update();
+    void update(entt::registry& ecs);
 
     void completeInputRequest();
     bool requestsInput();
@@ -23,9 +24,9 @@ private:
     bool inputPressed(InputEvent input);
     bool inputReleased(InputEvent input);
 
-    Keyboard* _keyboard = nullptr;
-    Controller* _controller = nullptr;
-    Settings* _settings = nullptr;
+    std::shared_ptr<Keyboard> _keyboard = nullptr;
+    std::shared_ptr<Controller> _controller = nullptr;
+    std::shared_ptr<Settings> _settings = nullptr;
 
     bool _inputRequested = false;
 };

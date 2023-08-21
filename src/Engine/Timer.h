@@ -3,6 +3,7 @@
 #include "Audio.h"
 
 #include <string>
+#include <memory>
 
 class Timer {
 public:
@@ -12,7 +13,7 @@ public:
     void update(float timescale);
     void reset();
 
-    void setAudio(Audio* audio);
+    void setAudio(std::shared_ptr<Audio> audio);
     void setTimer(int ms);
     void setTimerResetDefault(int ms);
 
@@ -22,7 +23,7 @@ public:
     bool isZero();
 
 private:
-    Audio* _audio = nullptr;
+    std::shared_ptr<Audio> _audio = nullptr;
 
     int _timer = 0;
     int _timerResetDefault = 0;

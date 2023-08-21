@@ -3,8 +3,7 @@
 #include "rect2.h"
 
 #include <cstdint>
-
-using Entity = std::uint16_t;
+#include <entt/entity/registry.hpp>
 
 namespace prefab {
     class DialogueTrigger {
@@ -12,8 +11,8 @@ namespace prefab {
         DialogueTrigger() = default;
         ~DialogueTrigger() = default;
 
-        static Entity create();
-        static Entity create(strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId);
+        static entt::entity create(entt::registry& ecs);
+        static entt::entity create(entt::registry& ecs, strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId);
 
     private:
 

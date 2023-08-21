@@ -1,5 +1,4 @@
 #include "DialogueTrigger.h"
-#include "EntityRegistry.h"
 #include "DialogueBox.h"
 // Components
 #include "TransformComponent.h"
@@ -14,8 +13,8 @@ namespace {
         OnTriggerScript() = default;
         ~OnTriggerScript() = default;
 
-        void update(Entity owner, float timescale, Audio* audio) override {
-            auto ecs = EntityRegistry::getInstance();
+        void update(entt::registry& ecs, entt::entity owner, float timescale, std::shared_ptr<Audio> audio) override {
+            
         }
 
     private:
@@ -24,32 +23,31 @@ namespace {
 }
 
 namespace prefab {
-    Entity DialogueTrigger::create() {
-        return create({0, 0, 0, 0}, true, false, -1);
+    entt::entity DialogueTrigger::create(entt::registry& ecs) {
+        return create(ecs, {0, 0, 0, 0}, true, false, -1);
     }
 
-    Entity DialogueTrigger::create(strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId) {
-        auto ecs = EntityRegistry::getInstance();
-        Entity ent = ecs->createEntity();
+    entt::entity DialogueTrigger::create(entt::registry& ecs, strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId) {
+        entt::entity ent = ecs.create();
 
         CollisionComponent collision;
         collision.collisionRect = triggerRect;
         collision.collisionRectOffset = {0, 0};
         
-        ecs->addComponent<CollisionComponent>(ent, collision);
+        ecs.emplace<CollisionComponent>(ent, collision);
 
-        ecs->addComponent<TransformComponent>(ent, TransformComponent{
+        ecs.emplace<TransformComponent>(ent, TransformComponent{
             {(float) triggerRect.x, (float) triggerRect.y},
             {(float) triggerRect.x, (float) triggerRect.y}
         });
 
-        ecs->addComponent<TriggerComponent>(ent, TriggerComponent{
+        ecs.emplace<TriggerComponent>(ent, TriggerComponent{
             TriggerType::DIALOGUE,
             std::make_shared<OnTriggerScript>(),
             triggerOnce,
             entityMustBeGrounded
         });
-        ecs->addComponent<DialogueTriggerComponent>(ent, DialogueTriggerComponent{conversationId});
+        ecs.emplace<DialogueTriggerComponent>(ent, DialogueTriggerComponent{conversationId});
 
         return ent;
     }

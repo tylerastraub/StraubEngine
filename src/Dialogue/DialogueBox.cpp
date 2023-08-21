@@ -50,7 +50,7 @@ void DialogueBox::setText(Text* text) {
     _text = text;
 }
 
-void DialogueBox::setAudio(Audio* audio) {
+void DialogueBox::setAudio(std::shared_ptr<Audio> audio) {
     _audio = audio;
 }
 
