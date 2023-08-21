@@ -6,6 +6,7 @@
 #include "Dialogue.h"
 
 #include <vector>
+#include <memory>
 
 using Conversation = std::vector<Dialogue>;
 
@@ -20,7 +21,7 @@ public:
     void reset();
 
     void setText(Text* text);
-    void setAudio(Audio* audio);
+    void setAudio(std::shared_ptr<Audio> audio);
     void setString(std::string s);
     void setConversation(Conversation conversation);
     void setDialogue(Dialogue dialogue);
@@ -37,7 +38,7 @@ private:
     const int Y_BORDER_BUFFER = 3;
 
     Text* _text = nullptr;
-    Audio* _audio = nullptr;
+    std::shared_ptr<Audio> _audio = nullptr;
 
     bool _isEnabled = false;
     float _timeActive = 0.f;

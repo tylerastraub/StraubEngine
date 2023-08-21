@@ -1,17 +1,16 @@
 #include "PhysicsSystem.h"
-#include "EntityRegistry.h"
 #include "TransformComponent.h"
 #include "PhysicsComponent.h"
 
 #include <iostream>
 #include <algorithm>
 
-bool PhysicsSystem::updateX(float timescale) {
+bool PhysicsSystem::updateX(entt::registry& ecs, float timescale) {
     bool entityMoved = false;
-    auto ecs = EntityRegistry::getInstance();
-    for(auto ent : _entities) {
-        auto& physics = ecs->getComponent<PhysicsComponent>(ent);
-        auto& transform = ecs->getComponent<TransformComponent>(ent);
+    auto entities = ecs.view<PhysicsComponent, TransformComponent>();
+    for(auto ent : entities) {
+        auto& physics = ecs.get<PhysicsComponent>(ent);
+        auto& transform = ecs.get<TransformComponent>(ent);
 
         transform.lastPosition = transform.position; // always update this since last position is based on tile position previous turn
         if(physics.velocity.x != 0.f) {
@@ -19,32 +18,32 @@ bool PhysicsSystem::updateX(float timescale) {
             transform.position.x += physics.velocity.x * timescale;
             float friction = (physics.touchingGround) ? physics.frictionCoefficient : physics.airFrictionCoefficient;
             moveToZero(physics.velocity.x, friction);
+            if(physics.velocity.x > physics.maxVelocity.x) physics.velocity.x = physics.maxVelocity.x;
+            else if(physics.velocity.x < physics.maxVelocity.x * -1.f) physics.velocity.x = physics.maxVelocity.x * -1.f;
         }
     }
     return entityMoved;
 }
 
-bool PhysicsSystem::updateY(float timescale) {
+bool PhysicsSystem::updateY(entt::registry& ecs, float timescale) {
     bool entityMoved = false;
-    auto ecs = EntityRegistry::getInstance();
-    for(auto ent : _entities) {
-        entityMoved = true;
-        auto& physics = ecs->getComponent<PhysicsComponent>(ent);
-        auto& transform = ecs->getComponent<TransformComponent>(ent);
+    auto entities = ecs.view<PhysicsComponent, TransformComponent>();
+    for(auto ent : entities) {
+        auto& physics = ecs.get<PhysicsComponent>(ent);
+        auto& transform = ecs.get<TransformComponent>(ent);
 
-        if(physics.touchingGround) {
-            physics.offGroundCount = 0;
-        }
-        else {
-            ++physics.offGroundCount;
+        transform.lastPosition = transform.position; // always update this since last position is based on tile position previous turn
+        if(physics.velocity.y != 0.f) {
+            entityMoved = true;
+            transform.position.y += physics.velocity.y * timescale;
+            float friction = (physics.touchingGround) ? physics.frictionCoefficient : physics.airFrictionCoefficient;
+            moveToZero(physics.velocity.y, friction);
+            if(physics.velocity.y > physics.maxVelocity.y) physics.velocity.y = physics.maxVelocity.y;
+            else if(physics.velocity.y < physics.maxVelocity.y * -1.f) physics.velocity.y = physics.maxVelocity.y * -1.f;
         }
     }
 
     return entityMoved;
-}
-
-void PhysicsSystem::setLevel(Level level) {
-    _level = level;
 }
 
 void PhysicsSystem::moveToZero(float &value, float amount) {

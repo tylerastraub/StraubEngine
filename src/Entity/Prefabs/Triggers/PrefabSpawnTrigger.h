@@ -6,8 +6,7 @@
 
 #include <cstdint>
 #include <string>
-
-using Entity = std::uint16_t;
+#include <entt/entity/registry.hpp>
 
 namespace prefab {
     class PrefabSpawnTrigger {
@@ -15,8 +14,9 @@ namespace prefab {
         PrefabSpawnTrigger() = default;
         ~PrefabSpawnTrigger() = default;
 
-        static Entity create();
-        static Entity create(
+        static entt::entity create(entt::registry& ecs);
+        static entt::entity create(
+            entt::registry& ecs,
             strb::rect2i triggerRect,
             bool triggerOnce,
             bool entityMustBeGrounded,

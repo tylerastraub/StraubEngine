@@ -7,8 +7,7 @@
 #include <vector>
 #include <cstdint>
 #include <memory>
-
-using Entity = std::uint16_t;
+#include <entt/entity/registry.hpp>
 
 class Level {
 public:
@@ -16,7 +15,6 @@ public:
     ~Level() = default;
 
     void allocateTilemap(int width, int height);
-    void spawnPrefabs();
     void render(int xOffset, int yOffset);
 
     void setTilemap(std::vector<std::vector<Tile>> tilemap);
@@ -24,14 +22,13 @@ public:
     void setTileSize(int tileSize);
     void setTileAt(int x, int y, Tile tile);
     void setTileset(Spritesheet* tileset);
-    void setPlayerId(Entity player);
-    void addPrefab(Entity entity);
+    void setPlayerId(entt::entity player);
 
     Tile getTileAt(int x, int y);
     int getTileSize();
     int getTilemapWidth();
     int getTilemapHeight();
-    Entity getPlayerId();
+    entt::entity getPlayerId();
     LightMap* getLightMap();
 
 private:
@@ -42,7 +39,6 @@ private:
     int _tileSize = 16;
     Spritesheet* _tileset = nullptr;
 
-    std::vector<Entity> _prefabs;
-    Entity _playerId;
+    entt::entity _playerId;
 
 };

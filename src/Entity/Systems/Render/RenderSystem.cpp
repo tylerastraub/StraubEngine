@@ -1,5 +1,4 @@
 #include "RenderSystem.h"
-#include "EntityRegistry.h"
 #include "RenderComponent.h"
 #include "TransformComponent.h"
 #include "SpritesheetPropertiesComponent.h"
@@ -8,22 +7,20 @@
 #include "AnimationComponent.h"
 #include "rect2.h"
 
-void RenderSystem::update(float timescale) {
-    auto ecs = EntityRegistry::getInstance();
-    for(auto ent : _entities) {
-        if(ecs->hasComponent<AnimationComponent>(ent)) {
-            auto& animationComponent = ecs->getComponent<AnimationComponent>(ent);
-            animationComponent.msSinceAnimationStart += timescale * 1000.f;
-        }
+void RenderSystem::update(entt::registry& ecs, float timescale) {
+    auto entities = ecs.view<AnimationComponent>();
+    for(auto ent : entities) {
+        auto& animationComponent = ecs.get<AnimationComponent>(ent);
+        animationComponent.msSinceAnimationStart += timescale * 1000.f;
     }
 }
 
-void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderYOffset) {
-    auto ecs = EntityRegistry::getInstance();
+void RenderSystem::render(SDL_Renderer* renderer, entt::registry& ecs, int renderXOffset, int renderYOffset) {
+    auto entities = ecs.view<RenderComponent, TransformComponent>();
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
-    for(auto ent : _entities) {
-        auto& renderComponent = ecs->getComponent<RenderComponent>(ent);
-        auto& transform = ecs->getComponent<TransformComponent>(ent);
+    for(auto ent : entities) {
+        auto& renderComponent = ecs.get<RenderComponent>(ent);
+        auto& transform = ecs.get<TransformComponent>(ent);
         renderComponent.renderQuad.x = transform.position.x + renderComponent.renderQuadOffset.x;
         renderComponent.renderQuad.y = transform.position.y + renderComponent.renderQuadOffset.y;
         SDL_Rect quad = {
@@ -38,20 +35,20 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
         if(quad.x + quad.w > 0 && quad.x < _renderBounds.x &&
            quad.y + quad.h > 0 && quad.y < _renderBounds.y) {
             // if entity has spritesheet + required helper components
-            if(ecs->hasComponent<SpritesheetPropertiesComponent>(ent) &&
-               ecs->hasComponent<StateComponent>(ent) &&
-               ecs->hasComponent<DirectionComponent>(ent)) {
-                auto& propsComponent = ecs->getComponent<SpritesheetPropertiesComponent>(ent);
-                auto& state = ecs->getComponent<StateComponent>(ent).state;
-                auto& direction = ecs->getComponent<DirectionComponent>(ent).direction;
+            if(ecs.all_of<SpritesheetPropertiesComponent>(ent) &&
+               ecs.all_of<StateComponent>(ent) &&
+               ecs.all_of<DirectionComponent>(ent)) {
+                auto& propsComponent = ecs.get<SpritesheetPropertiesComponent>(ent);
+                auto& state = ecs.get<StateComponent>(ent).state;
+                auto& direction = ecs.get<DirectionComponent>(ent).direction;
                 SpritesheetProperties props = propsComponent.getSpritesheetProperties(state, direction);
                 propsComponent.spritesheet->setIsAnimated(props.isAnimated);
                 propsComponent.spritesheet->setIsLooped(props.isLooped);
                 propsComponent.spritesheet->setMsBetweenFrames(props.msBetweenFrames);
                 propsComponent.spritesheet->setNumOfFrames(props.numOfFrames);
                 if(props.isAnimated) {
-                    auto& animationComponent = ecs->getComponent<AnimationComponent>(ent);
-                    auto& state = ecs->getComponent<StateComponent>(ent);
+                    auto& animationComponent = ecs.get<AnimationComponent>(ent);
+                    auto& state = ecs.get<StateComponent>(ent);
                     // check for change in y index to restart animation counter
                     if(state.state != animationComponent.lastState) {
                         animationComponent.msSinceAnimationStart = 0;
@@ -65,10 +62,10 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
                     }
                     propsComponent.spritesheet->setTileIndex(animationComponent.xIndex, props.yTileIndex);
                     animationComponent.lastState = state.state;
-                    if(ecs->hasComponent<StateComponent>(ent) &&
-                        ecs->hasComponent<DirectionComponent>(ent)) {
-                        auto& state = ecs->getComponent<StateComponent>(ent).state;
-                        auto& direction = ecs->getComponent<DirectionComponent>(ent).direction;
+                    if(ecs.all_of<StateComponent>(ent) &&
+                        ecs.all_of<DirectionComponent>(ent)) {
+                        auto& state = ecs.get<StateComponent>(ent).state;
+                        auto& direction = ecs.get<DirectionComponent>(ent).direction;
                         propsComponent.addSpritesheetProperties(state, direction, props);
                     }
                 }
@@ -86,8 +83,8 @@ void RenderSystem::render(SDL_Renderer* renderer, int renderXOffset, int renderY
                 );
             }
             // else if entity has spritesheet at all
-            else if(ecs->hasComponent<SpritesheetPropertiesComponent>(ent)) {
-                auto& propsComponent = ecs->getComponent<SpritesheetPropertiesComponent>(ent);
+            else if(ecs.all_of<SpritesheetPropertiesComponent>(ent)) {
+                auto& propsComponent = ecs.get<SpritesheetPropertiesComponent>(ent);
                 SpritesheetProperties props = propsComponent.getPrimarySpritesheetProperties();
                 propsComponent.spritesheet->setIsAnimated(props.isAnimated);
                 propsComponent.spritesheet->setIsLooped(props.isLooped);

@@ -4,8 +4,7 @@
 
 #include <memory>
 #include <cstdint>
-
-using Entity = std::uint16_t;
+#include <entt/entity/registry.hpp>
 
 class IScript {
 public:
@@ -18,7 +17,7 @@ public:
      * @param timescale The timescale to update by - is usually fixed.
      * @param phase The current phase the TurnSystem is in. Scripts can choose to ignore this.
      */
-    virtual void update(Entity owner, float timescale, Audio* audio) = 0;
+    virtual void update(entt::registry& ecs, entt::entity owner, float timescale, std::shared_ptr<Audio> audio) = 0;
 
 private:
 

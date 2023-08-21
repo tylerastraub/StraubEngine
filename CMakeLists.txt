@@ -39,7 +39,6 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Specialized
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Trigger
-    ${PROJECT_SOURCE_DIR}/src/Entity/Core
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Generic
@@ -68,7 +67,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSObject.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSTable.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render/SpritesheetPropertiesComponent.cpp
-    ${PROJECT_SOURCE_DIR}/src/Entity/Core/EntityManager.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/DialogueTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/PrefabSpawnTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Generic/ScriptSystem.cpp
@@ -148,6 +146,8 @@ elseif(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy
         ${PROJECT_SOURCE_DIR}/settings.cfg $<TARGET_FILE_DIR:StraubEngine>/../Resources/settings.cfg)
 endif()
+
+target_include_directories(StraubEngine PRIVATE ${CMAKE_SOURCE_DIR}/lib/entt/src)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
