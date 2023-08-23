@@ -2,7 +2,6 @@
 
 using std::string;
 
-namespace StringID
-{
+namespace StringID {
     const string windowTitle = "StraubEngine";
 };
