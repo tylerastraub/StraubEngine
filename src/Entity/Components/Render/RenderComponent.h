@@ -4,6 +4,6 @@
 #include "vec2.h"
 
 struct RenderComponent {
-    strb::rect2i renderQuad = {0, 0, 0, 0};
-    strb::vec2i renderQuadOffset = {0, 0};
+    strb::rect2f renderQuad = {0, 0, 0, 0};
+    strb::vec2f renderQuadOffset = {0, 0};
 };

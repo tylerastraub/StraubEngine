@@ -39,7 +39,7 @@ public:
      * @param angle The angle to rotate the sprite. Set to 0.0 by default.
      * @param center The center of the sprite for rotating. Uses the center of the sprite by default.
      */
-    void render(int x, int y, int w, int h, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, strb::vec2i center = {-1, -1});
+    void render(float x, float y, float w, float h, SDL_RendererFlip flip = SDL_FLIP_NONE, double angle = 0.0, strb::vec2f center = {-1.f, -1.f});
 
     SDL_Texture* getTexture();
     strb::vec2i getTileIndex();

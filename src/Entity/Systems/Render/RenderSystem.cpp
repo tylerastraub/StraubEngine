@@ -15,7 +15,7 @@ void RenderSystem::update(entt::registry& ecs, float timescale) {
     }
 }
 
-void RenderSystem::render(SDL_Renderer* renderer, entt::registry& ecs, int renderXOffset, int renderYOffset) {
+void RenderSystem::render(SDL_Renderer* renderer, entt::registry& ecs, strb::vec2f renderOffset) {
     auto entities = ecs.view<RenderComponent, TransformComponent>();
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
     for(auto ent : entities) {
@@ -23,14 +23,14 @@ void RenderSystem::render(SDL_Renderer* renderer, entt::registry& ecs, int rende
         auto& transform = ecs.get<TransformComponent>(ent);
         renderComponent.renderQuad.x = transform.position.x + renderComponent.renderQuadOffset.x;
         renderComponent.renderQuad.y = transform.position.y + renderComponent.renderQuadOffset.y;
-        SDL_Rect quad = {
+        SDL_FRect quad = {
             renderComponent.renderQuad.x,
             renderComponent.renderQuad.y,
             renderComponent.renderQuad.w,
             renderComponent.renderQuad.h
         };
-        quad.x += renderXOffset;
-        quad.y += renderYOffset;
+        quad.x += renderOffset.x;
+        quad.y += renderOffset.y;
         // bounds check before rendering
         if(quad.x + quad.w > 0 && quad.x < _renderBounds.x &&
            quad.y + quad.h > 0 && quad.y < _renderBounds.y) {
@@ -108,7 +108,7 @@ void RenderSystem::render(SDL_Renderer* renderer, entt::registry& ecs, int rende
             }
             else {
                 // no spritesheet set, default quad rendered
-                SDL_RenderFillRect(renderer, &quad);
+                SDL_RenderFillRectF(renderer, &quad);
             }
         }
     }

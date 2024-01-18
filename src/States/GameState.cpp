@@ -43,7 +43,7 @@ void GameState::render() {
     SDL_SetRenderDrawColor(getRenderer(), 0x00, 0x00, 0x00, 0xFF);
     SDL_RenderClear(getRenderer());
 
-    _renderSystem.render(getRenderer(), _ecs, _renderOffset.x, _renderOffset.y);
+    _renderSystem.render(getRenderer(), _ecs, _renderOffset);
 
     SDL_RenderPresent(getRenderer());
 }

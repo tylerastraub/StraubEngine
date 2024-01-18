@@ -17,11 +17,11 @@ void CameraSystem::setCurrentCameraOffset(float x, float y) {
 }
 
 void CameraSystem::setGameSize(int x, int y) {
-    _gameSize = {(float) x, (float) y};
+    _gameSize = {x, y};
 }
 
 void CameraSystem::setLevelSize(int x, int y) {
-    _levelSize = {(float) x, (float) y};
+    _levelSize = {x, y};
 }
 
 void CameraSystem::setCameraSpeed(float cameraSpeed) {

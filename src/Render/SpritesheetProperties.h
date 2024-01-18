@@ -13,5 +13,5 @@ struct SpritesheetProperties {
     int msBetweenFrames = 79;
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     double angle = 0.0;
-    strb::vec2i center = {-1, -1};
+    strb::vec2f center = {-1.f, -1.f};
 };

@@ -43,19 +43,19 @@ bool Spritesheet::load(SDL_Renderer* renderer, std::string path) {
     return true;
 }
 
-void Spritesheet::render(int x, int y, int w, int h, SDL_RendererFlip flip, double angle, strb::vec2i center) {
+void Spritesheet::render(float x, float y, float w, float h, SDL_RendererFlip flip, double angle, strb::vec2f center) {
     SDL_Rect srcRect;
     srcRect.x = _tileIndex.x;
     srcRect.y = _tileIndex.y;
     srcRect.w = _tileSize.x;
     srcRect.h = _tileSize.y;
-    SDL_Rect renderQuad = {x, y, w, h};
+    SDL_FRect renderQuad = {x, y, w, h};
     if(center.x == -1 && center.y == -1) {
-        SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, NULL, flip);
+        SDL_RenderCopyExF(_renderer, _texture, &srcRect, &renderQuad, angle, NULL, flip);
     }
     else {
-        SDL_Point pointCenter = {center.x, center.y};
-        SDL_RenderCopyEx(_renderer, _texture, &srcRect, &renderQuad, angle, &pointCenter, flip);
+        SDL_FPoint pointCenter = {center.x, center.y};
+        SDL_RenderCopyExF(_renderer, _texture, &srcRect, &renderQuad, angle, &pointCenter, flip);
     }
 }
 

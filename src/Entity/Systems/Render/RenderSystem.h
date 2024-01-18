@@ -12,7 +12,7 @@ public:
 
     void update(entt::registry& ecs, float timescale);
 
-    void render(SDL_Renderer* renderer, entt::registry& ecs, int renderXOffset = 0, int renderYOffset = 0);
+    void render(SDL_Renderer* renderer, entt::registry& ecs, strb::vec2f renderOffset = {0.f, 0.f});
 
     void setRenderBounds(strb::vec2i renderBounds);
 

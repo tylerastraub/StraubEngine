@@ -25,7 +25,7 @@ bool Game::init() {
         if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0")) {
             std::cout << "Warning: Nearest pixel sampling not enabled!" << std::endl;
         }
-        if(!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
+        if(!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "0")) {
             std::cout << "Warning: Vsync not enabled!" << std::endl;
         }
 
@@ -136,11 +136,7 @@ bool Game::loadResources() {
     _text[TextSize::LARGE] = largeText;
 
     // Spritesheets
-    std::shared_ptr<Spritesheet> dialogueSpritesheet = std::make_shared<Spritesheet>();
-    if(!dialogueSpritesheet->load(_renderer, "res/spritesheet/dialogue_box.png")) return false;
-    dialogueSpritesheet->setTileWidth(320);
-    dialogueSpritesheet->setTileHeight(32);
-    SpritesheetRegistry::addSpritesheet(SpritesheetID::DIALOGUE_BOX, dialogueSpritesheet);
+    if(!SpritesheetRegistry::addSpritesheet(_renderer, SpritesheetID::DIALOGUE_BOX, "res/spritesheet/dialogue_box.png", 320, 32)) return false;
 
     // Audio
     _audioPlayer = std::make_shared<Audio>();
@@ -155,7 +151,8 @@ void Game::startGameLoop() {
     std::chrono::milliseconds dTime = std::chrono::milliseconds(0); // deltaTime
     Uint32 millisecondCount = 0;
     Uint32 frames = 0;
-    float frameWait = 1.f / 60.f;
+    Uint32 ticks = 0;
+    float frameWait = 1.f / 50.f;
     float frameRemainder = 0.f;
     while(_exitFlag == false) {
         // Event Handling
@@ -230,13 +227,16 @@ void Game::startGameLoop() {
             frameRemainder += std::abs(frameWait * 1000.f - std::ceil(frameWait * 1000.f));
             if(frameRemainder > 1.f) frameRemainder = 0.f;
             _currentState->tick(frameWait);
-            _currentState->render();
-            frames++;
+            ticks++;
         }
 
+        _currentState->render();
+        frames++;
+
         if(millisecondCount >= 1000) {
-            std::cout << "FPS: " << frames << std::endl;
+            std::cout << "FPS: " << frames << " | TPS: " << ticks << std::endl;
             frames = 0;
+            ticks = 0;
             millisecondCount = 0;
         }
     }
