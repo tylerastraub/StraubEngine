@@ -5,16 +5,14 @@
 #include <iostream>
 #include <algorithm>
 
-bool PhysicsSystem::updateX(entt::registry& ecs, float timescale) {
-    bool entityMoved = false;
+void PhysicsSystem::updateX(entt::registry& ecs, float timescale) {
     auto entities = ecs.view<PhysicsComponent, TransformComponent>();
     for(auto ent : entities) {
         auto& physics = ecs.get<PhysicsComponent>(ent);
         auto& transform = ecs.get<TransformComponent>(ent);
 
-        transform.lastPosition = transform.position; // always update this since last position is based on tile position previous turn
+        transform.lastPosition = transform.position;
         if(physics.velocity.x != 0.f) {
-            entityMoved = true;
             transform.position.x += physics.velocity.x * timescale;
             float friction = (physics.touchingGround) ? physics.frictionCoefficient : physics.airFrictionCoefficient;
             moveToZero(physics.velocity.x, friction);
@@ -22,19 +20,16 @@ bool PhysicsSystem::updateX(entt::registry& ecs, float timescale) {
             else if(physics.velocity.x < physics.maxVelocity.x * -1.f) physics.velocity.x = physics.maxVelocity.x * -1.f;
         }
     }
-    return entityMoved;
 }
 
-bool PhysicsSystem::updateY(entt::registry& ecs, float timescale) {
-    bool entityMoved = false;
+void PhysicsSystem::updateY(entt::registry& ecs, float timescale) {
     auto entities = ecs.view<PhysicsComponent, TransformComponent>();
     for(auto ent : entities) {
         auto& physics = ecs.get<PhysicsComponent>(ent);
         auto& transform = ecs.get<TransformComponent>(ent);
 
-        transform.lastPosition = transform.position; // always update this since last position is based on tile position previous turn
+        transform.lastPosition = transform.position;
         if(physics.velocity.y != 0.f) {
-            entityMoved = true;
             transform.position.y += physics.velocity.y * timescale;
             float friction = (physics.touchingGround) ? physics.frictionCoefficient : physics.airFrictionCoefficient;
             moveToZero(physics.velocity.y, friction);
@@ -42,8 +37,6 @@ bool PhysicsSystem::updateY(entt::registry& ecs, float timescale) {
             else if(physics.velocity.y < physics.maxVelocity.y * -1.f) physics.velocity.y = physics.maxVelocity.y * -1.f;
         }
     }
-
-    return entityMoved;
 }
 
 void PhysicsSystem::moveToZero(float &value, float amount) {

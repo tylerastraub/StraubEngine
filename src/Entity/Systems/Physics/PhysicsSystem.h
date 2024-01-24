@@ -7,8 +7,8 @@ public:
     PhysicsSystem() = default;
     ~PhysicsSystem() = default;
 
-    bool updateX(entt::registry& ecs, float timescale);
-    bool updateY(entt::registry& ecs, float timescale);
+    void updateX(entt::registry& ecs, float timescale);
+    void updateY(entt::registry& ecs, float timescale);
 
 private:
     void moveToZero(float &value, float amount);

@@ -15,9 +15,6 @@ public:
 
     void update(entt::registry& ecs);
 
-    void completeInputRequest();
-    bool requestsInput();
-
 private:
     bool inputDown(InputEvent input);
     bool inputUp(InputEvent input);
@@ -27,6 +24,4 @@ private:
     std::shared_ptr<Keyboard> _keyboard = nullptr;
     std::shared_ptr<Controller> _controller = nullptr;
     std::shared_ptr<Settings> _settings = nullptr;
-
-    bool _inputRequested = false;
 };

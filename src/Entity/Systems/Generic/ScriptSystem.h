@@ -10,8 +10,11 @@ public:
     ScriptSystem() = default;
     ~ScriptSystem() = default;
 
-    void update(entt::registry& ecs, std::shared_ptr<Audio> audio, float timescale);
+    void init(std::shared_ptr<Audio> audio);
+
+    void update(entt::registry& ecs, float timescale);
 
 private:
+    std::shared_ptr<Audio> _audio = nullptr;
 
 };

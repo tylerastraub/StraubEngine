@@ -20,35 +20,23 @@ void InputSystem::update(entt::registry& ecs) {
         // X inputs
         if(inputDown(InputEvent::LEFT) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::LEFT) != allowedInputs.end()) {
-            _inputRequested = true;
             physics.velocity.x -= physics.acceleration.x;
         }
         else if(inputDown(InputEvent::RIGHT) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::RIGHT) != allowedInputs.end()) {
-            _inputRequested = true;
             physics.velocity.x += physics.acceleration.x;
         }
 
         // Y inputs
         if(inputDown(InputEvent::UP) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::UP) != allowedInputs.end()) {
-            _inputRequested = true;
             physics.velocity.y -= physics.acceleration.y;
         }
         else if(inputDown(InputEvent::DOWN) &&
            std::find(allowedInputs.begin(), allowedInputs.end(), InputEvent::DOWN) != allowedInputs.end()) {
-            _inputRequested = true;
             physics.velocity.y += physics.acceleration.y;
         }
     }
-}
-
-void InputSystem::completeInputRequest() {
-    _inputRequested = false;
-}
-
-bool InputSystem::requestsInput() {
-    return _inputRequested;
 }
 
 bool InputSystem::inputDown(InputEvent input) {
