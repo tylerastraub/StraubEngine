@@ -48,6 +48,7 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/GUI
     ${PROJECT_SOURCE_DIR}/src/Input
     ${PROJECT_SOURCE_DIR}/src/Level
+    ${PROJECT_SOURCE_DIR}/src/Level/Lighting
     ${PROJECT_SOURCE_DIR}/src/Localization
     ${PROJECT_SOURCE_DIR}/src/Render
     ${PROJECT_SOURCE_DIR}/src/Render/Effects
@@ -73,6 +74,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Input/InputSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Physics/PhysicsSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/CameraSystem.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/LightSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/RenderSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/GUI/BlankElement.cpp
     ${PROJECT_SOURCE_DIR}/src/GUI/Button.cpp
@@ -82,10 +84,10 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Keyboard.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Mouse.cpp
-    ${PROJECT_SOURCE_DIR}/src/Level/FloatingPointLightMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Level.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
-    ${PROJECT_SOURCE_DIR}/src/Level/LightMap.cpp
+    ${PROJECT_SOURCE_DIR}/src/Level/Lighting/FloatingPointLightMap.cpp
+    ${PROJECT_SOURCE_DIR}/src/Level/Lighting/LightMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Effects/ScreenShake.cpp

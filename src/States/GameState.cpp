@@ -14,7 +14,7 @@ std::mt19937 RandomGen::randEng{(unsigned int) std::chrono::system_clock::now().
 bool GameState::init() {
     initSystems();
 
-    _player = _ecs.create();                            // pos              lastPos
+    _player = _ecs.create();                            // pos                lastPos
     _ecs.emplace<TransformComponent>(_player, strb::vec2f{64, 64}, strb::vec2f{64, 64});
     PhysicsComponent physics;
     physics.maxVelocity = {50.f, 50.f};

@@ -2,7 +2,7 @@
 
 #include "Tile.h"
 #include "Spritesheet.h"
-#include "LightMap.h"
+#include "FloatingPointLightMap.h"
 
 #include <vector>
 #include <cstdint>
@@ -18,7 +18,7 @@ public:
     void render(int xOffset, int yOffset);
 
     void setTilemap(std::vector<std::vector<Tile>> tilemap);
-    void setLightMap(std::shared_ptr<LightMap> lightMap);
+    void setLightMap(std::shared_ptr<FloatingPointLightMap> lightMap);
     void setTileSize(int tileSize);
     void setTileAt(int x, int y, Tile tile);
     void setTileset(Spritesheet* tileset);
@@ -29,10 +29,10 @@ public:
     int getTilemapWidth();
     int getTilemapHeight();
     entt::entity getPlayerId();
-    LightMap* getLightMap();
+    std::shared_ptr<FloatingPointLightMap> getLightMap();
 
 private:
-    std::shared_ptr<LightMap> _lMap = nullptr;
+    std::shared_ptr<FloatingPointLightMap> _lMap = nullptr;
     std::vector<std::vector<Tile>> _tilemap;
     int _tilemapWidth = 0;
     int _tilemapHeight = 0;

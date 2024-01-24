@@ -45,7 +45,7 @@ void Level::setTilemap(std::vector<std::vector<Tile>> tilemap) {
     }
 }
 
-void Level::setLightMap(std::shared_ptr<LightMap> lMap) {
+void Level::setLightMap(std::shared_ptr<FloatingPointLightMap> lMap) {
     _lMap = lMap;
 }
 
@@ -90,6 +90,6 @@ entt::entity Level::getPlayerId() {
     return _playerId;
 }
 
-LightMap* Level::getLightMap() {
-    return _lMap.get();
+std::shared_ptr<FloatingPointLightMap> Level::getLightMap() {
+    return _lMap;
 }
