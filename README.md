@@ -17,12 +17,14 @@ Both EnTT and Tileson makes use of std::filesystem which is a C++ 17 include, so
 StraubEngine is updated in line with the development of my other games; that is, when I add a feature or component to a personal game, it will get added to this engine repo. As a result, explicit development of this engine is pretty rare. Instead, there are usually random days where there is a flurry of commits containing new features or improvements from my personal projects.
 
 Current engine-specific TODO is:
-- Precompile libraries (namely tmxlite and entt) to speed up build time
 - Integrate imgui or other lightweight GUI library (current GUI system is a mess)
+    - Add basic console
+- Add system for managing entities based on position (aka something like a QuadTree)
 - Add more "default" systems that are frequently used in all games
 - Update RenderSystem to be more flexible
     - Probably create similar system to IsoSprite struct in MysteryDungeon that allows us to render tiles and entities all in one go
     - Add renderPriority to RenderComponent, sort view in RenderSystem only when RenderComponent is added or updated
+- Add multiplayer support
 
 ## Contribute
 
