@@ -71,13 +71,6 @@ private:
     std::unordered_map<InputEvent, SDL_GameControllerButton_Extended> _buttonsMap;
     // How the control for the corresponding input will be displayed. First string is keyboard, second is controller
     std::unordered_map<InputEvent, std::pair<std::string, std::string>> _displayStringMap;
-    
-    const std::pair<int, int> VALID_RESOLUTIONS[4] = {
-        {640, 360},
-        {1280, 720},
-        {1920, 1080},
-        {2560, 1440}
-    };
 
     std::string _settingsPath = "";
     int _videoWidth = 1280;

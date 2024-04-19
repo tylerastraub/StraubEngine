@@ -22,6 +22,9 @@ bool Game::init() {
         std::cout << "SDL failed to initialize. SDL_Error: " << SDL_GetError() << std::endl;
     }
     else {
+        SDL_version v;
+        SDL_VERSION(&v);
+        std::cout << "SDL Version: " << std::to_string(v.major) << "." << std::to_string(v.minor) << "." << std::to_string(v.patch) << std::endl;
         if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0")) {
             std::cout << "Warning: Nearest pixel sampling not enabled!" << std::endl;
         }
@@ -164,7 +167,7 @@ void Game::startGameLoop() {
                 case SDL_KEYDOWN:
                 case SDL_KEYUP:
                     if(e.key.keysym.sym == SDLK_ESCAPE) {
-                    _exitFlag = true;
+                        _exitFlag = true;
                     }
                     else {
                         _currentState->handleKeyboardInput(e);

@@ -123,17 +123,23 @@ Level LevelParser::parseLevelFromTmx(entt::registry& ecs, std::string filePath, 
                     for(const auto& object : objects) {
                         int xPos = object.getPosition().x / level.getTileSize();
                         int yPos = object.getPosition().y / level.getTileSize();
-                        Tile tile = level.getTileAt(xPos, yPos);
-                        if(object.getClass() == "solid") {
-                            tile.type = TileType::SOLID;
+                        int xSpan = object.getAABB().width / level.getTileSize();
+                        int ySpan = object.getAABB().height / level.getTileSize();
+                        for(int x = xPos; x < xPos + xSpan; ++x) {
+                            for(int y = yPos; y < yPos + ySpan; ++y) {
+                                Tile tile = level.getTileAt(x, y);
+                                if(object.getClass() == "solid") {
+                                    tile.type = TileType::SOLID;
+                                }
+                                else if(object.getClass() == "hazard") {
+                                    tile.type = TileType::HAZARD;
+                                }
+                                else if(object.getClass() == "platform") {
+                                    tile.type = TileType::PLATFORM;
+                                }
+                                level.setTileAt(x, y, tile);
+                            }
                         }
-                        else if(object.getClass() == "hazard") {
-                            tile.type = TileType::HAZARD;
-                        }
-                        else if(object.getClass() == "platform") {
-                            tile.type = TileType::PLATFORM;
-                        }
-                        level.setTileAt(xPos, yPos, tile);
                     }
                 }
             }

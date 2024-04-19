@@ -576,15 +576,8 @@ void Settings::parseSetting(std::string declaration, std::string value) {
         y.erase(std::remove(y.begin(), y.end(), ' '), y.end());
 
         std::pair<int, int> resolution = {std::stoi(x), std::stoi(y)};
-        for(auto pair : VALID_RESOLUTIONS) {
-            if(pair.first == resolution.first && pair.second == resolution.second) {
-                std::cout << "Resolution loaded at " << resolution.first << "x" << resolution.second << std::endl;
-                _videoWidth = resolution.first;
-                _videoHeight = resolution.second;
-                return;
-            }
-        }
-        std::cout << "Error: invalid resolution settings in 'video_settings.cfg'! Resolution: " << value << std::endl;
+        _videoWidth = resolution.first;
+        _videoHeight = resolution.second;
     }
     else if(declaration == "VIDEO_MODE") {
         if(value == "WINDOWED") {

@@ -18,12 +18,18 @@ StraubEngine is updated in line with the development of my other games; that is,
 
 Current engine-specific TODO is:
 - Integrate imgui or other lightweight GUI library (current GUI system is a mess)
+    - Add wrapper class for easy StraubEngine integration
     - Add basic console
 - Add system for managing entities based on position (aka something like a QuadTree)
-- Add more "default" systems that are frequently used in all games
 - Update RenderSystem to be more flexible
     - Probably create similar system to IsoSprite struct in MysteryDungeon that allows us to render tiles and entities all in one go
     - Add renderPriority to RenderComponent, sort view in RenderSystem only when RenderComponent is added or updated
+- Bolster the animation system
+    - Support "transition" frames where after an animation ends, the y index changes
+    - Support reverse animations
+    - Allow for setting frame length of each individual frame for more flexible animations
+- Add debug system
+- Add more robust collision box/hitbox/hurtbox system that allows for easier creation and management of said boxes
 - Add multiplayer support
 
 ## Contribute
