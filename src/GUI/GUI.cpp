@@ -12,7 +12,7 @@ GUI::GUI(int gridWidth, int gridHeight) : _gridWidth(gridWidth), _gridHeight(gri
     }
 }
 
-void GUI::render(int x, int y) {
+void GUI::render(strb::vec2f pos) {
     int runningW = 0;
     for(size_t i = 0; i < _gridWidth; ++i) {
         int runningH = 0;
@@ -21,7 +21,7 @@ void GUI::render(int x, int y) {
             GUIElement* e = getElement(i, j);
             if(e) {
                 e1 = e;
-                e->render(x + runningW, y + runningH, e->isCenterAligned());
+                e->render({pos.x + runningW, pos.y + runningH}, e->isCenterAligned());
                 runningH += e->getRenderHeight();
             }
         }

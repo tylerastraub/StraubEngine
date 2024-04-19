@@ -4,6 +4,7 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Controller.h"
+#include "DialogueBox.h"
 // Systems
 #include "InputSystem.h"
 #include "RenderSystem.h"
@@ -37,5 +38,7 @@ private:
     InputSystem _inputSystem;
     RenderSystem _renderSystem;
     PhysicsSystem _physicsSystem;
+
+    DialogueBox _dialogueBox;
 
 };

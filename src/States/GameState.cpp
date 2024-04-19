@@ -24,6 +24,11 @@ bool GameState::init() {
     _ecs.emplace<RenderComponent>(_player, RenderComponent{{0, 0, 16, 16}});
     _ecs.emplace<InputComponent>(_player, InputComponent{{InputEvent::LEFT, InputEvent::RIGHT, InputEvent::UP, InputEvent::DOWN}});
 
+    _dialogueBox.setString("testing things are working still. we made a lot of big changes and it's only right that we make sure things are good.");
+    _dialogueBox.setIsEnabled(true);
+    _dialogueBox.setAudio(getAudioPlayer());
+    _dialogueBox.setText(getText(TextSize::TINY));
+
     return true;
 }
 
@@ -33,6 +38,8 @@ void GameState::tick(float timescale) {
     _physicsSystem.updateX(_ecs, timescale);
     _physicsSystem.updateY(_ecs, timescale);
     _renderSystem.update(_ecs, timescale);
+
+    _dialogueBox.tick(timescale);
 
     // Input updates
     getKeyboard()->updateInputs();
@@ -44,6 +51,8 @@ void GameState::render() {
     SDL_RenderClear(getRenderer());
 
     _renderSystem.render(getRenderer(), _ecs, _renderOffset);
+
+    _dialogueBox.render({0, 0});
 
     SDL_RenderPresent(getRenderer());
 }

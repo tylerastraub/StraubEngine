@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec2.h"
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <unordered_map>
@@ -26,7 +28,7 @@ public:
     ~Text();
     
     bool load(const char * fontPath, int ptSize);
-    void render(int x, int y, int r = 255, int g = 255, int b = 255, int a = 255, int maxTextWidth = 99999);
+    void render(strb::vec2f pos, int r = 255, int g = 255, int b = 255, int a = 255, int maxTextWidth = 99999);
 
     void setString(std::string s);
     void setPercentOfTextDisplayed(float percent);

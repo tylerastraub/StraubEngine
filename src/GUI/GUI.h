@@ -12,7 +12,7 @@ public:
     GUI(int gridWidth, int gridHeight);
     ~GUI() = default;
 
-    void render(int x, int y);
+    void render(strb::vec2f pos);
     void changeSelection(int dx, int dy);
 
     void addGUIElement(std::shared_ptr<Button> button);

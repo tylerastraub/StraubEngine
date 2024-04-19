@@ -16,8 +16,8 @@ void CameraSystem::setCurrentCameraOffset(float x, float y) {
     _currentCameraOffset = {x, y};
 }
 
-void CameraSystem::setGameSize(int x, int y) {
-    _gameSize = {x, y};
+void CameraSystem::setGameSize(strb::vec2i gameSize) {
+    _gameSize = gameSize;
 }
 
 void CameraSystem::setLevelSize(int x, int y) {

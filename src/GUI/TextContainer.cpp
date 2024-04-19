@@ -2,7 +2,7 @@
 
 TextContainer::TextContainer(Text* text) : _text(text) {}
 
-void TextContainer::render(int x, int y, bool centerAlign) {
+void TextContainer::render(strb::vec2f pos, bool centerAlign) {
     _text->setString(getPropertyValue("displayString"));
     int xOffset = 0;
     if(centerAlign) {
@@ -12,7 +12,9 @@ void TextContainer::render(int x, int y, bool centerAlign) {
     std::string maxWidthString = getPropertyValue("maxTextWidth");
     int maxWidth = 99999;
     if(!maxWidthString.empty()) maxWidth = std::stoi(maxWidthString);
-    _text->render(x + xOffset, y + yOffset, 255, 255, 255, 255, maxWidth);
+    pos.x += xOffset;
+    pos.y += yOffset;
+    _text->render(pos, 255, 255, 255, 255, maxWidth);
 }
 
 void TextContainer::setValue(std::string value) {

@@ -12,12 +12,11 @@ void DialogueBox::tick(float timescale) {
     }
 }
 
-void DialogueBox::render(int x, int y) {
+void DialogueBox::render(strb::vec2f pos) {
     _text->setString(_currentString);
     Spritesheet* dialogueBox = SpritesheetRegistry::getSpritesheet(SpritesheetID::DIALOGUE_BOX);
-    int yIndex = (isTextFullyDisplayed()) ? 1 : 0;
-    dialogueBox->setTileIndex(0, yIndex);
-    dialogueBox->render(x, y, dialogueBox->getWidth(), dialogueBox->getHeight() / 2);
+    dialogueBox->setTileIndex(0, 0);
+    dialogueBox->render(pos.x, pos.y, dialogueBox->getWidth(), dialogueBox->getHeight());
 
     if(_textIsFullyDisplayed) {
         _text->setPercentOfTextDisplayed(1.f);
@@ -27,7 +26,9 @@ void DialogueBox::render(int x, int y) {
         _text->setPercentOfTextDisplayed(percent);
         if(percent >= 1.f) setTextFullyDisplayed(true);
     }
-    _text->render(x + X_BORDER_BUFFER, y + Y_BORDER_BUFFER, 255, 255, 255, 255, dialogueBox->getWidth() - X_BORDER_BUFFER * 2);
+    pos.x += X_BORDER_BUFFER;
+    pos.y += Y_BORDER_BUFFER;
+    _text->render(pos, 255, 255, 255, 255, dialogueBox->getWidth() - X_BORDER_BUFFER * 2);
 }
 
 void DialogueBox::advanceDialogue() {
@@ -46,7 +47,7 @@ void DialogueBox::reset() {
     setTextFullyDisplayed(false);
 }
 
-void DialogueBox::setText(Text* text) {
+void DialogueBox::setText(std::shared_ptr<Text> text) {
     _text = text;
 }
 

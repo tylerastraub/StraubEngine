@@ -51,8 +51,8 @@ bool Text::load(const char * fontPath, int ptSize) {
     return true;
 }
 
-void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
-    int startX = x;
+void Text::render(strb::vec2f pos, int r, int g, int b, int a, int maxTextWidth) {
+    int startX = pos.x;
     maxTextWidth += startX;
     if(_textString.empty()) {
         std::cout << "Empty string!" << std::endl;
@@ -61,9 +61,9 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
 
     int charCount = 0;
     for(auto word : _words) {
-        if(x + word.w > maxTextWidth) {
-            x = startX;
-            y += std::ceil((float) word.h * _newLineSpacing);
+        if(pos.x + word.w > maxTextWidth) {
+            pos.x = startX;
+            pos.y += std::ceil((float) word.h * _newLineSpacing);
         }
         for(size_t i = 0; i < word.text.size(); ++i) {
             ++charCount;
@@ -74,8 +74,8 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
             char c = word.text[i];
             if(c == '\n') {
                 _lastCharacter = ' ';
-                x = startX;
-                y += std::ceil((float) _characters['a'].second.h * _newLineSpacing);
+                pos.x = startX;
+                pos.y += std::ceil((float) _characters['a'].second.h * _newLineSpacing);
                 continue;
             }
             _lastCharacter = c;
@@ -91,15 +91,15 @@ void Text::render(int x, int y, int r, int g, int b, int a, int maxTextWidth) {
             }
             SDL_SetTextureColorMod(character, r, g, b);
             SDL_SetTextureAlphaMod(character, a);
-            SDL_Rect charRect;
-            charRect.x = x;
-            charRect.y = y;
+            SDL_FRect charRect;
+            charRect.x = pos.x;
+            charRect.y = pos.y;
             charRect.w = charBounds.w;
             charRect.h = charBounds.h;
-            SDL_RenderCopy(_renderer, character, NULL, &charRect);
-            x += charRect.w;
+            SDL_RenderCopyF(_renderer, character, NULL, &charRect);
+            pos.x += charRect.w;
         }
-        if(x != startX) x += _characters['a'].second.w; // add space between words
+        if(pos.x != startX) pos.x += _characters['a'].second.w; // add space between words
     }
 }
 

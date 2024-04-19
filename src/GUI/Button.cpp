@@ -6,7 +6,7 @@ Button::Button(Text* text) : _text(text) {
 
 void Button::onSelect() {}
 
-void Button::render(int x, int y, bool centerAlign) {
+void Button::render(strb::vec2f pos, bool centerAlign) {
     std::string s = getPropertyValue("displayString");
     if(isSelected()) {
         s.insert(0, "> ");
@@ -16,11 +16,13 @@ void Button::render(int x, int y, bool centerAlign) {
     int xOffset = 0;
     if(centerAlign) xOffset = getRenderWidth() / 2 - _text->getWidth() / 2;
     int yOffset = getRenderHeight() / 2 - _text->getHeight() / 2;
+    pos.x += xOffset;
+    pos.y += yOffset;
     if(getPropertyValue("dimTextDisplay") == "true") {
-        _text->render(x + xOffset, y + yOffset, 150, 150, 150);
+        _text->render(pos, 150, 150, 150);
     }
     else {
-        _text->render(x + xOffset, y + yOffset);
+        _text->render(pos);
     }
 }
 

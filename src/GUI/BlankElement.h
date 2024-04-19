@@ -7,7 +7,7 @@ public:
     BlankElement() = default;
     ~BlankElement() = default;
 
-    void render(int x, int y, bool centerAlign = true) override {};
+    void render(strb::vec2f pos, bool centerAlign = true) override {};
 
 private:
 

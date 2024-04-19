@@ -10,7 +10,7 @@ public:
 
     void setGoalCameraOffset(float x, float y);
     void setCurrentCameraOffset(float x, float y);
-    void setGameSize(int x, int y);
+    void setGameSize(strb::vec2i gameSize);
     void setLevelSize(int x, int y);
     void setCameraSpeed(float cameraSpeed);
 

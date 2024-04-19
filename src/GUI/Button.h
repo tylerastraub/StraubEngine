@@ -9,7 +9,7 @@ public:
     ~Button() = default;
 
     void onSelect() override;
-    void render(int x, int y, bool centerAlign = true) override;
+    void render(strb::vec2f pos, bool centerAlign = true) override;
 
     void setValue(std::string) override;
 

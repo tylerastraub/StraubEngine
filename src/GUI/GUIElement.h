@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec2.h"
+
 #include <string>
 #include <unordered_map>
 
@@ -10,7 +12,7 @@ public:
     ~GUIElement() = default;
 
     virtual void onSelect() {};
-    virtual void render(int x, int y, bool centerAlign = true) = 0;
+    virtual void render(strb::vec2f pos, bool centerAlign = true) = 0;
 
     void setPos(int column, int row);
     void setSizeInGrid(int width, int height);

@@ -4,6 +4,7 @@
 #include "Audio.h"
 #include "ReadSpeed.h"
 #include "Dialogue.h"
+#include "vec2.h"
 
 #include <vector>
 #include <memory>
@@ -16,11 +17,11 @@ public:
     ~DialogueBox() = default;
 
     void tick(float timescale);
-    void render(int x, int y);
+    void render(strb::vec2f pos);
     void advanceDialogue();
     void reset();
 
-    void setText(Text* text);
+    void setText(std::shared_ptr<Text> text);
     void setAudio(std::shared_ptr<Audio> audio);
     void setString(std::string s);
     void setConversation(Conversation conversation);
@@ -37,7 +38,7 @@ private:
     const int X_BORDER_BUFFER = 6;
     const int Y_BORDER_BUFFER = 3;
 
-    Text* _text = nullptr;
+    std::shared_ptr<Text> _text = nullptr;
     std::shared_ptr<Audio> _audio = nullptr;
 
     bool _isEnabled = false;
