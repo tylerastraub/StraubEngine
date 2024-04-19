@@ -6,6 +6,7 @@
 #include "StateComponent.h"
 #include "AnimationComponent.h"
 #include "rect2.h"
+#include "RectUtils.h"
 
 void RenderSystem::update(entt::registry& ecs, float timescale) {
     auto entities = ecs.view<AnimationComponent>();
@@ -23,12 +24,7 @@ void RenderSystem::render(SDL_Renderer* renderer, entt::registry& ecs, strb::vec
         auto& transform = ecs.get<TransformComponent>(ent);
         renderComponent.renderQuad.x = transform.position.x + renderComponent.renderQuadOffset.x;
         renderComponent.renderQuad.y = transform.position.y + renderComponent.renderQuadOffset.y;
-        SDL_FRect quad = {
-            renderComponent.renderQuad.x,
-            renderComponent.renderQuad.y,
-            renderComponent.renderQuad.w,
-            renderComponent.renderQuad.h
-        };
+        SDL_FRect quad = RectUtils::strbRectToSdlFRect(renderComponent.renderQuad);
         quad.x += renderOffset.x;
         quad.y += renderOffset.y;
         // bounds check before rendering
