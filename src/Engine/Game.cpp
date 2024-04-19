@@ -152,11 +152,9 @@ void Game::startGameLoop() {
     SDL_Event e;
     auto startTime = std::chrono::high_resolution_clock::now();
     std::chrono::milliseconds dTime = std::chrono::milliseconds(0); // deltaTime
-    Uint32 millisecondCount = 0;
     Uint32 frames = 0;
     Uint32 ticks = 0;
     float frameWait = 1.f / 50.f;
-    float frameRemainder = 0.f;
     while(_exitFlag == false) {
         // Event Handling
         while(SDL_PollEvent(&e) != 0) {
@@ -224,23 +222,20 @@ void Game::startGameLoop() {
         }
 
         dTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - startTime);
-        if(dTime.count() >= (frameWait * 1000.f - frameRemainder)) {
-            startTime = std::chrono::high_resolution_clock::now();
-            millisecondCount += dTime.count();
-            frameRemainder += std::abs(frameWait * 1000.f - std::ceil(frameWait * 1000.f));
-            if(frameRemainder > 1.f) frameRemainder = 0.f;
+        if(dTime.count() / (ticks + 1) >= (frameWait * 1000.f)) {
             _currentState->tick(frameWait);
             ticks++;
         }
 
-        _currentState->render();
-        frames++;
-
-        if(millisecondCount >= 1000) {
+        if(dTime.count() >= 1000) {
             std::cout << "FPS: " << frames << " | TPS: " << ticks << std::endl;
             frames = 0;
             ticks = 0;
-            millisecondCount = 0;
+            startTime = std::chrono::high_resolution_clock::now();
+        }
+        else {
+            _currentState->render();
+            frames++;
         }
     }
 
