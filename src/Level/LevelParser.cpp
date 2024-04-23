@@ -5,6 +5,8 @@
 // Prefabs
 #include "DialogueTrigger.h"
 #include "PrefabSpawnTrigger.h"
+#include "LevelLoadTrigger.h"
+#include "CameraTargetTrigger.h"
 
 #include <algorithm>
 #include <iostream>
@@ -113,6 +115,47 @@ Level LevelParser::parseLevelFromTmx(entt::registry& ecs, std::string filePath, 
                                     prefabType,
                                     prefabSpawnPos,
                                     prefabValue
+                                );
+                            }
+                            else if(object.getClass() == "levelLoad") {
+                                auto aabb = object.getAABB();
+                                std::string levelPath = "";
+                                int playerSpawnID = -1;
+                                for(auto prop : object.getProperties()) {
+                                    if(prop.getName() == "levelPath" && prop.getType() == tmx::Property::Type::String) {
+                                        levelPath = prop.getStringValue();
+                                    }
+                                    else if(prop.getName() == "playerSpawnID" && prop.getType() == tmx::Property::Type::Int) {
+                                        playerSpawnID = prop.getIntValue();
+                                    }
+                                }
+                                prefab::LevelLoadTrigger::create(
+                                    ecs,
+                                    {aabb.left, aabb.top, aabb.width, aabb.height},
+                                    levelPath,
+                                    playerSpawnID
+                                );
+                            }
+                            else if(object.getClass() == "cameraTarget") {
+                                auto aabb = object.getAABB();
+                                strb::vec2f cameraTarget = {0.f, 0.f};
+                                bool entityMustBeGrounded = false;
+                                for(auto prop : object.getProperties()) {
+                                    if(prop.getName() == "cameraTargetX" && prop.getType() == tmx::Property::Type::Float) {
+                                        cameraTarget.x = prop.getFloatValue();
+                                    }
+                                    else if(prop.getName() == "cameraTargetY" && prop.getType() == tmx::Property::Type::Float) {
+                                        cameraTarget.y = prop.getFloatValue();
+                                    }
+                                    else if(prop.getName() == "entityMustBeGrounded" && prop.getType() == tmx::Property::Type::Boolean) {
+                                        entityMustBeGrounded = prop.getBoolValue();
+                                    }
+                                }
+                                prefab::CameraTargetTrigger::create(
+                                    ecs,
+                                    {aabb.left, aabb.top, aabb.width, aabb.height},
+                                    entityMustBeGrounded,
+                                    cameraTarget
                                 );
                             }
                         }

@@ -6,6 +6,8 @@ enum class TriggerType {
     NOVAL = -1,
     DIALOGUE,
     PREFAB_SPAWN,
+    CAMERA_TARGET,
+    LEVEL_LOAD,
 };
 
 struct TriggerComponent {

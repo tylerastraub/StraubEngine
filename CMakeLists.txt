@@ -68,7 +68,9 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSObject.cpp
     ${PROJECT_SOURCE_DIR}/src/Engine/RandomUtilities/RDSTable.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Components/Render/SpritesheetPropertiesComponent.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/CameraTargetTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/DialogueTrigger.cpp
+    ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/LevelLoadTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Prefabs/Triggers/PrefabSpawnTrigger.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Generic/ScriptSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Input/InputSystem.cpp
