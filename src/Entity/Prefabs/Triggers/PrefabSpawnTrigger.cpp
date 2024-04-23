@@ -28,7 +28,7 @@ namespace prefab {
 
     entt::entity PrefabSpawnTrigger::create(
         entt::registry& ecs,
-        strb::rect2i triggerRect,
+        strb::rect2f triggerRect,
         bool triggerOnce,
         bool entityMustBeGrounded,
         PrefabType prefabType,
@@ -39,13 +39,13 @@ namespace prefab {
 
         CollisionComponent collision;
         collision.collisionRect = triggerRect;
-        collision.collisionRectOffset = {0, 0};
+        collision.collisionRectOffset = {0.f, 0.f};
         
         ecs.emplace<CollisionComponent>(ent, collision);
 
         ecs.emplace<TransformComponent>(ent, TransformComponent{
-            {(float) triggerRect.x, (float) triggerRect.y},
-            {(float) triggerRect.x, (float) triggerRect.y}
+            {triggerRect.x, triggerRect.y},
+            {triggerRect.x, triggerRect.y}
         });
 
         ecs.emplace<TriggerComponent>(ent, TriggerComponent{

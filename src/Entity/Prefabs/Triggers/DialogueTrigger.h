@@ -12,7 +12,7 @@ namespace prefab {
         ~DialogueTrigger() = default;
 
         static entt::entity create(entt::registry& ecs);
-        static entt::entity create(entt::registry& ecs, strb::rect2i triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId);
+        static entt::entity create(entt::registry& ecs, strb::rect2f triggerRect, bool triggerOnce, bool entityMustBeGrounded, int conversationId);
 
     private:
 

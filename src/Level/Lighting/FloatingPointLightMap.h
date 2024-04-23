@@ -28,7 +28,7 @@ public:
     void allocate(int width, int depth);
 
     uint16_t addLightSource(Light light);
-    std::_List_iterator<Light> removeLightSource(uint16_t lightId);
+    std::list<Light>::iterator removeLightSource(uint16_t lightId);
 
     void cleanUpLightSources(entt::registry& ecs);
 

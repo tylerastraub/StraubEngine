@@ -1,17 +1,22 @@
 #pragma once
 #include "vec2.h"
+#include "rect2.h"
+
+#include <entt/entity/registry.hpp>
 
 class CameraSystem {
 public:
     CameraSystem() = default;
     ~CameraSystem() = default;
 
-    void update(float timescale);
+    void update(entt::registry& ecs, float timescale);
+    void alignCameraOffsetWithGoal();
 
-    void setGoalCameraOffset(float x, float y);
-    void setCurrentCameraOffset(float x, float y);
+    void setCameraGoal(entt::entity goalEntity);
+    void setGoalCameraOffset(strb::vec2f goalOffset);
+    void setCurrentCameraOffset(strb::vec2f currentOffset);
     void setGameSize(strb::vec2i gameSize);
-    void setLevelSize(int x, int y);
+    void setCameraBounds(strb::rect2f cameraBounds);
     void setCameraSpeed(float cameraSpeed);
 
     strb::vec2f getCurrentCameraOffset();
@@ -21,6 +26,7 @@ public:
 private:
     strb::vec2f _currentCameraOffset = {0.f, 0.f};
     strb::vec2f _goalCameraOffset = {0.f, 0.f};
+    entt::entity _cameraGoal = entt::null;
     
     /**
      * Percent of distance camera moves between camera and target. For instance,
@@ -32,9 +38,9 @@ private:
      * - 0.5f = very fast
      * - 1.f = no smooth camera, instantly locks onto target
      */
-    float _cameraSpeed = 0.075f;
+    float _cameraSpeed = 0.1f;
 
     strb::vec2i _gameSize = {0, 0}; // The size of the game window in pixels
-    strb::vec2i _levelSize = {0, 0}; // The level size in pixels
+    strb::rect2f _cameraBounds = {0.f, 0.f, 0.f, 0.f};
 
 };

@@ -72,7 +72,7 @@ Level LevelParser::parseLevelFromTmx(entt::registry& ecs, std::string filePath, 
                                 }
                                 entt::entity trigger = prefab::DialogueTrigger::create(
                                     ecs,
-                                    {(int) aabb.left, (int) aabb.top, (int) aabb.width, (int) aabb.height},
+                                    {aabb.left, aabb.top, aabb.width, aabb.height},
                                     triggerOnce,
                                     entityMustBeGrounded,
                                     conversationId
@@ -107,7 +107,7 @@ Level LevelParser::parseLevelFromTmx(entt::registry& ecs, std::string filePath, 
                                 }
                                 entt::entity trigger = prefab::PrefabSpawnTrigger::create(
                                     ecs,
-                                    {(int) aabb.left, (int) aabb.top, (int) aabb.width, (int) aabb.height},
+                                    {aabb.left, aabb.top, aabb.width, aabb.height},
                                     triggerOnce,
                                     entityMustBeGrounded,
                                     prefabType,

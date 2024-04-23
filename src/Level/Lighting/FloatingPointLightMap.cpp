@@ -26,7 +26,7 @@ uint16_t FloatingPointLightMap::addLightSource(Light light) {
     return light.id;
 }
 
-std::_List_iterator<Light> FloatingPointLightMap::removeLightSource(uint16_t lightId) {
+std::list<Light>::iterator FloatingPointLightMap::removeLightSource(uint16_t lightId) {
     for(auto it = _lightSources.begin(); it != _lightSources.end(); ++it) {
         if(it->id == lightId) {
             // Update lightmap by removing light's brightness from lightmap...
