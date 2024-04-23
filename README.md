@@ -30,6 +30,7 @@ Current engine-specific TODO is:
     - Allow for setting frame length of each individual frame for more flexible animations
 - Add debug system
 - Add more robust collision box/hitbox/hurtbox system that allows for easier creation and management of said boxes
+    - Full HitSystem with spatial partitioning as well
 - Add multiplayer support
 
 ## Contribute
