@@ -3,6 +3,8 @@
 #include "State.h"
 #include "GameState.h"
 
+#include <GL/glew.h>
+
 class Game {
 public:
     Game(const char * windowTitle);
@@ -27,6 +29,9 @@ private:
     SDL_Window* _window = nullptr;
     SDL_Renderer* _renderer = nullptr;
     SDL_GameController* _gameController = nullptr;
+
+    SDL_GLContext _context;
+    GLuint _vertexShader, _fragmentShader, _program;
 
     bool _exitFlag = false;
 
