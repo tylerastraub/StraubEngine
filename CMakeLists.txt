@@ -3,12 +3,11 @@ project(StraubEngine VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+set(OpenGL_GL_PREFERENCE "GLVND")
 
 set(StraubEngine_VERSION "0.1a")
 
 if(WIN32)
-    set(SDL2_INCLUDE_DIR "C:/Program Files/mingw64/include/SDL2")
-    set(SDL2_LIBRARY_DIR "C:/Program Files/mingw64/lib")
     set(SDL2_IMAGE_INCLUDE_DIR "C:/SDL_image/include/SDL2")
     set(SDL2_IMAGE_LIBRARY_DIR "C:/SDL_image/lib")
     set(SDL2_TTF_INCLUDE_DIR "C:/SDL_ttf/include/SDL2")
@@ -18,6 +17,16 @@ elseif(APPLE)
     find_package(SDL2_image REQUIRED)
     find_package(SDL2TTF REQUIRED)
 endif()
+
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+
+list(APPEND CMAKE_PREFIX_PATH "C:/SDL2-2.30.2")
+find_package(SDL2 REQUIRED)
+
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/lib/glew-2.2.0")
+find_package(GLEW REQUIRED)
+
+find_package(OpenGL)
 
 set(TMXLITE_LIBRARY_DIR "${CMAKE_SOURCE_DIR}/lib/tmxlite")
 
@@ -116,20 +125,46 @@ if(WIN32)
 endif()
 
 if(WIN32)
-    include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
+    include_directories(${SDL2_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
     add_executable(StraubEngine ${SOURCES} ${TMX_SOURCES})
     # remove -mconsole for release builds
-    target_link_libraries(StraubEngine -lmingw32 ${SDL2_LIBRARY_DIR}/libSDL2main.a ${SDL2_LIBRARY_DIR}/libSDL2.dll.a ${SDL2_IMAGE_LIBRARY_DIR}/libSDL2_image.dll.a ${SDL2_TTF_LIBRARY_DIR}/libSDL2_ttf.dll.a -mwindows -mconsole)
+    target_link_libraries(
+        StraubEngine
+        -lmingw32
+        ${SDL2_LIBRARIES}
+        ${SDL2_IMAGE_LIBRARY_DIR}/libSDL2_image.dll.a
+        ${SDL2_TTF_LIBRARY_DIR}/libSDL2_ttf.dll.a
+        ${GLEW_LIBRARIES}
+        OpenGL::GL
+        -mwindows
+        -mconsole)
+
+    # copy res/dlls
     add_custom_command(TARGET StraubEngine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/res/ $<TARGET_FILE_DIR:StraubEngine>/res/)
     add_custom_command(TARGET StraubEngine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${PROJECT_SOURCE_DIR}/settings.cfg $<TARGET_FILE_DIR:StraubEngine>/settings.cfg)
+        
+    set(SDL2_DIR "C:/SDL2-2.30.2")
+    set(GLEW_DIR ${CMAKE_SOURCE_DIR}/lib/glew-2.2.0)
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${SDL2_DIR}/bin/SDL2.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
+            COMMENT "---- Copy SDL2.dll")
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${GLEW_DIR}/bin/Release/x64/glew32.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
+            COMMENT "---- Copy glew32.dll")
 elseif(APPLE)
-    include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
+    include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES} ${OPENGL_INCLUDE_DIR})
     add_executable(StraubEngine MACOSX_BUNDLE ${SOURCES})
-    target_link_libraries(StraubEngine ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2TTF_LIBRARY} ${TMXLITE_LIBRARY_DIR}/libtmxlite.a)
+    target_link_libraries(StraubEngine ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2TTF_LIBRARY} ${TMXLITE_LIBRARY_DIR}/libtmxlite.a ${OPENGL_LIBRARIES} GLEW::GLEW)
     set_target_properties(StraubEngine PROPERTIES
         BUNDLE True
         MACOSX_BUNDLE_EXECUTABLE_NAME StraubEngine

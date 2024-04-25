@@ -1,9 +1,9 @@
+#define GL_GLEXT_PROTOTYPES
+
 #include "Game.h"
 #include "SpritesheetRegistry.h"
 
 #include <chrono>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
 #include <iostream>
 #include <cmath>
 
@@ -32,74 +32,80 @@ bool Game::init() {
             std::cout << "Warning: Vsync not enabled!" << std::endl;
         }
 
+        // OpenGL attribute initialization
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+        SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+        SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+        SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+        
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
         // Window and renderer initialization
         _settings = std::make_shared<Settings>();
         _settings->loadSettings("settings.cfg");
-        _window = SDL_CreateWindow(_windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _settings->getVideoWidth(), _settings->getVideoHeight(), _settings->getVideoMode() | SDL_WINDOW_RESIZABLE);
+        _window = SDL_CreateWindow(_windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _settings->getVideoWidth(), _settings->getVideoHeight(), _settings->getVideoMode() | SDL_WINDOW_OPENGL);
         _renderScale.x = _settings->getVideoWidth() / GAME_WIDTH;
         _renderScale.y = _settings->getVideoHeight() / GAME_HEIGHT;
-        if(_window == nullptr)
-        {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        if(_window == nullptr) {
+            std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         }
         else {
-            _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-            if(_renderer == nullptr) {
-                std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
+            // GL context and shader creation
+            _context = SDL_GL_CreateContext(_window);
+            if(!_context) {
+                std::cout << "GL Context could not be created!" << std::endl;
+                return false;
+            }
+            GLenum err = glewInit();
+            if(err != GLEW_OK) {
+                std::cout << "Error initializing GLEW! Error enum: " << static_cast<unsigned int>(err) << std::endl;
             }
             else {
-                SDL_RenderSetLogicalSize(_renderer, GAME_WIDTH, GAME_HEIGHT);
-                if(SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND) == -1) {
-                    std::cout << "Error: failed to set render draw blend mode to SDL_BLENDMODE_BLEND. SDL_Error: " << SDL_GetError() << std::endl;
-                }
-                // SDL_Image initialization
-                int imgFlags = IMG_INIT_PNG;
-                if(!(IMG_Init( imgFlags ) & imgFlags)) {
-                    std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
-                }
-                if(TTF_Init() == -1) {
-                    std::cout << "SDL_ttf could not be initialized! SDL_ttf Error: " << TTF_GetError() << std::endl;
+                // More GL init
+                _program = glCreateProgram();
+                
+                // Gamepad/keyboard initialization
+                _keyboard = std::make_shared<Keyboard>();
+                _mouse = std::make_shared<Mouse>(_renderScale.x, _renderScale.y);
+                _controller = std::make_shared<Controller>();
+                SDL_JoystickEventState(SDL_ENABLE);
+                if(SDL_IsGameController(0)) {
+                    _gameController = SDL_GameControllerOpen(0);
+                    if(_gameController == NULL) {
+                        std::cout << "Error: Unable to open controller!" << std::endl;
+                    }
+                    else {
+                        std::cout << "Controller connected: " << SDL_GameControllerName(_gameController) << std::endl;
+                        if(SDL_GameControllerAddMappingsFromFile("res/controllermappings.txt") == -1) {
+                            std::cout << "Error loading controller mappings! SDL_Error: " << SDL_GetError() << std::endl;
+                        }
+                    }
                 }
                 else {
-                    // Gamepad/keyboard initialization
-                    _keyboard = std::make_shared<Keyboard>();
-                    _mouse = std::make_shared<Mouse>(_renderScale.x, _renderScale.y);
-                    _controller = std::make_shared<Controller>();
-                    SDL_JoystickEventState(SDL_ENABLE);
-                    if(SDL_IsGameController(0)) {
-                        _gameController = SDL_GameControllerOpen(0);
-                        if(_gameController == NULL) {
-                            std::cout << "Error: Unable to open controller!" << std::endl;
-                        }
-                        else {
-                            std::cout << "Controller connected: " << SDL_GameControllerName(_gameController) << std::endl;
-                            if(SDL_GameControllerAddMappingsFromFile("res/controllermappings.txt") == -1) {
-                                std::cout << "Error loading controller mappings! SDL_Error: " << SDL_GetError() << std::endl;
-                            }
-                        }
+                    std::cout << "No controllers connected." << std::endl;
+                }
+                // Resource loading
+                if(!loadResources()) {
+                    std::cout << "Could not load resources!" << std::endl;
+                }
+                else {
+                    // State initialization
+                    _currentState = new GameState();
+                    _currentState->setGameSize(GAME_WIDTH, GAME_HEIGHT);
+                    _currentState->setRenderer(_renderer);
+                    _currentState->setInput(_keyboard, _mouse, _controller);
+                    for(auto it : _text) {
+                        _currentState->addText(it.first, it.second);
                     }
-                    else {
-                        std::cout << "No controllers connected." << std::endl;
-                    }
-                    // Resource loading
-                    if(!loadResources()) {
-                        std::cout << "Could not load resources!" << std::endl;
-                    }
-                    else {
-                        // State initialization
-                        _currentState = new GameState();
-                        _currentState->setGameSize(GAME_WIDTH, GAME_HEIGHT);
-                        _currentState->setRenderer(_renderer);
-                        _currentState->setInput(_keyboard, _mouse, _controller);
-                        for(auto it : _text) {
-                            _currentState->addText(it.first, it.second);
-                        }
-                        _currentState->setAudioPlayer(_audioPlayer);
-                        _currentState->setSettings(_settings);
-                        _currentState->init();
-                        SDL_ShowCursor(SDL_DISABLE);
-                        windowCreatedSuccessfully = true;
-                    }
+                    _currentState->setAudioPlayer(_audioPlayer);
+                    _currentState->setSettings(_settings);
+                    _currentState->init();
+                    SDL_ShowCursor(SDL_DISABLE);
+                    windowCreatedSuccessfully = true;
                 }
             }
         }
@@ -110,36 +116,36 @@ bool Game::init() {
 
 bool Game::loadResources() {
     // Text
-    std::shared_ptr<Text> tinyText = std::make_shared<Text>(_renderer);
-    if(!tinyText->load(_tinyTextFontPath, 8)) {
-        std::cout << "Error: Failed to load font '" << _tinyTextFontPath << "'!" << std::endl;
-        return false;
-    }
-    _text[TextSize::TINY] = tinyText;
+    // std::shared_ptr<Text> tinyText = std::make_shared<Text>(_renderer);
+    // if(!tinyText->load(_tinyTextFontPath, 8)) {
+    //     std::cout << "Error: Failed to load font '" << _tinyTextFontPath << "'!" << std::endl;
+    //     return false;
+    // }
+    // _text[TextSize::TINY] = tinyText;
     
-    std::shared_ptr<Text> smallText = std::make_shared<Text>(_renderer);
-    if(!smallText->load(_smallTextFontPath, 14)) {
-        std::cout << "Error: Failed to load font '" << _smallTextFontPath << "'!" << std::endl;
-        return false;
-    }
-    _text[TextSize::SMALL] = smallText;
+    // std::shared_ptr<Text> smallText = std::make_shared<Text>(_renderer);
+    // if(!smallText->load(_smallTextFontPath, 14)) {
+    //     std::cout << "Error: Failed to load font '" << _smallTextFontPath << "'!" << std::endl;
+    //     return false;
+    // }
+    // _text[TextSize::SMALL] = smallText;
 
-    std::shared_ptr<Text> mediumText = std::make_shared<Text>(_renderer);
-    if(!mediumText->load(_mediumTextFontPath, 20)) {
-        std::cout << "Error: Failed to load font '" << _mediumTextFontPath << "'!" << std::endl;
-        return false;
-    }
-    _text[TextSize::MEDIUM] = mediumText;
+    // std::shared_ptr<Text> mediumText = std::make_shared<Text>(_renderer);
+    // if(!mediumText->load(_mediumTextFontPath, 20)) {
+    //     std::cout << "Error: Failed to load font '" << _mediumTextFontPath << "'!" << std::endl;
+    //     return false;
+    // }
+    // _text[TextSize::MEDIUM] = mediumText;
     
-    std::shared_ptr<Text> largeText = std::make_shared<Text>(_renderer);
-    if(!largeText->load(_largeTextFontPath, 24)) {
-        std::cout << "Error: Failed to load font '" << _largeTextFontPath << "'!" << std::endl;
-        return false;
-    }
-    _text[TextSize::LARGE] = largeText;
+    // std::shared_ptr<Text> largeText = std::make_shared<Text>(_renderer);
+    // if(!largeText->load(_largeTextFontPath, 24)) {
+    //     std::cout << "Error: Failed to load font '" << _largeTextFontPath << "'!" << std::endl;
+    //     return false;
+    // }
+    // _text[TextSize::LARGE] = largeText;
 
     // Spritesheets
-    if(!SpritesheetRegistry::addSpritesheet(_renderer, SpritesheetID::DIALOGUE_BOX, "res/spritesheet/dialogue_box.png", 320, 32)) return false;
+    // if(!SpritesheetRegistry::addSpritesheet(_renderer, SpritesheetID::DIALOGUE_BOX, "res/spritesheet/dialogue_box.png", 320, 32)) return false;
 
     // Audio
     _audioPlayer = std::make_shared<Audio>();
@@ -244,13 +250,13 @@ void Game::startGameLoop() {
 
 void Game::exit() {
     SDL_DestroyWindow(_window);
-    SDL_DestroyRenderer(_renderer);
+    SDL_GL_DeleteContext(_context);
+    if(_renderer) SDL_DestroyRenderer(_renderer);
     SDL_GameControllerClose(_gameController);
 
     _window = nullptr;
     _renderer = nullptr;
     _controller = nullptr;
 
-    IMG_Quit();
     SDL_Quit();
 }

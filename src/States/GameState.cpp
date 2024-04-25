@@ -40,12 +40,7 @@ void GameState::tick(float timescale) {
 }
 
 void GameState::render() {
-    SDL_SetRenderDrawColor(getRenderer(), 0x00, 0x00, 0x00, 0xFF);
-    SDL_RenderClear(getRenderer());
-
-    _renderSystem.render(getRenderer(), _ecs, _renderOffset);
-
-    SDL_RenderPresent(getRenderer());
+    
 }
 
 void GameState::handleControllerButtonInput(SDL_Event e) {
