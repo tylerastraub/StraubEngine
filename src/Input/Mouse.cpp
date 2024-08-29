@@ -1,16 +1,18 @@
 #include "Mouse.h"
 
+#include <iostream>
+
 Mouse::Mouse(float xRenderScale, float yRenderScale) : _xRenderScale(xRenderScale), _yRenderScale(yRenderScale) {
     _mouseGrabBox.w = 8;
     _mouseGrabBox.h = 8;
 }
 
-void Mouse::updateInput(SDL_Event e, int xRenderOffset, int yRenderOffset) {
+void Mouse::handleEvent(SDL_Event e, int xRenderOffset, int yRenderOffset) {
     if(e.type == SDL_MOUSEMOTION) {
         int x = 0;
         int y = 0;
         SDL_GetMouseState(&x, &y);
-        setPos(x - xRenderOffset * _xRenderScale, y - yRenderOffset * _yRenderScale);
+        setPos(x - xRenderOffset * _xRenderScale - _xOffset, y - yRenderOffset * _yRenderScale - _yOffset);
         setMouseMoved(true);
     }
     else if(e.type == SDL_MOUSEBUTTONDOWN) {
@@ -36,10 +38,18 @@ void Mouse::updateInput(SDL_Event e, int xRenderOffset, int yRenderOffset) {
     }
 }
 
-void Mouse::setPos(int x, int y) {
-    _mousePos = {x / (int) _xRenderScale, y / (int) _yRenderScale};
-    _mouseGrabBox.x = _mousePos.x - _mouseGrabBox.w / 2;
-    _mouseGrabBox.y = _mousePos.y - _mouseGrabBox.h / 2;
+void Mouse::updateInputs() {
+    _leftButtonDownLastTick = _leftButtonDown;
+    _rightButtonDownLastTick = _rightButtonDown;
+    _mouseDelta = _mousePos - _lastMousePos;
+    _lastMousePos = _mousePos;
+    _mouseMoved = false;
+}
+
+void Mouse::setPos(float x, float y) {
+    _mousePos = {x / _xRenderScale, y / _yRenderScale};
+    _mouseGrabBox.x = _mousePos.x - _mouseGrabBox.w / 2.f;
+    _mouseGrabBox.y = _mousePos.y - _mouseGrabBox.h / 2.f;
 }
 
 void Mouse::setLeftButtonDown(bool leftButtonDown) {
@@ -54,8 +64,18 @@ void Mouse::setMouseMoved(bool moved) {
     _mouseMoved = moved;
 }
 
+void Mouse::setRenderScale(float xRenderScale, float yRenderScale) {
+    _xRenderScale = xRenderScale;
+    _yRenderScale = yRenderScale;
+}
+
+void Mouse::setOffset(float xOffset, float yOffset) {
+    _xOffset = xOffset;
+    _yOffset = yOffset;
+}
+
 strb::vec2i Mouse::getMousePos() {
-    return _mousePos;
+    return {static_cast<int>(_mousePos.x), static_cast<int>(_mousePos.y)};
 }
 
 int Mouse::getMouseX() {
@@ -66,7 +86,15 @@ int Mouse::getMouseY() {
     return _mousePos.y;
 }
 
-strb::rect2i Mouse::getMouseGrabBox() {
+int Mouse::getMouseDX() {
+    return _mouseDelta.x;
+}
+
+int Mouse::getMouseDY() {
+    return _mouseDelta.y;
+}
+
+strb::rect2f Mouse::getMouseGrabBox() {
     return _mouseGrabBox;
 }
 
@@ -76,6 +104,22 @@ bool Mouse::isLeftButtonDown() {
 
 bool Mouse::isRightButtonDown() {
     return _rightButtonDown;
+}
+
+bool Mouse::isLeftButtonPressed() {
+    return _leftButtonDown && !_leftButtonDownLastTick;
+}
+
+bool Mouse::isRightButtonPressed() {
+    return _rightButtonDown && !_rightButtonDownLastTick;
+}
+
+bool Mouse::isLeftButtonReleased() {
+    return !_leftButtonDown && _leftButtonDownLastTick;
+}
+
+bool Mouse::isRightButtonReleased() {
+    return !_rightButtonDown && _rightButtonDownLastTick;
 }
 
 bool Mouse::mouseMoved() {
