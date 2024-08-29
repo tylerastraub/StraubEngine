@@ -31,7 +31,7 @@ void RDSTable::calculateRdsResult() {
     // If we have any RDSObjects that are not guaranteed to drop, then it's time to randomize
     if(rdsCount > 0) {
         for(int numOfDrops = 0; numOfDrops < rdsCount; ++numOfDrops) {
-            int probabilityHit = RandomGen::getRandomInt(0, probabilitySum);
+            int probabilityHit = RandomGen::getRandomInt(0, probabilitySum - 1);
             int runningValue = 0;
             for(auto it = droppables.begin(); it != droppables.end(); ++it) {
                 RDSObject object = *it;

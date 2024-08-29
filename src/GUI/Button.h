@@ -3,19 +3,17 @@
 #include "GUIElement.h"
 #include "Text.h"
 
+#include <memory>
+
 class Button : public GUIElement {
 public:
-    Button(Text* text);
+    Button(std::shared_ptr<Text> text);
     ~Button() = default;
 
     void onSelect() override;
-    void render(strb::vec2f pos, bool centerAlign = true) override;
-
-    void setValue(std::string) override;
-
-    std::string getValue() override;
+    void render(SDL_Renderer* renderer, strb::vec2f pos) override;
 
 private:
-    Text* _text = nullptr;
+    std::shared_ptr<Text> _text = nullptr;
 
 };

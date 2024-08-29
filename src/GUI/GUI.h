@@ -2,53 +2,72 @@
 
 #include "Button.h"
 #include "TextContainer.h"
-#include "BlankElement.h"
+#include "NullElement.h"
+#include "vec2.h"
+#include "Hue.h"
+#include "Mouse.h"
 
 #include <vector>
 #include <memory>
 
+using EventList = std::vector<std::pair<std::string, std::string>>;
+
 class GUI {
 public:
-    GUI(int gridWidth, int gridHeight);
+    struct Row {
+        std::vector<std::shared_ptr<GUIElement>> elements;
+        int width = 0; // render width
+        int height = 0; // render height
+        Hue backgroundColor = {0x26, 0x26, 0x26};
+        bool drawOutline = false;
+        Hue outlineColor = {0x54, 0x54, 0x54};
+    };
+
+    GUI() = default;
     ~GUI() = default;
 
-    void render(strb::vec2f pos);
-    void changeSelection(int dx, int dy);
+    void processMouseInput(std::shared_ptr<Mouse> mouse);
+    void render(SDL_Renderer* renderer, strb::vec2f renderOffset);
+    void insertElement(std::shared_ptr<GUIElement> element, int x, int y);
+    void updateCollisionBoxes();
+    void resetElementStates();
+    void clearEvents();
 
-    void addGUIElement(std::shared_ptr<Button> button);
-    void addGUIElement(std::shared_ptr<TextContainer> textContainer);
-    void addGUIElement(std::shared_ptr<BlankElement> blankElement);
+    // remove all GUI elements and collision rects from GUI.
+    // should be mainly used to either kill a window or rebuild from scratch
+    void destroy();
 
-    void setRowHeightInGrid(int row, int height);
-    void setAllRowsHeightInGrid(int height);
-    void setColumnWidthInGrid(int column, int width);
-    void setAllColumnsWidthInGrid(int width);
+    void setPos(strb::vec2f pos);
+    void setGridSize(int x, int y);
+    void setRowBackgroundColor(int rowY, Hue backgroundColor);
+    void setRowDrawOutline(int rowY, bool drawOutline);
+    void setRowOutlineColor(int rowY, Hue outlineColor);
 
-    void setRowRenderHeight(int row, int height);
-    void setAllRowsRenderHeight(int height);
-    void setColumnRenderWidth(int column, int width);
-    void setAllColumnsRenderWidth(int width);
+    // void setColumnPadding(int column, GUIElement::Padding padding);
+    // void setRowPadding(int row, GUIElement::Padding padding);
 
-    void setWrapX(bool wrapX);
-    void setWrapY(bool wrapY);
-
-    void setCurrentSelection(int x, int y);
-
-    GUIElement* getElement(int x, int y);
-    GUIElement* getCurrentSelection();
+    strb::vec2f getPos();
+    strb::vec2i getGridSize();
+    strb::vec2f getGUIRenderSize();
+    std::shared_ptr<GUIElement> getElement(int x, int y);
+    std::shared_ptr<GUIElement> getElement(uint16_t id);
+    EventList getEvents();
 
 private:
-    void insertElement(std::shared_ptr<GUIElement> element, int x, int y);
+    void updateGUISize();
+    void addEvent(std::string name, std::string value);
 
-    int _gridWidth = 0;
-    int _gridHeight = 0;
+    uint16_t _elementIdProvider = 0;
 
-    int _currentSelectionX = 0;
-    int _currentSelectionY = 0;
-    // Whether or not the selection should loop horizontally
-    bool _wrapX = false;
-    // Whether or not the selection should loop vertically
-    bool _wrapY = false;
+    strb::vec2f _pos = {0.f, 0.f};
+    std::vector<Row> _grid;
+    strb::vec2i _gridSize = {0, 0};
+    strb::vec2f _guiRenderSize = {0.f, 0.f};
 
-    std::vector<std::vector<std::shared_ptr<GUIElement>>> _grid;
+    Hue _bgColor = {0x26, 0x26, 0x26}; // todo: getter/setters
+
+    std::unordered_map<int, strb::rect2f> _collisionRects;
+
+    EventList _events = {};
+
 };

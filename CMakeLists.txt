@@ -79,10 +79,10 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/CameraSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/LightSystem.cpp
     ${PROJECT_SOURCE_DIR}/src/Entity/Systems/Render/RenderSystem.cpp
-    ${PROJECT_SOURCE_DIR}/src/GUI/BlankElement.cpp
     ${PROJECT_SOURCE_DIR}/src/GUI/Button.cpp
     ${PROJECT_SOURCE_DIR}/src/GUI/GUI.cpp
     ${PROJECT_SOURCE_DIR}/src/GUI/GUIElement.cpp
+    ${PROJECT_SOURCE_DIR}/src/GUI/Icon.cpp
     ${PROJECT_SOURCE_DIR}/src/GUI/TextContainer.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Controller.cpp
     ${PROJECT_SOURCE_DIR}/src/Input/Keyboard.cpp

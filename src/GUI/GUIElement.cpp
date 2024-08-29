@@ -1,50 +1,31 @@
 #include "GUIElement.h"
 
-void GUIElement::setPos(int column, int row) {
-    _row = row;
-    _column = column;
-}
-
-void GUIElement::setSizeInGrid(int width, int height) {
-    _width = width;
-    _height = height;
+void GUIElement::setId(uint16_t id) {
+    _id = id;
 }
 
 void GUIElement::setWidthInGrid(int width) {
-    _width = width;
+    _sizeInGrid.x = width;
 }
 
 void GUIElement::setHeightInGrid(int height) {
-    _height = height;
+    _sizeInGrid.y = height;
 }
 
-void GUIElement::setRenderSize(int width, int height) {
-    _renderWidth = width;
-    _renderHeight = height;
+void GUIElement::setElementWidth(int width) {
+    _elementSize.x = width;
 }
 
-void GUIElement::setRenderWidth(int width) {
-    _renderWidth = width;
+void GUIElement::setElementHeight(int height) {
+    _elementSize.y = height;
 }
 
-void GUIElement::setRenderHeight(int height) {
-    _renderHeight = height;
+void GUIElement::setPadding(int top, int right, int bottom, int left) {
+    _padding = {top, right, bottom, left};
 }
 
-void GUIElement::setId(std::string id) {
-    _elementId = id;
-}
-
-void GUIElement::setValue(std::string value) {
-    _value = value;
-}
-
-void GUIElement::setProperty(std::string property, std::string value) {
-    _properties[property] = value;
-}
-
-void GUIElement::setIsSelected(bool isSelected) {
-    _isSelected = isSelected;
+void GUIElement::setPadding(Padding padding) {
+    _padding = padding;
 }
 
 void GUIElement::setCanBeSelected(bool canBeSelected) {
@@ -55,44 +36,39 @@ void GUIElement::setCenterAligned(bool centerAligned) {
     _isCenterAligned = centerAligned;
 }
 
-int GUIElement::getRow() {
-    return _row;
+void GUIElement::setProperty(ElementProperty property, std::string value) {
+    _properties[property] = value;
 }
 
-int GUIElement::getColumn() {
-    return _column;
+void GUIElement::setElementState(ElementState state) {
+    _elementState = state;
 }
 
-int GUIElement::getWidthInGrid() {
-    return _width;
+uint16_t GUIElement::getId() {
+    return _id;
 }
 
-int GUIElement::getHeightInGrid() {
-    return _height;
+ElementType GUIElement::getElementType() {
+    return _type;
 }
 
-int GUIElement::getRenderWidth() {
-    return _renderWidth;
+strb::vec2i GUIElement::getSizeInGrid() {
+    return _sizeInGrid;
 }
 
-int GUIElement::getRenderHeight() {
-    return _renderHeight;
+strb::vec2i GUIElement::getElementSize() {
+    return _elementSize;
 }
 
-std::string GUIElement::getId() {
-    return _elementId;
+strb::vec2i GUIElement::getRenderSize() {
+    return {
+        _elementSize.x + _padding.left + _padding.right,
+        _elementSize.y + _padding.top + _padding.bottom
+    };
 }
 
-std::string GUIElement::getValue() {
-    return _value;
-}
-
-std::string GUIElement::getPropertyValue(std::string property) {
-    return _properties[property];
-}
-
-bool GUIElement::isSelected() {
-    return _isSelected;
+GUIElement::Padding GUIElement::getPadding() {
+    return _padding;
 }
 
 bool GUIElement::canBeSelected() {
@@ -101,4 +77,20 @@ bool GUIElement::canBeSelected() {
 
 bool GUIElement::isCenterAligned() {
     return _isCenterAligned;
+}
+
+std::string GUIElement::getProperty(ElementProperty property) {
+    return _properties[property];
+}
+
+ElementState GUIElement::getElementState() {
+    return _elementState;
+}
+
+Hue GUIElement::convertStringToHue(std::string rgbString) {
+    return {
+        static_cast<uint8_t>(std::strtol(rgbString.substr(0, 2).c_str(), NULL, 16)),
+        static_cast<uint8_t>(std::strtol(rgbString.substr(2, 2).c_str(), NULL, 16)),
+        static_cast<uint8_t>(std::strtol(rgbString.substr(4, 2).c_str(), NULL, 16))
+    };
 }

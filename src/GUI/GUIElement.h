@@ -1,64 +1,104 @@
 #pragma once
 
 #include "vec2.h"
+#include "rect2.h"
+#include "Hue.h"
 
 #include <string>
 #include <unordered_map>
+#include <SDL.h>
 
-// Parent class for all GUI elements. Allows elements to easily be added to a GUI grid
+enum class ElementType {
+    NOVAL = -1,
+    BUTTON,
+    TEXT_CONTAINER,
+    ICON,
+};
+
+enum class ElementProperty {
+    // Text
+    DIM_TEXT_DISPLAY,
+    DISPLAY_STRING,
+    MAX_TEXT_WIDTH,
+    TEXT_COLOR,
+    // Style
+    BACKGROUND_COLOR,
+    DISABLED_COLOR,
+    HOVER_COLOR,
+    SELECTED_COLOR,
+    SHADOW_COLOR,
+    // Function
+    ON_SELECTED_NAME,
+    ON_SELECTED_VALUE, // quantity of ON_SELECTED_NAME (if relevant)
+};
+
+enum class ElementState {
+    NOVAL = -1,
+    HOVER,
+    SELECTED,
+};
+
 class GUIElement {
 public:
+    struct Padding {
+        Padding() = default;
+        Padding(int top, int right, int bottom, int left) : top(top), right(right), bottom(bottom), left(left) {}
+
+        int top = 0;
+        int right = 0;
+        int bottom = 0;
+        int left = 0;
+    };
+
     GUIElement() = default;
     ~GUIElement() = default;
 
     virtual void onSelect() {};
-    virtual void render(strb::vec2f pos, bool centerAlign = true) = 0;
+    virtual void render(SDL_Renderer* renderer, strb::vec2f pos) = 0;
 
-    void setPos(int column, int row);
-    void setSizeInGrid(int width, int height);
+    void setId(uint16_t id);
     void setWidthInGrid(int width);
     void setHeightInGrid(int height);
-    void setRenderSize(int width, int height);
-    void setRenderWidth(int width);
-    void setRenderHeight(int height);
-    void setId(std::string id);
-    virtual void setValue(std::string value);
-    void setProperty(std::string property, std::string value);
-    void setIsSelected(bool isSelected);
+    void setElementWidth(int width);
+    void setElementHeight(int height);
+    void setPadding(int top, int right, int bottom, int left);
+    void setPadding(Padding padding);
     void setCanBeSelected(bool canBeSelected);
     void setCenterAligned(bool centerAligned);
+    void setProperty(ElementProperty property, std::string value);
+    void setElementState(ElementState state);
 
-    int getRow();
-    int getColumn();
-    int getWidthInGrid();
-    int getHeightInGrid();
-    int getRenderWidth();
-    int getRenderHeight();
-    std::string getId();
-    virtual std::string getValue();
-    std::string getPropertyValue(std::string property);
-    bool isSelected();
+    uint16_t getId();
+    ElementType getElementType();
+    strb::vec2i getSizeInGrid();
+    strb::vec2i getElementSize();
+    strb::vec2i getRenderSize();
+    Padding getPadding();
     bool canBeSelected();
     bool isCenterAligned();
+    std::string getProperty(ElementProperty property);
+    ElementState getElementState();
+
+protected:
+    Hue convertStringToHue(std::string rgbString);
+
+    ElementType _type = ElementType::NOVAL;
 
 private:
-    int _row = -1;
-    int _column = -1;
-    // How many columns the element spans
-    int _width = 1;
-    // How many rows the element spans
-    int _height = 1;
-    int _renderWidth = 0;
-    int _renderHeight = 0;
+    uint16_t _id = INT16_MAX;
+
+    // How many columns and rows the element spans
+    strb::vec2i _sizeInGrid = {1, 1};
+    strb::vec2i _elementSize = {0, 0};
+    Padding _padding = {0, 0, 0, 0};
 
     // Whether or not to check if the element can be selected (or clicked).
     bool _canBeSelected = false;
-    // If the element is currently being considered for selection
-    bool _isSelected = false;
     // Whether or not to render the element center aligned
     bool _isCenterAligned = true;
 
-    std::string _elementId;
-    std::string _value;
-    std::unordered_map<std::string, std::string> _properties;
+    // Property map for fine tuning GUI elements
+    std::unordered_map<ElementProperty, std::string> _properties;
+
+    ElementState _elementState = ElementState::NOVAL;
 };
