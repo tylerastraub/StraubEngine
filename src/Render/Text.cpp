@@ -111,6 +111,8 @@ void Text::setString(std::string s) {
     _height = 0;
     if(s.empty()) return;
     Word currentWord;
+    int maxHeight = 0;
+    int runningHeight = 0;
     for(auto c : _textString) {
         if(c == ' ') {
             if(!currentWord.text.empty()) _words.push_back(currentWord);
@@ -127,6 +129,7 @@ void Text::setString(std::string s) {
             _words.push_back(currentWord);
             currentWord = Word();
             ++_numOfChars;
+            runningHeight += maxHeight;
             continue;
         }
         ++_numOfChars;
@@ -135,13 +138,14 @@ void Text::setString(std::string s) {
         currentWord.w += _characters[c].second.w;
         if(_characters[c].second.h > currentWord.h) {
             currentWord.h = _characters[c].second.h;
-            if(currentWord.h > _height) _height = currentWord.h;
+            if(currentWord.h > maxHeight) maxHeight = currentWord.h;
         }
     }
     if(!currentWord.text.empty()) {
         _words.push_back(currentWord); // add that last word
         _width += currentWord.w;
     }
+    _height = runningHeight + maxHeight;
 }
 
 void Text::setPercentOfTextDisplayed(float percent) {
