@@ -91,12 +91,12 @@ namespace strb {
     }
 
     template <typename T, typename U>
-    bool operator == (vec2<T>& l, vec2<U>& r) {
+    bool operator == (const vec2<T>& l, const vec2<U>& r) {
         return l.x == r.x && l.y == r.y;
     }
 
     template <typename T, typename U>
-    bool operator != (vec2<T>& l, vec2<U>& r) {
+    bool operator != (const vec2<T>& l, const vec2<U>& r) {
         return l.x != r.x || l.y != r.y;
     }
 };
