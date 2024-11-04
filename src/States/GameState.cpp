@@ -57,7 +57,7 @@ void GameState::handleControllerAxisInput(SDL_Event e) {
 }
 
 void GameState::handleMouseInput(SDL_Event e) {
-    getMouse()->updateInput(e, _renderOffset.x, _renderOffset.y);
+    getMouse()->handleEvent(e, _renderOffset.x, _renderOffset.y);
 }
 
 void GameState::initSystems() {

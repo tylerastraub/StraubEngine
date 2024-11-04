@@ -25,6 +25,7 @@ set(SOURCE_INCLUDES
     ${TMXLITE_LIBRARY_DIR}/include
     ${PROJECT_SOURCE_DIR}/lib
     ${PROJECT_SOURCE_DIR}/lib/nlohmann
+    ${PROJECT_SOURCE_DIR}/lib/enet-1.3.18/include
     ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/src/Dialogue
     ${PROJECT_SOURCE_DIR}/src/Engine
@@ -115,11 +116,13 @@ if(WIN32)
         )
 endif()
 
+add_subdirectory(lib/enet-1.3.18)
+
 if(WIN32)
     include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
     add_executable(StraubEngine ${SOURCES} ${TMX_SOURCES})
     # remove -mconsole for release builds
-    target_link_libraries(StraubEngine -lmingw32 ${SDL2_LIBRARY_DIR}/libSDL2main.a ${SDL2_LIBRARY_DIR}/libSDL2.dll.a ${SDL2_IMAGE_LIBRARY_DIR}/libSDL2_image.dll.a ${SDL2_TTF_LIBRARY_DIR}/libSDL2_ttf.dll.a -mwindows -mconsole)
+    target_link_libraries(StraubEngine -lmingw32 ${SDL2_LIBRARY_DIR}/libSDL2main.a ${SDL2_LIBRARY_DIR}/libSDL2.dll.a ${SDL2_IMAGE_LIBRARY_DIR}/libSDL2_image.dll.a ${SDL2_TTF_LIBRARY_DIR}/libSDL2_ttf.dll.a enet -mwindows -mconsole)
     add_custom_command(TARGET StraubEngine POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/res/ $<TARGET_FILE_DIR:StraubEngine>/res/)
@@ -139,7 +142,7 @@ elseif(APPLE)
         MACOSX_BUNDLE_BUNDLE_NAME StraubEngine
         MACOSX_BUNDLE_SHORT_VERSION_STRING ${StraubEngine_VERSION}
         MACOSX_BUNDLE_BUNDLE_VERSION ${StraubEngine_VERSION}
-        MACOSX_BUNDLE_COPYRIGHT "© Tyler Straub 2022"
+        MACOSX_BUNDLE_COPYRIGHT "© Tyler Straub 2024"
         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/Info.plist.in)
     install(CODE "
         include(BundleUtilities)

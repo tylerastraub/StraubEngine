@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <iostream>
 #include <cmath>
+#include <enet/enet.h>
 
 Game::Game(const char * windowTitle) : _windowTitle(windowTitle) {}
 
@@ -149,6 +150,11 @@ bool Game::loadResources() {
 }
 
 void Game::startGameLoop() {
+    if(enet_initialize() != 0) {
+        std::cout << "Error initializing ENet: " << stderr << std::endl;
+        _exitFlag = true;
+    }
+
     SDL_Event e;
     auto startTime = std::chrono::high_resolution_clock::now();
     std::chrono::milliseconds dTime = std::chrono::milliseconds(0); // deltaTime
@@ -253,4 +259,6 @@ void Game::exit() {
 
     IMG_Quit();
     SDL_Quit();
+
+    enet_deinitialize();
 }
