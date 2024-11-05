@@ -4,6 +4,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Controller.h"
+#include "Server.h"
+#include "Client.h"
 // Systems
 #include "InputSystem.h"
 #include "RenderSystem.h"
@@ -37,5 +39,8 @@ private:
     InputSystem _inputSystem;
     RenderSystem _renderSystem;
     PhysicsSystem _physicsSystem;
+
+    Server _server;
+    Client _client;
 
 };

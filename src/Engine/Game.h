@@ -30,6 +30,8 @@ private:
 
     bool _exitFlag = false;
 
+    bool _enetEnabled = false;
+
     State* _currentState = nullptr;
     State* _nextState = nullptr;
 

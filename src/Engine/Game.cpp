@@ -82,6 +82,14 @@ bool Game::init() {
                     else {
                         std::cout << "No controllers connected." << std::endl;
                     }
+                    // ENet initialization
+                    if(enet_initialize() != 0) {
+                        std::cout << "Error initializing ENet: " << stderr << std::endl;
+                        _enetEnabled = false;
+                    }
+                    else {
+                        _enetEnabled = true;
+                    }
                     // Resource loading
                     if(!loadResources()) {
                         std::cout << "Could not load resources!" << std::endl;
@@ -150,10 +158,6 @@ bool Game::loadResources() {
 }
 
 void Game::startGameLoop() {
-    if(enet_initialize() != 0) {
-        std::cout << "Error initializing ENet: " << stderr << std::endl;
-        _exitFlag = true;
-    }
 
     SDL_Event e;
     auto startTime = std::chrono::high_resolution_clock::now();
@@ -234,7 +238,8 @@ void Game::startGameLoop() {
         }
 
         if(dTime.count() >= 1000) {
-            std::cout << "FPS: " << frames << " | TPS: " << ticks << std::endl;
+            std::string title = std::string(_windowTitle) + " | " + std::to_string(frames) + " FPS | " + std::to_string(ticks) + " TPS";
+            SDL_SetWindowTitle(_window, title.c_str());
             frames = 0;
             ticks = 0;
             startTime = std::chrono::high_resolution_clock::now();

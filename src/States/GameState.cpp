@@ -24,10 +24,31 @@ bool GameState::init() {
     _ecs.emplace<RenderComponent>(_player, RenderComponent{{0, 0, 16, 16}});
     _ecs.emplace<InputComponent>(_player, InputComponent{{InputEvent::LEFT, InputEvent::RIGHT, InputEvent::UP, InputEvent::DOWN}});
 
+    // if (_server.start(7000) == false) {
+    //     return false;
+    // }
+
+    // if(_client.connect("localhost", 7000) == false) {
+    //     return false;
+    // }
+
     return true;
 }
 
 void GameState::tick(float timescale) {
+    if(getKeyboard()->isKeyDown(SDL_SCANCODE_S) && _server.isRunning() == false) {
+        _server.start(7000);
+    }
+    if(getKeyboard()->isKeyDown(SDL_SCANCODE_C) && _client.isConnected() == false) {
+        _client.connect("localhost", 7000);
+    }
+    if(getKeyboard()->isKeyDown(SDL_SCANCODE_D) && _client.isConnected()) {
+        _client.disconnect();
+    }
+
+    if(_server.isRunning()) _server.poll();
+    if(_client.isConnected()) _client.poll();
+
     // Logic goes here BEFORE input updates!
     _inputSystem.update(_ecs);
     _physicsSystem.updateX(_ecs, timescale);

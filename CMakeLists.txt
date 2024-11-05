@@ -51,6 +51,7 @@ set(SOURCE_INCLUDES
     ${PROJECT_SOURCE_DIR}/src/Level
     ${PROJECT_SOURCE_DIR}/src/Level/Lighting
     ${PROJECT_SOURCE_DIR}/src/Localization
+    ${PROJECT_SOURCE_DIR}/src/Network
     ${PROJECT_SOURCE_DIR}/src/Render
     ${PROJECT_SOURCE_DIR}/src/Render/Effects
     ${PROJECT_SOURCE_DIR}/src/States
@@ -92,6 +93,8 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Level/LevelParser.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Lighting/FloatingPointLightMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Lighting/LightMap.cpp
+    ${PROJECT_SOURCE_DIR}/src/Network/Client.cpp
+    ${PROJECT_SOURCE_DIR}/src/Network/Server.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Effects/ScreenShake.cpp
