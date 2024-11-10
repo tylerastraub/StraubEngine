@@ -36,14 +36,21 @@ bool GameState::init() {
 }
 
 void GameState::tick(float timescale) {
-    if(getKeyboard()->isKeyDown(SDL_SCANCODE_S) && _server.isRunning() == false) {
-        _server.start(7000);
+    if(getKeyboard()->isKeyPressed(SDL_SCANCODE_S) && _client.isConnected() == false) {
+        if(_server.isRunning() == false) {
+            _server.start(7000);
+        }
+        else {
+            _server.shutDown();
+        }
     }
-    if(getKeyboard()->isKeyDown(SDL_SCANCODE_C) && _client.isConnected() == false) {
-        _client.connect("localhost", 7000);
-    }
-    if(getKeyboard()->isKeyDown(SDL_SCANCODE_D) && _client.isConnected()) {
-        _client.disconnect();
+    if(getKeyboard()->isKeyPressed(SDL_SCANCODE_C) && _server.isRunning() == false) {
+        if(_client.isConnected() == false) {
+            _client.connect("localhost", 7000);
+        }
+        else {
+            _client.disconnect();
+        }
     }
 
     if(_server.isRunning()) _server.poll();

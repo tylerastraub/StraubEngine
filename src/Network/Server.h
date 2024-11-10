@@ -17,7 +17,7 @@ public:
     std::string addressToString(const ENetAddress* address);
 
     bool start(uint32_t port);
-    void shutDown();
+    bool shutDown();
     void poll();
     bool sendMessage(uint32_t peerId, DeliveryType deliveryType, Message message);
     bool broadcastMessage(DeliveryType deliveryType, Message message);

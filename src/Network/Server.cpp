@@ -38,9 +38,63 @@ bool Server::start(uint32_t port) {
     return true;
 }
 
-void Server::shutDown() {
+bool Server::shutDown() {
+    if(_host == nullptr) {
+        return true;
+    }
+    // try to disconnect clients smoothly
+    for(auto keyPair : _clients) {
+        enet_peer_disconnect(keyPair.second, 0);
+    }
+    // wait for disconnects to be acknowledged
+    ENetEvent event;
+    auto timestamp = std::chrono::high_resolution_clock::now();
+    bool success = false;
+    while(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - timestamp).count() < TIMEOUT_MS) {
+        int32_t res = enet_host_service(_host, &event, 0);
+        if(res > 0) {
+            if(event.type == ENET_EVENT_TYPE_RECEIVE) {
+                // while disconnecting, destroy any packets we receive
+                enet_packet_destroy(event.packet);
+            }
+            else if(event.type == ENET_EVENT_TYPE_DISCONNECT) {
+                std::cout << "Server::shutDown() - Successfully disconnected client ID " << event.peer->incomingPeerID << " from server" << std::endl;
+                enet_peer_disconnect(event.peer, 0);
+                _clients.erase(event.peer->incomingPeerID);
+            }
+            else if(event.type == ENET_EVENT_TYPE_CONNECT) {
+                std::cout << "Server::shutDown() - Client ID " << event.peer->incomingPeerID << " connected during shut down, disconnecting" << std::endl;
+                enet_peer_disconnect(event.peer, 0);
+                // add to clients for when we receive disconnect event
+                _clients[event.peer->incomingPeerID] = event.peer;
+            }
+        }
+        else if(res < 0) {
+            std::cout << "Server::shutDown() - Error encountered while polling" << std::endl;
+            break;
+        }
+        else {
+            if(_clients.empty()) {
+                std::cout << "Server::shutDown() - All clients disconnected, shutting down server" << std::endl;
+                success = true;
+                break;
+            }
+        }
+    }
+    
+    if(success == false) {
+        std::cout << "Server::shutDown() - Failed to disconnect all clients, forcing shutdown" << std::endl;
+        for(auto keyPair : _clients) {
+            std::cout << "Server::shutDown() - Forcibly disconnecting client ID " << keyPair.first << std::endl;
+            enet_peer_reset(keyPair.second);
+        }
+    }
+
+    _clients.clear();
     enet_host_destroy(_host);
     _host = nullptr;
+
+    return success;
 }
 
 void Server::poll() {
