@@ -58,6 +58,10 @@ void Server::poll() {
                 std::cout << "Server::poll() - Client connected from " << addressToString(&event.peer->address)
                     << ", " << _host->connectedPeers << " clients currently connected" << std::endl;
                 _clients[event.peer->incomingPeerID] = event.peer;
+
+                std::string str = "Client ID " + std::to_string(event.peer->incomingPeerID) + " has connected to server";
+                Message msg(std::vector<uint8_t>(str.begin(), str.end()));
+                broadcastMessage(DeliveryType::RELIABLE, msg);
             }
             else if(event.type == ENET_EVENT_TYPE_DISCONNECT) {
                 std::cout << "Server::poll() - Client has disconnected from " << addressToString(&event.peer->address)
@@ -76,6 +80,70 @@ void Server::poll() {
     }
 }
 
+bool Server::sendMessage(uint32_t clientId, DeliveryType deliveryType, Message message) {
+    auto client = getClient(clientId);
+    if(client == nullptr) {
+        std::cout << "Server::sendPacket() - Client ID not connected (" << client << ")" << std::endl;
+        return false;
+    }
+    uint32_t channel = 0;
+    uint32_t flags = 0;
+    if(deliveryType == DeliveryType::RELIABLE) {
+        channel = RELIABLE_CHANNEL;
+        flags = ENET_PACKET_FLAG_RELIABLE;
+    }
+    else if(deliveryType == DeliveryType::UNRELIABLE) {
+        channel = UNRELIABLE_CHANNEL;
+        flags = ENET_PACKET_FLAG_UNSEQUENCED;
+    }
+    else {
+        std::cout << "Server::sendPacket() - Invalid delivery type!" << std::endl;
+        return false;
+    }
+
+    ENetPacket* packet = enet_packet_create(&message.getData()[0], message.getData().size(), flags);
+    int res = enet_peer_send(client, channel, packet);
+    if(res != 0) {
+        std::cout << "Server::sendPacket() - Failed to send packet! Return code " << res << std::endl;
+        return false;
+    }
+    enet_host_flush(_host);
+    return true;
+}
+
+bool Server::broadcastMessage(DeliveryType deliveryType, Message message) {
+    if(numClients() == 0) {
+        return true;
+    }
+    uint32_t channel = 0;
+    uint32_t flags = 0;
+    if(deliveryType == DeliveryType::RELIABLE) {
+        channel = RELIABLE_CHANNEL;
+        flags = ENET_PACKET_FLAG_RELIABLE;
+    }
+    else if(deliveryType == DeliveryType::UNRELIABLE) {
+        channel = UNRELIABLE_CHANNEL;
+        flags = ENET_PACKET_FLAG_UNSEQUENCED;
+    }
+    else {
+        std::cout << "Server::sendPacket() - Invalid delivery type!" << std::endl;
+        return false;
+    }
+
+    ENetPacket* packet = enet_packet_create(&message.getData()[0], message.getData().size(), flags);
+    enet_host_broadcast(_host, channel, packet);
+    enet_host_flush(_host);
+    return true;
+}
+
 bool Server::isRunning() {
     return _host != nullptr;
+}
+
+bool Server::numClients() {
+    return _host->peerCount;
+}
+
+ENetPeer* Server::getClient(uint32_t client) {
+    return _clients[client];
 }

@@ -94,6 +94,7 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Level/Lighting/FloatingPointLightMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Level/Lighting/LightMap.cpp
     ${PROJECT_SOURCE_DIR}/src/Network/Client.cpp
+    ${PROJECT_SOURCE_DIR}/src/Network/Message.cpp
     ${PROJECT_SOURCE_DIR}/src/Network/Server.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Spritesheet.cpp
     ${PROJECT_SOURCE_DIR}/src/Render/Text.cpp

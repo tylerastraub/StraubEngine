@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Message.h"
+#include "DeliveryType.h"
+
 #include <enet/enet.h>
 #include <cstdint>
 #include <chrono>
@@ -16,8 +19,12 @@ public:
     bool start(uint32_t port);
     void shutDown();
     void poll();
+    bool sendMessage(uint32_t peerId, DeliveryType deliveryType, Message message);
+    bool broadcastMessage(DeliveryType deliveryType, Message message);
 
     bool isRunning();
+    bool numClients();
+    ENetPeer* getClient(uint32_t clientId);
 
 private:
     const uint32_t MAX_CONNECTIONS = 32;

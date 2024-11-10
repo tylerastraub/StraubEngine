@@ -95,7 +95,8 @@ void Client::poll() {
         int32_t res = enet_host_service(_host, &event, 0);
         if(res > 0) {
             if(event.type == ENET_EVENT_TYPE_RECEIVE) {
-                // todo: process packet
+                std::string s(reinterpret_cast<char*>(event.packet->data), event.packet->dataLength);
+                std::cout << s << std::endl;
                 enet_packet_destroy(event.packet);
             }
             else if(event.type == ENET_EVENT_TYPE_DISCONNECT) {
