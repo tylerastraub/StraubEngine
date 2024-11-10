@@ -136,7 +136,7 @@ if(WIN32)
 elseif(APPLE)
     include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIR} ${SOURCE_INCLUDES})
     add_executable(StraubEngine MACOSX_BUNDLE ${SOURCES})
-    target_link_libraries(StraubEngine ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2TTF_LIBRARY} ${TMXLITE_LIBRARY_DIR}/libtmxlite.a)
+    target_link_libraries(StraubEngine ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} ${SDL2TTF_LIBRARY} ${TMXLITE_LIBRARY_DIR}/libtmxlite.a enet)
     set_target_properties(StraubEngine PROPERTIES
         BUNDLE True
         MACOSX_BUNDLE_EXECUTABLE_NAME StraubEngine
