@@ -24,14 +24,6 @@ bool GameState::init() {
     _ecs.emplace<RenderComponent>(_player, RenderComponent{{0, 0, 16, 16}});
     _ecs.emplace<InputComponent>(_player, InputComponent{{InputEvent::LEFT, InputEvent::RIGHT, InputEvent::UP, InputEvent::DOWN}});
 
-    // if (_server.start(7000) == false) {
-    //     return false;
-    // }
-
-    // if(_client.connect("localhost", 7000) == false) {
-    //     return false;
-    // }
-
     return true;
 }
 

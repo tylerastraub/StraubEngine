@@ -17,9 +17,12 @@ Both EnTT and Tileson makes use of std::filesystem which is a C++ 17 include, so
 StraubEngine is updated in line with the development of my other games; that is, when I add a feature or component to a personal game, it will get added to this engine repo. As a result, explicit development of this engine is pretty rare. Instead, there are usually random days where there is a flurry of commits containing new features or improvements from my personal projects.
 
 Current engine-specific TODO is:
-- Integrate imgui or other lightweight GUI library (current GUI system is a mess)
-    - Add wrapper class for easy StraubEngine integration
-    - Add basic console
+- Continue multiplayer support
+    - Add more robust packet/message creation
+    - Create workflow for server/client interaction for more plug-and-play experience
+- Improve on in-engine GUI
+    - Add basic GUI components such as selections, drop down menus, sliders, text input
+    - Add developer console
 - Add system for managing entities based on position (aka something like a QuadTree)
 - Update RenderSystem to be more flexible
     - Probably create similar system to IsoSprite struct in MysteryDungeon that allows us to render tiles and entities all in one go
@@ -31,7 +34,6 @@ Current engine-specific TODO is:
 - Add debug system
 - Add more robust collision box/hitbox/hurtbox system that allows for easier creation and management of said boxes
     - Full HitSystem with spatial partitioning as well
-- Add multiplayer support
 
 ## Contribute
 
